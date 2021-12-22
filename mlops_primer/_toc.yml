@@ -1,0 +1,24 @@
+# In _toc.yml
+format: jb-book
+root: intro
+parts:
+  - caption: Housekeeping
+    chapters:
+    - file: key_goals
+    - file: key_assumptions
+  - caption: Pre-Production
+    chapters:
+    - file: business_problem
+    - file: dataset
+    - file: eda
+    - file: train_model
+    - file: deploy_model
+  - caption: Post-Production
+    chapters:
+    - file: first_event
+    - file: second_event
+    - file: third_event
+    - file: fourth_event
+  - caption: Other
+    chapters:
+    - file: customer_learnings

@@ -1,0 +1,5 @@
+# in _config.yml
+title: "MLOPs Primer"
+logo: dilbert.jpeg
+execute:
+  execute_notebooks: "off"
