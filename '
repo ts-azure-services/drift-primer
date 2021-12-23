@@ -6,10 +6,10 @@ relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
        'tenure', 'PhoneService', 'MultipleLines', 'InternetService',
        'OnlineSecurity', 'OnlineBackup', 'DeviceProtection', 'TechSupport',
        'StreamingTV', 'StreamingMovies', 'Contract', 'PaperlessBilling',
-       'PaymentMethod']
+       'PaymentMethod', 'Churn']
 
 for i,v in enumerate(relevant_cols):
-    df_temp = df.groupby(['Churn', v]).size().reset_index(name='Count')
+    df_temp = df['Churn', v].groupby(['Churn', v]).count()
     print( df_temp )
 
 
