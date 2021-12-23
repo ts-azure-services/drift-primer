@@ -2,8 +2,9 @@
 format: jb-book
 root: intro
 parts:
-  - caption: Housekeeping
+  - caption: Preliminaries
     chapters:
+    - file: what_is_mlops
     - file: key_goals
     - file: key_assumptions
   - caption: Pre-Production
