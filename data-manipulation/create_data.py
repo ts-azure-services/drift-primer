@@ -59,12 +59,12 @@ def generate_random_records():
         customer_records['partner'].append( random.choice(choice_list['partner']))
         customer_records['dependent'].append( random.choice(choice_list['dependent']))
         customer_records['online_backup'].append(random.choice( choice_list['online_backup'] ))
-    return customer_records
+    return pd.DataFrame(customer_records)
 
 def main():
     """Main operational flow"""
     cr = generate_random_records()
-    print(pd.DataFrame(cr))
+    print(cr)
 
 if __name__ == "__main__":
     main()
