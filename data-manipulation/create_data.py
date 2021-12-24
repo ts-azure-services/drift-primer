@@ -20,6 +20,8 @@ relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
 # You need to account for the install base changes as well
 # The churn calculation is done on the install base
 
+
+# Load choice list
 choice_list = {
         "gender":['Female', 'Male'],
         "senior_citizen":[0,1],
@@ -47,8 +49,9 @@ choice_list = {
 
 
 def generate_random_records():
+    """Generate customer records for a specific period"""
     customer_records = defaultdict(list)
-    month_volume = random.randint(100,150)
+    month_volume = random.randint(100,1000)
     for i in range(month_volume):
         customer_records['customer_id'].append(str(uuid.uuid1()))
         customer_records['gender'].append( random.choice(choice_list['gender']))
@@ -58,10 +61,13 @@ def generate_random_records():
         customer_records['online_backup'].append(random.choice( choice_list['online_backup'] ))
     return customer_records
 
-cr = generate_random_records()
-print(pd.DataFrame(cr))
+def main():
+    """Main operational flow"""
+    cr = generate_random_records()
+    print(pd.DataFrame(cr))
 
-
+if __name__ == "__main__":
+    main()
 
 
 
