@@ -2,7 +2,14 @@ import random, uuid
 from collections import defaultdict
 import pandas as pd
 
-df = pd.read_csv('WA_Fn-UseC_-Telco-Customer-Churn.csv')
+def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+    """Load original data"""
+    df = pd.read_csv(source)
+    df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
+    df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
+    df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+    df.to_p
+    return df
 
 relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
        'tenure', 'PhoneService', 'MultipleLines', 'InternetService',
@@ -10,16 +17,22 @@ relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
        'StreamingTV', 'StreamingMovies', 'Contract', 'PaperlessBilling',
        'PaymentMethod']
 
-#for i,v in enumerate(relevant_cols):
-#    df_temp = df.groupby(['Churn', v]).size().reset_index(name='Count')
-#    print( df_temp )
-
-# For any month, I want to create a list of customers and specific attributes
-# For the month they come on new, their bill can vary, but it should never regress below that?
-# The totals have to reflect the growing bill
-# You need to account for the install base changes as well
-# The churn calculation is done on the install base
-
+"""
+ORDER OF OPERATIONS:
+    - NEW CUSTOMERS:
+        - Randomly choose attributes, based upon populations
+        - Tenure: 1
+        - MonthlyCharges: (hardcode, but base on observed data)
+        - TotalCharges: Equals monthly charges
+        - Churn: 0, for all first-time customers
+    - FOR EXISTING CUSTOMERS:
+        - Increment tenure by 1 month
+        - Tenure +1
+        - Monthly charges: as above
+        - Total charges: aggregate, by prior month
+        - How should I apply churn on this base? (Cap at a 26%, and randomly assign)
+        - Drop the old churn values
+"""
 
 # Load choice list
 choice_list = {
@@ -43,10 +56,6 @@ choice_list = {
                 'Mailed check'],
         }
 
-# tenure - needs to accrue
-# monthly account charges
-# total charges
-
 
 def generate_random_records():
     """Generate customer records for a specific period"""
@@ -65,6 +74,11 @@ def main():
     """Main operational flow"""
     cr = generate_random_records()
     print(cr)
+
+    # Load the original dataset, mark as M0
+    m0 = load_original_data()
+    # M1 operations
+
 
 if __name__ == "__main__":
     main()

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def load_data(source='WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data, and key lists"""
     df = pd.read_csv(source)
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
@@ -23,7 +23,15 @@ def attribute_col_ratio(df=None, col_list=None):
         print(f'Customer count by {i}:\n{temp_df}\n')
 
 
+def churn_ratio_by_attribute(df=None, col_list=None):
+    """Get churn ratio by key attributes"""
+    for i in col_list:
+        temp_df = df.groupby(['Churn', i]).size().reset_index(name='Count')
+        print( temp_df )
+
+
 def numeric_col_spreads(df=None, non_numeric_cols=None):
+    """Showcase metrics by discrete combinations"""
     #non_numeric_cols.append('Churn')
     print(non_numeric_cols)
     #temp_df = df['Churn'].groupby(non_numeric_cols).sum()
@@ -50,17 +58,16 @@ def main():
     # Get customer count by major attribute
     #attribute_col_ratio(df=df, col_list=attribute_cols)
 
-    # Get the numeric spread for numeric columns
-    numeric_col_spreads(df=df, non_numeric_cols=attribute_cols)
+    # Get churn ratio by key attribute
+    churn_ratio_by_attribute(df=df, col_list=attribute_cols)
+
+    ## Get the numeric spread for numeric columns
+    #numeric_col_spreads(df=df, non_numeric_cols=attribute_cols)
 
 if __name__ == "__main__":
     main()
 
-#for i,v in enumerate(relevant_cols):
-#    df_temp = df.groupby(['Churn', v]).size().reset_index(name='Count')
-#    print( df_temp )
 
 #df_temp = df.groupby(['gender', 'SeniorCitizen', 'Contract']).\
 #        agg({'MonthlyCharges': ['min','mean', 'median', 'max']})
 
-#df_temp = df.groupby(['gender', 'SeniorCitizen']).describe('MonthlyCharges')
