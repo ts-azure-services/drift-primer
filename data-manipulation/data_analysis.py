@@ -32,12 +32,14 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
     #        )
     temp_df = df.groupby(non_numeric_cols).\
         agg({'Churn': ['min','mean', 'median', 'max', 'sum', 'count']})
-    print(temp_df)
+    print(temp_df.head())
+    print(temp_df.columns)
+    print(temp_df.index)
 
     # What works
     #temp_df = df.groupby(non_numeric_cols).size()
     #temp_df = df.groupby(non_numeric_cols).describe()#sum()
-    temp_df.to_csv('sample.csv')
+    #temp_df.to_csv('sample.csv')
     #print(temp_df)
 
 
