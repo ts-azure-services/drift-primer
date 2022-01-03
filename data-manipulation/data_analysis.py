@@ -1,7 +1,19 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('WA_Fn-UseC_-Telco-Customer-Churn.csv')
+
+def load_data(source='WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+    df = pd.read_csv(source)
+    total_cols = df.columns
+
+    #df.info()
+
+    return df, total_cols
+
+
+def attribute_ratio_to_full_count(df=None):
+    df = df.groupb
+
 
 #relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
 #       'tenure', 'PhoneService', 'MultipleLines', 'InternetService',
