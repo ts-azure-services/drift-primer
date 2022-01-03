@@ -7,7 +7,7 @@ min = 19.3
 max = 45.67
 
 number_list = []
-for i in range(1000):
+for i in range(10000):
     f = min + (max - min)*random.random()
     number_list.append(f)
 
