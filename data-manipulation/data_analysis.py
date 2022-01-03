@@ -6,6 +6,7 @@ def load_data(source='WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     df = pd.read_csv(source)
     total_cols = df.columns
 
+
     #df.info()
 
     return df, total_cols
