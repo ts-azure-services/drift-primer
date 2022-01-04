@@ -86,7 +86,7 @@ def generate_new_customers(
     # Generate new customer records
     customer_records = defaultdict(list)
     month_volume = random.randint(min_vol,max_vol)
-    for j in range(month_volume):
+    for _ in range(month_volume):
         random_attribute_generator(keys)
     return pd.DataFrame(customer_records)
 
@@ -160,7 +160,7 @@ def main():
 
     # M1 operations
     period_list = ['M'+str(i) for i in range(13)]
-    for j,k in enumerate(period_list):
+    for j,_ in enumerate(period_list):
         if period_list[j] != 'M12':
             prior_period=period_list[j]
             current_period=period_list[j+1]
