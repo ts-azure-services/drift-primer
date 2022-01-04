@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # Load choice list for 16 attributes
-# Tenure, customer_id, monthly charges, total charges and churn ignored
+# Tenure, customerID, monthly charges, total charges and churn ignored
 choice_list = {
         "gender":['Female', 'Male'],
         "SeniorCitizen":['No','Yes'],
@@ -71,6 +71,10 @@ def generate_monthly_pull(
 
     # Pickle the latest file
     combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
+    print(f'Current period: {current_period}')
+    print(f'Length of prior customers: {len(prior_customers)}')
+    print(f'Length of new customers: {len(new_customers)}')
+    print(f'Length of combined dataframe: {len(combined_df)}')
 
     return combined_df
 
@@ -88,7 +92,7 @@ def generate_new_customers(
         """Generate records based upon prior attributes"""
         for i in keys:
             customer_records[i].append( random.choice(choice_list[i]))
-        customer_records['customer_id'].append(str(uuid.uuid1()))
+        customer_records['customerID'].append(str(uuid.uuid1()))
         customer_records['tenure'] = 1
         customer_records['MonthlyCharges'] = 45.22
         customer_records['TotalCharges']= customer_records['MonthlyCharges']
@@ -110,20 +114,19 @@ def main():
     load_original_data()
 
     # M1 operations
-    prior_period='M0'
-    current_period='M1'
-    df = generate_monthly_pull(
-            prior_period= prior_period, 
-            current_period= current_period,
-            prior_source='./../datasets/' + str(prior_period) +'.pkl',
-            min_vol=1000,
-            max_vol=2000
-            )
-    print(df)
+    period_list = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12']
+    for j,k in enumerate(period_list):
+        if period_list[j] != 'M12':
+            prior_period=period_list[j]
+            current_period=period_list[j+1]
+            df = generate_monthly_pull(
+                    prior_period= prior_period, 
+                    current_period= current_period,
+                    prior_source='./../datasets/' + str(prior_period) +'.pkl',
+                    min_vol=1500,
+                    max_vol=2500
+                    )
 
 
 if __name__ == "__main__":
     main()
-
-
-
