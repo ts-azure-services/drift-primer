@@ -136,7 +136,8 @@ def main():
     choice_list = load_original_data()
 
     # M1 operations
-    period_list = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12']
+    period_list = ['M'+str(i) for i in range(13)]
+    print(period_list)
     for j,k in enumerate(period_list):
         if period_list[j] != 'M12':
             prior_period=period_list[j]
@@ -145,8 +146,8 @@ def main():
                     prior_period= prior_period, 
                     current_period= current_period,
                     prior_source='./../datasets/' + str(prior_period) +'.pkl',
-                    min_vol=500,
-                    max_vol=1200,
+                    min_vol=1500,
+                    max_vol=2000,
                     choice_list=choice_list
                     )
 
