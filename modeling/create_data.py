@@ -42,10 +42,13 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
 def generate_new_customers(
         period=None,
         min_vol=None, 
-        max_vol=None, 
-        keys=list(choice_list.keys())
+        max_vol=None,
+        choice_list=None,
+        #keys=None,#list(choice_list.keys())
         ):
     """Generate new customer records for a specific period."""
+
+    keys = list( choice_list.keys() )
 
     def random_attribute_generator(keys):
         """Generate records based upon prior attributes"""
@@ -76,12 +79,19 @@ def generate_monthly_pull(
         current_period = None,
         prior_source = None,
         min_vol=None,
-        max_vol=None
+        max_vol=None,
+        choice_list=None
         ):
     """Generate the monthly output"""
 
     # Create the new customers
-    new_customers = generate_new_customers(period=current_period, min_vol=min_vol, max_vol=max_vol)
+    new_customers = generate_new_customers(
+            period=current_period, 
+            min_vol=min_vol, 
+            max_vol=max_vol,
+            choice_list=choice_list
+            #keys=list(choice_list.keys())
+            )
 
     # Take the prior base, and filter out churned customers
     prior_customers = pd.read_pickle(prior_source)
@@ -136,7 +146,8 @@ def main():
                     current_period= current_period,
                     prior_source='./../datasets/' + str(prior_period) +'.pkl',
                     min_vol=500,
-                    max_vol=1200
+                    max_vol=1200,
+                    choice_list=choice_list
                     )
 
 
