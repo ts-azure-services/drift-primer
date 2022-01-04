@@ -69,6 +69,9 @@ def generate_monthly_pull(
     # Add the prior base to the new customer base
     combined_df = pd.concat([prior_customers, new_customers])
 
+    # Pickle the latest file
+    combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
+
     return combined_df
 
 
