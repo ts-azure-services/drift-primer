@@ -2,31 +2,6 @@ import random, uuid
 from collections import defaultdict
 import pandas as pd
 
-def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
-    """Load original data"""
-    df = pd.read_csv(source)
-    df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
-    df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
-    df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
-    df['Period'] = 'M0'
-    #df.info()
-    df.to_pickle('./../datasets/M0.pkl')
-    return df
-
-
-def change_install_base():
-
-
-"""
-ORDER OF OPERATIONS:
-    - FOR EXISTING CUSTOMERS:
-        - Increment tenure by 1 month
-        - Tenure +1
-        - Monthly charges: as above
-        - Total charges: aggregate, by prior month
-        - How should I apply churn on this base? (Cap at a 26%, and randomly assign)
-        - Drop the old churn values
-"""
 # Load choice list for 16 attributes
 # Tenure, customer_id, monthly charges, total charges and churn ignored
 choice_list = {
@@ -50,21 +25,57 @@ choice_list = {
                 'Mailed check'],
         }
 
+def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+    """Load original data"""
+    df = pd.read_csv(source)
+    df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
+    df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
+    df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+    df['Period'] = 'M0'
+    #df.info()
+    df.to_pickle('./../datasets/M0.pkl')
+    return df
+
+
+def generate_monthly_pull(
+        prior_period = None,
+        current_period = None,
+        prior_source = None,
+        min_vol=None,
+        max_vol=None
+        ):
+    """Generate the monthly output"""
+
+    # Create the new customers
+    new_customers = generate_new_customers(period=current_period, min_vol=min_vol, max_vol=max_vol)
+
+    # Take the prior base, and filter out churned customers
+    prior_customers = pd.read_pickle(prior_source)
+
+    # Identify the balance of customers that will churn, capped at x%
+
+
+    # Increment their tenure by 1
+    prior_customers['tenure'] = prior_customers['tenure'] + 1
+
+    # Distribute monthly charges, and aggregate total charges
+    prior_customers['MonthlyCharges'] = 65.22
+    prior_customers['TotalCharges'] = prior_customers['MonthlyCharges'] + prior_customers['TotalCharges']
+
+    # Add the current period to the install base
+    prior_customers['Period'] = current_period
+
+    # Add the prior base to the new customer base
+
+
+
 def generate_new_customers(
         period=None,
         min_vol=None, 
         max_vol=None, 
         keys=list(choice_list.keys())
         ):
-    """Generate new customer records for a specific period.
-    Key Assumptions:
-        - Tenure: 1 # since a new customer
-        - Monthly Charges: based upon prior observations
-        - Total Charges: equal to Monthly Charges
-        - Month: M1
-        - Churn: 0, for all first-time customers
-        - Other attributes, weighted by original distribution
-    """
+    """Generate new customer records for a specific period."""
 
     def random_attribute_generator(keys):
         """Generate records based upon prior attributes"""
@@ -85,6 +96,8 @@ def generate_new_customers(
     for j in range(month_volume):
         random_attribute_generator(keys)
     return pd.DataFrame(customer_records)
+
+
 
 def main():
     """Main operational flow"""
