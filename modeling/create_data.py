@@ -3,9 +3,7 @@ from collections import defaultdict
 import pandas as pd
 import numpy as np
 
-# Load choice list for 16 attributes
-# Tenure, customerID, monthly charges, total charges and churn ignored
-
+# Load original data source, create choice list
 def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data"""
     df = pd.read_csv(source)
@@ -13,6 +11,7 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
 
+    # Get the core attributes in the dataset
     def key_columns(df=None):
         total_cols = df.columns
         non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
@@ -31,12 +30,28 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
         choice_list[i] = {
                 'categories': categories,
                 'probabilities':probabilities
-                }
+            }
+
+    # Get monthly charges ranges
+    def monthly_charge_generator(df=None):
+        mc_list = df['MonthlyCharges'].tolist()
+        min_mc = min(mc_list)
+        max_mc = max(mc_list)
+        return min_mc, max_mc
+
+    min_mc, max_mc = monthly_charge_generator(df=df)
+
 
     # Include periods
     df['Period'] = 'M0'
     df.to_pickle('./../datasets/M0.pkl')
-    return choice_list
+    return choice_list, min_mc, max_mc
+
+
+def random_monthly_charge(min_mc=None, max_mc=None):
+    """Generate a random monthly charge"""
+    rn = min_mc + (max_mc - min_mc) * random.random()
+    return rn
 
 
 def generate_new_customers(
@@ -44,7 +59,8 @@ def generate_new_customers(
         min_vol=None, 
         max_vol=None,
         choice_list=None,
-        #keys=None,#list(choice_list.keys())
+        min_mc = None,
+        max_mc = None
         ):
     """Generate new customer records for a specific period."""
 
@@ -57,12 +73,13 @@ def generate_new_customers(
             customer_records[i].append( np.random.choice(
                 choice_list[i]['categories'],
                 size=1,
-                p=choice_list[i]['probabilities'])
+                p=choice_list[i]['probabilities'])[0]
                 )
         customer_records['customerID'].append(str(uuid.uuid1()))
         customer_records['tenure'] = 1
-        customer_records['MonthlyCharges'] = 45.22
-        customer_records['TotalCharges']= customer_records['MonthlyCharges']
+        #customer_records['MonthlyCharges'] = 45.22
+        customer_records['MonthlyCharges'].append(random_monthly_charge(min_mc, max_mc))
+        customer_records['TotalCharges'] = customer_records['MonthlyCharges']
         customer_records['Churn'] = 0
         customer_records['Period'] = period
 
@@ -80,7 +97,9 @@ def generate_monthly_pull(
         prior_source = None,
         min_vol=None,
         max_vol=None,
-        choice_list=None
+        choice_list=None,
+        min_mc = None,
+        max_mc = None
         ):
     """Generate the monthly output"""
 
@@ -89,8 +108,9 @@ def generate_monthly_pull(
             period=current_period, 
             min_vol=min_vol, 
             max_vol=max_vol,
-            choice_list=choice_list
-            #keys=list(choice_list.keys())
+            choice_list=choice_list, 
+            min_mc = min_mc,
+            max_mc = max_mc
             )
 
     # Take the prior base, and filter out churned customers
@@ -101,7 +121,10 @@ def generate_monthly_pull(
     prior_customers['tenure'] = prior_customers['tenure'] + 1
 
     # Distribute monthly charges, and aggregate total charges
-    prior_customers['MonthlyCharges'] = 65.22
+    #prior_customers['MonthlyCharges'] = 65.22
+    prior_customers['MonthlyCharges'] = prior_customers['MonthlyCharges'].apply(\
+            lambda x : min_mc + (max_mc - min_mc)*random.random() 
+            ) 
     prior_customers['TotalCharges'] = prior_customers['MonthlyCharges'] + prior_customers['TotalCharges']
 
     # Add the current period to the install base
@@ -114,7 +137,7 @@ def generate_monthly_pull(
     combined_df['Churn'] = np.random.choice(
             [0,1], 
             size=len(combined_df), 
-            replace=True, p=(0.74,0.26)
+            p=(0.74,0.26)
             )
 
     # Pickle the latest file
@@ -124,7 +147,7 @@ def generate_monthly_pull(
     print(f'Length of new customers: {len(new_customers)}')
     print(f'Length of combined dataframe: {len(combined_df)}')
 
-    return combined_df
+    #return combined_df
 
 
 
@@ -133,23 +156,24 @@ def main():
     """Main operational flow"""
 
     # Load the original dataset, mark as M0
-    choice_list = load_original_data()
+    choice_list, min_mc, max_mc = load_original_data()
 
     # M1 operations
     period_list = ['M'+str(i) for i in range(13)]
-    print(period_list)
     for j,k in enumerate(period_list):
         if period_list[j] != 'M12':
             prior_period=period_list[j]
             current_period=period_list[j+1]
-            df = generate_monthly_pull(
-                    prior_period= prior_period, 
-                    current_period= current_period,
-                    prior_source='./../datasets/' + str(prior_period) +'.pkl',
-                    min_vol=1500,
-                    max_vol=2000,
-                    choice_list=choice_list
-                    )
+            generate_monthly_pull(
+                prior_period= prior_period, 
+                current_period= current_period,
+                prior_source='./../datasets/' + str(prior_period) +'.pkl',
+                min_vol=1500,
+                max_vol=2000,
+                choice_list=choice_list,
+                min_mc = min_mc,
+                max_mc = max_mc
+                )
 
 
 if __name__ == "__main__":
