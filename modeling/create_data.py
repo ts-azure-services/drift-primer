@@ -5,26 +5,6 @@ import numpy as np
 
 # Load choice list for 16 attributes
 # Tenure, customerID, monthly charges, total charges and churn ignored
-choice_list = {
-        "gender":['Female', 'Male'],
-        "SeniorCitizen":['No','Yes'],
-        "Partner":['No', 'Yes'],
-        "Dependents":['No', 'Yes'],
-        "PhoneService":['No', 'Yes'],
-        "MultipleLines":['No', 'No phone service', 'Yes'],
-        "InternetService":['DSL', 'Fiber optic', 'No'],
-        "OnlineSecurity": ['No', 'No internet service', 'Yes'],
-        "OnlineBackup": ['No', 'No internet service', 'Yes'],
-        "DeviceProtection": ['No', 'No internet service', 'Yes'],
-        "TechSupport": ['No', 'No internet service', 'Yes'],
-        "StreamingTV": ['No', 'No internet service', 'Yes'],
-        "StreamingMovies": ['No', 'No internet service', 'Yes'],
-        "Contract": ['One year', 'Two year', 'Month-to-month'],
-        "PaperlessBilling": ['No', 'Yes'],
-        "PaymentMethod": ['Bank transfer (automatic)',\
-                'Electronic check', 'Credit card (automatic)',\
-                'Mailed check'],
-        }
 
 def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data"""
@@ -32,9 +12,63 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+
+    def key_columns(df=None):
+        total_cols = df.columns
+        non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
+        attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
+        return attribute_cols
+
+    attribute_cols = key_columns(df=df)
+
+    # For each column, you need to define the categories, and their probabilities
+    choice_list = {}
+    for i in attribute_cols:
+        temp_df = df['customerID'].groupby(df[i]).count().to_frame()
+        temp_df['percent'] = temp_df['customerID'] / temp_df['customerID'].sum()
+        categories = list(temp_df.index)
+        probabilities = temp_df['percent'].tolist()
+        choice_list[i] = {
+                'categories': categories,
+                'probabilities':probabilities
+                }
+
+    # Include periods
     df['Period'] = 'M0'
-    #df.info()
     df.to_pickle('./../datasets/M0.pkl')
+    return choice_list
+
+
+def generate_new_customers(
+        period=None,
+        min_vol=None, 
+        max_vol=None, 
+        keys=list(choice_list.keys())
+        ):
+    """Generate new customer records for a specific period."""
+
+    def random_attribute_generator(keys):
+        """Generate records based upon prior attributes"""
+        for i in keys:
+            #customer_records[i].append( random.choice(choice_list[i]))
+            customer_records[i].append( np.random.choice(
+                choice_list[i]['categories'],
+                size=1,
+                p=choice_list[i]['probabilities'])
+                )
+        customer_records['customerID'].append(str(uuid.uuid1()))
+        customer_records['tenure'] = 1
+        customer_records['MonthlyCharges'] = 45.22
+        customer_records['TotalCharges']= customer_records['MonthlyCharges']
+        customer_records['Churn'] = 0
+        customer_records['Period'] = period
+
+    # Generate new customer records
+    customer_records = defaultdict(list)
+    month_volume = random.randint(min_vol,max_vol)
+    for j in range(month_volume):
+        random_attribute_generator(keys)
+    return pd.DataFrame(customer_records)
 
 
 def generate_monthly_pull(
@@ -53,9 +87,6 @@ def generate_monthly_pull(
     prior_customers = pd.read_pickle(prior_source)
     prior_customers = prior_customers.loc[ prior_customers['Churn'] == 0 ]
 
-    # Identify the balance of customers that will churn, capped at x%
-    prior_customers['Churn'] = np.random.choice([0,1], size=len(prior_customers), replace=True, p=(0.74,0.26))
-
     # Increment their tenure by 1
     prior_customers['tenure'] = prior_customers['tenure'] + 1
 
@@ -69,6 +100,13 @@ def generate_monthly_pull(
     # Add the prior base to the new customer base
     combined_df = pd.concat([prior_customers, new_customers])
 
+    # Churn based on the combined dataset
+    combined_df['Churn'] = np.random.choice(
+            [0,1], 
+            size=len(combined_df), 
+            replace=True, p=(0.74,0.26)
+            )
+
     # Pickle the latest file
     combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
     print(f'Current period: {current_period}')
@@ -80,38 +118,12 @@ def generate_monthly_pull(
 
 
 
-def generate_new_customers(
-        period=None,
-        min_vol=None, 
-        max_vol=None, 
-        keys=list(choice_list.keys())
-        ):
-    """Generate new customer records for a specific period."""
-
-    def random_attribute_generator(keys):
-        """Generate records based upon prior attributes"""
-        for i in keys:
-            customer_records[i].append( random.choice(choice_list[i]))
-        customer_records['customerID'].append(str(uuid.uuid1()))
-        customer_records['tenure'] = 1
-        customer_records['MonthlyCharges'] = 45.22
-        customer_records['TotalCharges']= customer_records['MonthlyCharges']
-        customer_records['Churn'] = 0
-        customer_records['Period'] = period
-
-    # Generate new customer records
-    customer_records = defaultdict(list)
-    month_volume = random.randint(min_vol,max_vol)
-    for j in range(month_volume):
-        random_attribute_generator(keys)
-    return pd.DataFrame(customer_records)
-
 
 def main():
     """Main operational flow"""
 
     # Load the original dataset, mark as M0
-    load_original_data()
+    choice_list = load_original_data()
 
     # M1 operations
     period_list = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12']
@@ -123,8 +135,8 @@ def main():
                     prior_period= prior_period, 
                     current_period= current_period,
                     prior_source='./../datasets/' + str(prior_period) +'.pkl',
-                    min_vol=1500,
-                    max_vol=2500
+                    min_vol=500,
+                    max_vol=1200
                     )
 
 
