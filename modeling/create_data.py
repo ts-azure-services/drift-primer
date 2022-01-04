@@ -16,6 +16,7 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
         total_cols = df.columns
         non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
         attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
+        attribute_cols.sort()
         return attribute_cols
 
     attribute_cols = key_columns(df=df)
