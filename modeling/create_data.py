@@ -92,7 +92,7 @@ def generate_new_customers(
 
 
 def generate_monthly_pull(
-        prior_period = None,
+        #prior_period = None,
         current_period = None,
         prior_source = None,
         min_vol=None,
@@ -165,8 +165,8 @@ def main():
             prior_period=period_list[j]
             current_period=period_list[j+1]
             generate_monthly_pull(
-                prior_period= prior_period, 
-                current_period= current_period,
+                #prior_period = prior_period, 
+                current_period = current_period,
                 prior_source='./../datasets/' + str(prior_period) +'.pkl',
                 min_vol=1500,
                 max_vol=2000,

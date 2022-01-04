@@ -12,7 +12,7 @@ def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     total_cols = df.columns
     non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
     attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
-    return df, total_cols, attribute_cols
+    return df, attribute_cols
 
 
 def attribute_col_ratio(df=None, col_list=None):
@@ -53,7 +53,7 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
 
 def main():
     # Load and format data
-    df, total_cols, attribute_cols = load_data()
+    df, attribute_cols = load_data()
 
     # Get customer count by major attribute
     #attribute_col_ratio(df=df, col_list=attribute_cols)
