@@ -27,7 +27,8 @@ ORDER OF OPERATIONS:
         - How should I apply churn on this base? (Cap at a 26%, and randomly assign)
         - Drop the old churn values
 """
-# Load choice list
+# Load choice list for 16 attributes
+# Tenure, customer_id, monthly charges, total charges and churn ignored
 choice_list = {
         "gender":['Female', 'Male'],
         "SeniorCitizen":[0,1],

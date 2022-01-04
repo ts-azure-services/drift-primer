@@ -8,3 +8,5 @@
 - - MLOps diagram (see what MSFT supports as a view)
 	- Maturities
 - CI/CD - "The First Train" if needs to be continuous
+- Ensure the new customer creation has distributions weighted for the random choice
+- Ensure you have the monthly charges referencing prior distributions
