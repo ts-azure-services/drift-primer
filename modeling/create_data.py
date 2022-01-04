@@ -8,23 +8,17 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
-    df.to_p
+    df['Period'] = 'M0'
+    #df.info()
+    df.to_pickle('./../datasets/M0.pkl')
     return df
 
-relevant_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
-       'tenure', 'PhoneService', 'MultipleLines', 'InternetService',
-       'OnlineSecurity', 'OnlineBackup', 'DeviceProtection', 'TechSupport',
-       'StreamingTV', 'StreamingMovies', 'Contract', 'PaperlessBilling',
-       'PaymentMethod']
+
+def change_install_base():
+
 
 """
 ORDER OF OPERATIONS:
-    - NEW CUSTOMERS:
-        - Randomly choose attributes, based upon populations
-        - Tenure: 1
-        - MonthlyCharges: (hardcode, but base on observed data)
-        - TotalCharges: Equals monthly charges
-        - Churn: 0, for all first-time customers
     - FOR EXISTING CUSTOMERS:
         - Increment tenure by 1 month
         - Tenure +1
@@ -33,51 +27,75 @@ ORDER OF OPERATIONS:
         - How should I apply churn on this base? (Cap at a 26%, and randomly assign)
         - Drop the old churn values
 """
-
 # Load choice list
 choice_list = {
         "gender":['Female', 'Male'],
-        "senior_citizen":[0,1],
-        "partner":['No', 'Yes'],
-        "dependent":['No', 'Yes'],
-        "phone_service":['No', 'Yes'],
-        "multiple_lines":['No', 'No phone service', 'Yes'],
-        "internet_services":['DSL', 'Fiber optic', 'No'],
-        "online_security": ['No', 'No internet service', 'Yes'],
-        "online_backup": ['No', 'No internet service', 'Yes'],
-        "device_protection": ['No', 'No internet service', 'Yes'],
-        "tech_support": ['No', 'No internet service', 'Yes'],
-        "streaming_tv": ['No', 'No internet service', 'Yes'],
-        "streaming_movies": ['No', 'No internet service', 'Yes'],
-        "contract": ['One year', 'Two year', 'Month-to-month'],
-        "paperless_billing": ['No', 'Yes'],
-        "payment_method": ['Bank transfer (automatic)',\
+        "SeniorCitizen":[0,1],
+        "Partner":['No', 'Yes'],
+        "Dependents":['No', 'Yes'],
+        "PhoneService":['No', 'Yes'],
+        "MultipleLines":['No', 'No phone service', 'Yes'],
+        "InternetService":['DSL', 'Fiber optic', 'No'],
+        "OnlineSecurity": ['No', 'No internet service', 'Yes'],
+        "OnlineBackup": ['No', 'No internet service', 'Yes'],
+        "DeviceProtection": ['No', 'No internet service', 'Yes'],
+        "TechSupport": ['No', 'No internet service', 'Yes'],
+        "StreamingTV": ['No', 'No internet service', 'Yes'],
+        "StreamingMovies": ['No', 'No internet service', 'Yes'],
+        "Contract": ['One year', 'Two year', 'Month-to-month'],
+        "PaperlessBilling": ['No', 'Yes'],
+        "PaymentMethod": ['Bank transfer (automatic)',\
                 'Electronic check', 'Credit card (automatic)',\
                 'Mailed check'],
         }
 
+def generate_new_customers(
+        period=None,
+        min_vol=None, 
+        max_vol=None, 
+        keys=list(choice_list.keys())
+        ):
+    """Generate new customer records for a specific period.
+    Key Assumptions:
+        - Tenure: 1 # since a new customer
+        - Monthly Charges: based upon prior observations
+        - Total Charges: equal to Monthly Charges
+        - Month: M1
+        - Churn: 0, for all first-time customers
+        - Other attributes, weighted by original distribution
+    """
 
-def generate_random_records():
-    """Generate customer records for a specific period"""
+    def random_attribute_generator(keys):
+        """Generate records based upon prior attributes"""
+        for i in keys:
+            if i == 'customer_id':
+                customer_records[i].append(str(uuid.uuid1()))
+            else:
+                customer_records[i].append( random.choice(choice_list[i]))
+        customer_records['tenure'] = 1
+        customer_records['MonthlyCharges'] = 45.22
+        customer_records['TotalCharges']= customer_records['MonthlyCharges']
+        customer_records['Churn'] = 0
+        customer_records['Period'] = period
+
+    # Generate new customer records
     customer_records = defaultdict(list)
-    month_volume = random.randint(100,1000)
-    for i in range(month_volume):
-        customer_records['customer_id'].append(str(uuid.uuid1()))
-        customer_records['gender'].append( random.choice(choice_list['gender']))
-        customer_records['senior_citizen'].append( random.choice(choice_list['senior_citizen']))
-        customer_records['partner'].append( random.choice(choice_list['partner']))
-        customer_records['dependent'].append( random.choice(choice_list['dependent']))
-        customer_records['online_backup'].append(random.choice( choice_list['online_backup'] ))
+    month_volume = random.randint(min_vol,max_vol)
+    for j in range(month_volume):
+        random_attribute_generator(keys)
     return pd.DataFrame(customer_records)
 
 def main():
     """Main operational flow"""
-    cr = generate_random_records()
-    print(cr)
+    #cr = generate_random_records()
+    #print(cr)
 
     # Load the original dataset, mark as M0
     m0 = load_original_data()
+
     # M1 operations
+    df = generate_new_customers(period='M1', min_vol=10, max_vol=20)
+    print(df)
 
 
 if __name__ == "__main__":
