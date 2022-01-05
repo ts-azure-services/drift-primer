@@ -32,27 +32,6 @@ def churn_ratio_by_attribute(df=None, col_list=None):
     return churn_prob, churn_prob_keys
 
 
-#def churn_distribution(df=None, non_numeric_cols=None):
-#    temp_df = df [ df['Churn'] == 1 ]
-#    temp_df = temp_df.drop(['customerID','MonthlyCharges', 'TotalCharges', 'tenure'], axis=1)
-#    temp_df = temp_df.groupby(non_numeric_cols).sum()
-#    temp_df = temp_df.sort_values(by = 'Churn', ascending=False)
-#
-#    # Create a distribution column
-#    temp_df['percent'] = temp_df['Churn'] / temp_df['Churn'].sum() 
-#
-#    # Create a hash on the unique string of attribute combinations
-#    temp_df = temp_df.reset_index()
-#    temp_df['combined'] = temp_df[non_numeric_cols].agg('|'.join, axis=1).astype(str)
-#    temp_df['t_hash'] = temp_df['combined'].str.encode('utf-8').apply(lambda x: (hashlib.sha3_256(x).hexdigest()))
-#    temp_df.to_csv('dist.csv')
-#
-#    new_dict = dict( zip( temp_df['t_hash'], temp_df['percent'] ) )
-#
-#    return new_dict
-
-
-
 def main():
     # Load and format data
     df, attribute_cols = load_data()
@@ -76,7 +55,9 @@ def main():
     df1 = df1.sort_values(by = 'Churn', ascending=False)
     churn_percentage = 0.26
     rows_to_churn = math.floor(churn_percentage * len(df1))
-    df1 = df1.reset_index(drop=True)
+
+    # Preserve the order of the rows to rank with 'churn' and assign churn values
+    df1 = df1.reset_index(drop=True) 
     print(f'Rows to churn: {rows_to_churn}')
     df1.loc[:rows_to_churn, 'Churn'] = 1
     df1.loc[rows_to_churn:, 'Churn'] = 0
