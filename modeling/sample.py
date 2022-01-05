@@ -1,5 +1,9 @@
 import pandas as pd
 import numpy as np
+import math
+
+print(17.77)
+print(math.floor(17.77))
 
 a = pd.DataFrame(
         {'name':['Jason', 'Mark', 'Parik'],
