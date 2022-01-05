@@ -174,6 +174,7 @@ def generate_monthly_pull(
 
     ## Churn based on the combined dataset
     #combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
+    combined_df['Churn'] = 0
     churn_percentage = 0.24
     combined_df = apply_churn(
             churn_prob=churn_prob, 
