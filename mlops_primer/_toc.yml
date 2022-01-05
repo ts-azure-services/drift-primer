@@ -11,7 +11,7 @@ parts:
     chapters:
     - file: business_problem
     - file: dataset
-    - file: eda
+    - file: exploratory_analysis
     - file: train_model
     - file: deploy_model
   - caption: Post-Production
