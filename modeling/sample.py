@@ -16,6 +16,8 @@ a = pd.DataFrame(
 #        )
 
 #print(np.random.choice([1,1],size=len(a), p=[0.5,0.5]))
-a.loc[a.index,'score'] += 1
+#a.loc[a.index,'score'] += 1
 #a.loc
+a = a.sample(frac=1)
+
 print(a)

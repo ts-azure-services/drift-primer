@@ -1,4 +1,6 @@
-import random, uuid
+import random
+import uuid
+import math
 from collections import defaultdict
 import pandas as pd
 import numpy as np
@@ -42,17 +44,54 @@ def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.cs
 
     min_mc, max_mc = monthly_charge_generator(df=df)
 
-
     # Include periods
     df['Period'] = 'M0'
     df.to_pickle('./../datasets/M0.pkl')
-    return choice_list, min_mc, max_mc
+    return df, attribute_cols, choice_list, min_mc, max_mc
 
 
 def random_monthly_charge(min_mc=None, max_mc=None):
     """Generate a random monthly charge"""
     rn = min_mc + (max_mc - min_mc) * random.random()
     return rn
+
+
+def churn_ratio_by_attribute(df=None, col_list=None):
+    """Get churn ratio by key attributes off the original data"""
+    churn_prob = {}
+    for i in col_list:
+        temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
+        temp_df.columns = ['sum', 'count']
+        temp_df['percent'] = temp_df['sum'] / temp_df['count']
+        temp_df = temp_df.reset_index()
+        #print( temp_df )
+        churn_prob[i] = {'categories': temp_df[i].to_list(), 'probabilities': temp_df['percent'].to_list()}
+    return churn_prob
+
+
+def apply_churn(churn_prob=None, df=None, churn_percentage=None):
+    """Apply churn on dataframe"""
+    churn_prob_keys = list(churn_prob.keys())
+
+    for i,v in enumerate(churn_prob_keys):
+        for iterator, val in enumerate(churn_prob[v]['categories']):
+            sample_slice = df [ df[ churn_prob_keys[i] ] == val ]
+            c_prob_value = churn_prob[v]['probabilities'][iterator]
+            churn_values = np.random.choice([1,0],size=len(sample_slice),p=(c_prob_value, 1 - c_prob_value ))
+            df.loc[sample_slice.index, 'Churn'] += 1
+
+    df = df.sort_values(by = 'Churn', ascending=False)
+    rows_to_churn = math.floor(churn_percentage * len(df))
+
+    # Preserve the order of the rows to rank with 'churn' and assign churn values
+    df = df.reset_index(drop=True) 
+    print(f'Rows to churn: {rows_to_churn}')
+    df.loc[:rows_to_churn, 'Churn'] = 1
+    df.loc[rows_to_churn:, 'Churn'] = 0
+
+    # Reshuffle the entire dataframe
+    df = df.sample(frac=1)
+    return df
 
 
 def generate_new_customers(
@@ -78,7 +117,6 @@ def generate_new_customers(
                 )
         customer_records['customerID'].append(str(uuid.uuid1()))
         customer_records['tenure'] = 1
-        #customer_records['MonthlyCharges'] = 45.22
         customer_records['MonthlyCharges'].append(random_monthly_charge(min_mc, max_mc))
         customer_records['TotalCharges'] = customer_records['MonthlyCharges']
         customer_records['Churn'] = 0
@@ -100,7 +138,8 @@ def generate_monthly_pull(
         max_vol=None,
         choice_list=None,
         min_mc = None,
-        max_mc = None
+        max_mc = None,
+        churn_prob=None
         ):
     """Generate the monthly output"""
 
@@ -122,7 +161,6 @@ def generate_monthly_pull(
     prior_customers['tenure'] = prior_customers['tenure'] + 1
 
     # Distribute monthly charges, and aggregate total charges
-    #prior_customers['MonthlyCharges'] = 65.22
     prior_customers['MonthlyCharges'] = prior_customers['MonthlyCharges'].apply(\
             lambda x : min_mc + (max_mc - min_mc)*random.random() 
             ) 
@@ -134,8 +172,14 @@ def generate_monthly_pull(
     # Add the prior base to the new customer base
     combined_df = pd.concat([prior_customers, new_customers])
 
-    # Churn based on the combined dataset
-    combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
+    ## Churn based on the combined dataset
+    #combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
+    churn_percentage = 0.24
+    combined_df = apply_churn(
+            churn_prob=churn_prob, 
+            df=combined_df, 
+            churn_percentage=churn_percentage
+            )
 
     # Pickle the latest file
     combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
@@ -148,12 +192,18 @@ def generate_monthly_pull(
 
 
 
-
 def main():
     """Main operational flow"""
 
     # Load the original dataset, mark as M0
-    choice_list, min_mc, max_mc = load_original_data()
+    original_df, attribute_cols, choice_list, min_mc, max_mc = load_original_data()
+
+    # Get the churn ratios and probabilities from the original data
+    churn_prob = churn_ratio_by_attribute(
+            df=original_df, 
+            col_list=attribute_cols
+            )
+    print( churn_prob )
 
     # M1 operations
     period_list = ['M'+str(i) for i in range(13)]
@@ -169,7 +219,8 @@ def main():
                 max_vol=2000,
                 choice_list=choice_list,
                 min_mc = min_mc,
-                max_mc = max_mc
+                max_mc = max_mc,
+                churn_prob = churn_prob
                 )
 
 

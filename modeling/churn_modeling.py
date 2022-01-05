@@ -62,6 +62,9 @@ def main():
     df1.loc[:rows_to_churn, 'Churn'] = 1
     df1.loc[rows_to_churn:, 'Churn'] = 0
 
+    # Reshuffle the rows
+    df1 = df1.sample(frac=1)
+
     df1.to_csv('df1.csv')
 
 
