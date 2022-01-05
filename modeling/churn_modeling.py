@@ -44,26 +44,29 @@ def main():
     # Alternative approach
     df1 = pd.read_pickle('./../datasets/M12.pkl')
     df1['Churn'] = 0
+    #df1['temp_churn'] = 0
 
     for i,v in enumerate(churn_prob_keys):
         for iterator, val in enumerate(churn_prob[v]['categories']):
             sample_slice = df1 [ df1[ churn_prob_keys[i] ] == val ]
             c_prob_value = churn_prob[v]['probabilities'][iterator]
             churn_values = np.random.choice([1,0],size=len(sample_slice),p=(c_prob_value, 1 - c_prob_value ))
-            df1.loc[sample_slice.index, 'Churn'] += 1
+            #df1.loc[sample_slice.index, 'Churn'] += 1
+            #df1.loc[sample_slice.index, 'temp_churn'] = churn_values
+            df1.loc[sample_slice.index, 'Churn'] += churn_values
 
-    df1 = df1.sort_values(by = 'Churn', ascending=False)
-    churn_percentage = 0.26
-    rows_to_churn = math.floor(churn_percentage * len(df1))
+    #df1 = df1.sort_values(by = 'Churn', ascending=False)
+    #churn_percentage = 0.26
+    #rows_to_churn = math.floor(churn_percentage * len(df1))
 
     # Preserve the order of the rows to rank with 'churn' and assign churn values
-    df1 = df1.reset_index(drop=True) 
-    print(f'Rows to churn: {rows_to_churn}')
-    df1.loc[:rows_to_churn, 'Churn'] = 1
-    df1.loc[rows_to_churn:, 'Churn'] = 0
+    #df1 = df1.reset_index(drop=True) 
+    #print(f'Rows to churn: {rows_to_churn}')
+    #df1.loc[:rows_to_churn, 'Churn'] = 1
+    #df1.loc[rows_to_churn:, 'Churn'] = 0
 
     # Reshuffle the rows
-    df1 = df1.sample(frac=1)
+    #df1 = df1.sample(frac=1)
 
     df1.to_csv('df1.csv')
 

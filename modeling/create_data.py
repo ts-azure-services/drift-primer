@@ -78,7 +78,7 @@ def apply_churn(churn_prob=None, df=None, churn_percentage=None):
             sample_slice = df [ df[ churn_prob_keys[i] ] == val ]
             c_prob_value = churn_prob[v]['probabilities'][iterator]
             churn_values = np.random.choice([1,0],size=len(sample_slice),p=(c_prob_value, 1 - c_prob_value ))
-            df.loc[sample_slice.index, 'Churn'] += 1
+            df.loc[sample_slice.index, 'Churn'] += churn_values
 
     df = df.sort_values(by = 'Churn', ascending=False)
     rows_to_churn = math.floor(churn_percentage * len(df))
