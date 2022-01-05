@@ -65,21 +65,15 @@ def main():
 
     # Alternative approach
     df1 = pd.read_pickle('./../datasets/M12.pkl')
-    print( df1.head() )
 
     for i,v in enumerate(churn_prob_keys):
         for iterator, val in enumerate(churn_prob[v]['categories']):
             sample_slice = df1 [ df1[ churn_prob_keys[i] ] == val ]
             c_prob_value = churn_prob[v]['probabilities'][iterator]
-            sample_slice['Churn'] = np.random.choice(
-                    [0,1], 
-                    size=len(sample_slice),
-                    p=(c_prob_value, 1 - c_prob_value )
-                    )
-            print( sample_slice )
-
-
-
+            churn_values = np.random.choice([0,1],size=len(sample_slice),p=(c_prob_value, 1 - c_prob_value ))
+            df1.loc[sample_slice.index, 'Churn'] += 1
+            
+    df1.to_csv('df1.csv')
 
 
 if __name__ == "__main__":
