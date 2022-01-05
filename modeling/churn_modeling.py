@@ -18,30 +18,42 @@ def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
 
 
 def churn_distribution(df=None, non_numeric_cols=None):
-    """Showcase metrics by discrete combinations"""
     temp_df = df [ df['Churn'] == 1 ]
-    temp_df = temp_df.groupby(non_numeric_cols).agg({'Churn': ['sum']})
-    temp_df = temp_df.sort_values(by = ('Churn', 'sum'), ascending=False)
+    temp_df = temp_df.drop(['customerID','MonthlyCharges', 'TotalCharges', 'tenure'], axis=1)
+    temp_df = temp_df.groupby(non_numeric_cols).sum()
+    temp_df = temp_df.sort_values(by = 'Churn', ascending=False)
 
     # Create a distribution column
-    temp_df['percent'] = temp_df[('Churn', 'sum')] / temp_df[('Churn', 'sum')].sum() 
-    #temp_df.to_csv('dist.csv')
-    print(temp_df.index)
+    temp_df['percent'] = temp_df['Churn'] / temp_df['Churn'].sum() 
 
-    # Create a hash
+    # Create a hash on the unique string of attribute combinations
+    temp_df = temp_df.reset_index()
+    temp_df['combined'] = temp_df[non_numeric_cols].agg('|'.join, axis=1).astype(str)
+    temp_df['t_hash'] = temp_df['combined'].str.encode('utf-8').apply(lambda x: (hashlib.sha3_256(x).hexdigest()))
+    temp_df.to_csv('dist.csv')
 
-#def hash_values(df):
-#    """Get hash values for both columns"""
-#    df['t_hash'] = df['subscription_id'] + df['server_name'] + df['create_time'].astype(str)
-#    df['t_hash'] = df['t_hash'].str.encode('utf-8').apply(lambda x: (hashlib.sha3_256(x).hexdigest())) 
-#    return df
+    new_dict = dict( zip( temp_df['t_hash'], temp_df['percent'] ) )
+
+    return new_dict
+
+
+
 
 def main():
     # Load and format data
     df, attribute_cols = load_data()
 
     # Get the numeric spread for numeric columns
-    churn_distribution(df=df, non_numeric_cols=attribute_cols)
+    cd = churn_distribution(df=df, non_numeric_cols=attribute_cols)
+
+    df1 = pd.read_pickle('./../datasets/M12.pkl')
+    df1['combined'] = df1[attribute_cols].agg('|'.join, axis=1).astype(str)
+    df1['t_hash'] = df1['combined'].str.encode('utf-8').apply(lambda x: (hashlib.sha3_256(x).hexdigest()))
+
+    # Map churn dictionary to df1
+    df1['mapped_value'] = df1['t_hash'].map(cd)
+    df1.to_csv('df1.csv')
+
 
 if __name__ == "__main__":
     main()

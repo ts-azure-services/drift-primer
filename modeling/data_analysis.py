@@ -12,6 +12,7 @@ def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     total_cols = df.columns
     non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
     attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
+    attribute_cols.sort()
     return df, attribute_cols
 
 
@@ -26,7 +27,9 @@ def attribute_col_ratio(df=None, col_list=None):
 def churn_ratio_by_attribute(df=None, col_list=None):
     """Get churn ratio by key attributes"""
     for i in col_list:
-        temp_df = df.groupby(['Churn', i]).size().reset_index(name='Count')
+        temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
+        temp_df.columns = ['sum', 'count']
+        temp_df['percent'] = temp_df['sum'] / temp_df['count']
         print( temp_df )
 
 
