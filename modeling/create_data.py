@@ -135,11 +135,7 @@ def generate_monthly_pull(
     combined_df = pd.concat([prior_customers, new_customers])
 
     # Churn based on the combined dataset
-    combined_df['Churn'] = np.random.choice(
-            [0,1], 
-            size=len(combined_df), 
-            p=(0.74,0.26)
-            )
+    combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
 
     # Pickle the latest file
     combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
