@@ -64,7 +64,6 @@ def churn_ratio_by_attribute(df=None, col_list=None):
         temp_df.columns = ['sum', 'count']
         temp_df['percent'] = temp_df['sum'] / temp_df['count']
         temp_df = temp_df.reset_index()
-        #print( temp_df )
         churn_prob[i] = {'categories': temp_df[i].to_list(), 'probabilities': temp_df['percent'].to_list()}
     return churn_prob
 
@@ -172,9 +171,11 @@ def generate_monthly_pull(
     # Add the prior base to the new customer base
     combined_df = pd.concat([prior_customers, new_customers])
 
+    # Reset the index, so that when you apply churn values, there are unique indexes
+    combined_df = combined_df.reset_index(drop=True)
+
     ## Churn based on the combined dataset
     #combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
-    combined_df['Churn'] = 0
     churn_percentage = 0.24
     combined_df = apply_churn(
             churn_prob=churn_prob, 
@@ -189,8 +190,6 @@ def generate_monthly_pull(
     print(f'Length of new customers: {len(new_customers)}')
     print(f'Length of combined dataframe: {len(combined_df)}')
 
-    #return combined_df
-
 
 
 def main():
@@ -204,7 +203,6 @@ def main():
             df=original_df, 
             col_list=attribute_cols
             )
-    print( churn_prob )
 
     # M1 operations
     period_list = ['M'+str(i) for i in range(13)]
@@ -212,8 +210,9 @@ def main():
         if period_list[j] != 'M12':
             prior_period=period_list[j]
             current_period=period_list[j+1]
+
+            # Generate the monthly pull
             generate_monthly_pull(
-                #prior_period = prior_period, 
                 current_period = current_period,
                 prior_source='./../datasets/' + str(prior_period) +'.pkl',
                 min_vol=1500,

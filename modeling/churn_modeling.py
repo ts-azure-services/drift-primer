@@ -44,7 +44,6 @@ def main():
     # Alternative approach
     df1 = pd.read_pickle('./../datasets/M12.pkl')
     df1['Churn'] = 0
-    #df1['temp_churn'] = 0
 
     for i,v in enumerate(churn_prob_keys):
         for iterator, val in enumerate(churn_prob[v]['categories']):
@@ -52,7 +51,6 @@ def main():
             c_prob_value = churn_prob[v]['probabilities'][iterator]
             churn_values = np.random.choice([1,0],size=len(sample_slice),p=(c_prob_value, 1 - c_prob_value ))
             #df1.loc[sample_slice.index, 'Churn'] += 1
-            #df1.loc[sample_slice.index, 'temp_churn'] = churn_values
             df1.loc[sample_slice.index, 'Churn'] += churn_values
 
     #df1 = df1.sort_values(by = 'Churn', ascending=False)
