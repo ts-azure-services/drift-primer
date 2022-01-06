@@ -1,4 +1,5 @@
-# What is MLOps?
+# The MLOps Process
+<span style="color:red">**show example**</span>
 - Define what MLOps is, and what it is not.
 
 - Unlike traditional software where a fairly deterministic set of requirements is pushed out and then required
@@ -8,3 +9,5 @@
 
 - Above all, it is a set of iterative practices to automate, build, and continuously achieve business
   objectives through machine learning.
+
+![mlops_process](./imgs/mlops_process.png)
