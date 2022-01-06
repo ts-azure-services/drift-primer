@@ -1,7 +1,5 @@
 # Key Goals
-
-- Through a case study, understand the key objectives and workflows of MLOps
-
-- Understand how to achieve this with Azure Machine Learning, and related services.
-
-- Rationalize customer needs given the above considerations.
+- Consider a simple business scenario through several evolutions of the dataset to explore concepts around
+  deployment, devops, model and data drift.
+- Build an intuition for MLOps processes and considerations with the Azure Machine Learning platform.
+- Ensure success for future ML projects by investing in the right tools, processes and roles.

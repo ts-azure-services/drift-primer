@@ -7,6 +7,13 @@ comfortable with the use of ML in their activities. A great win!
 As a policy, the MLOps team has decided to never let the model 'get stale' beyond 3 months. Three months have
 passed and the team is ready to re-train the model, and re-deploy it.
 
+- How is the model performing with respect to the actuals?
+	- Can only establish this by setting some standard for ground truth. Some assumption has to inform
+	  this.
+	- How can we show how this is being tracked against the new data? Compare the old model against the
+	  new observations. How does the old model do on the new data? How does the new model do on the old
+	  data?
+
 A couple of things to note:
 - Since they had a pipeline trained and ready, this is re-usable and just needs to account for the full
   dataset.
