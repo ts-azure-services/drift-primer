@@ -9,14 +9,14 @@ sleep 2
 
 # Create resources
 printf "${grn}RUNNING 'create-workspace-sprbac.sh SCRIPT....${end}\n"
-./create-workspace-sprbac.sh
+./create-aml-resources.sh
 sleep 15
 
 # Create compute cluster
 printf "${grn}CREATING A CLUSTER....${end}\n"
 python clusters.py
 printf "${grn}Giving about 60 seconds for the creation of the cluster to kick in....${end}\n"
-sleep 60
+sleep 15
 
 # Upload datasets, and register them
 printf "${grn}UPLOADING SAMPLE DATA AND REGISTERING IT AS A DATASET....${end}\n"
