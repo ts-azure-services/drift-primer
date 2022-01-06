@@ -5,3 +5,9 @@
 - Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
   (packaging as a Docker container, Flask app etc.)
 
+```python
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv('blah.csv')
+```

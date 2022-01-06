@@ -17,3 +17,5 @@
 ### Disney
 - Insights from Saifur
 
+#### Parking Lot
+- Github Actions for CI/CD https://docs.microsoft.com/en-us/azure/machine-learning/how-to-github-actions-machine-learning
