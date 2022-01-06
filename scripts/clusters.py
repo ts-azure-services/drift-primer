@@ -3,7 +3,7 @@ from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
 
 def create_compute_cluster(workspace=None, compute_name=None):
-    """Create AML compute cluster to"""
+    """Create AML compute cluster"""
     try:
         cpu_cluster = ComputeTarget(workspace=workspace, name=compute_name)
         print('Found existing cluster, use it.')
@@ -18,7 +18,7 @@ def create_compute_cluster(workspace=None, compute_name=None):
 
 def main():
     """Main operational flow"""
-    cluster_name='newcluster1'
+    cluster_name='cpu-cluster'
     create_compute_cluster(
             workspace=ws, 
             compute_name=cluster_name
