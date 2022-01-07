@@ -1,4 +1,4 @@
-# Virus Attack! (t+9...)
+# Black Swan
 
 - Potentially, complete rebaselining
 - Deliberately degrade the model's accuracy over time. Why? Shift in attributes, and predictions.
