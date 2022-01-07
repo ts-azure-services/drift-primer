@@ -9,7 +9,8 @@ from azureml.core.conda_dependencies import CondaDependencies
 from azureml.pipeline.core import Pipeline, PipelineData, TrainingOutput
 from azureml.pipeline.core.graph import PipelineParameter
 from azureml.pipeline.steps import PythonScriptStep
-from azureml.data import OutputFileDatasetConfig, DataType
+from azureml.data import OutputFileDatasetConfig, DataType#, OutputTabularDatasetConfig
+from azureml.data.output_dataset_config import OutputTabularDatasetConfig
 from azureml.data.data_reference import DataReference
 from azureml.train.automl import AutoMLConfig
 from azureml.train.automl.run import AutoMLRun
@@ -31,6 +32,7 @@ run_config.environment.python.conda_dependencies = CondaDependencies.create(cond
 def_blob_store = ws.get_default_datastore()
 ds = Dataset.get_by_name(workspace=ws, name='Telco_Baseline')
 intermediate_source = OutputFileDatasetConfig(destination=(def_blob_store,'/prep1/')).as_mount()
+#intermediate_source = OutputTabularDatasetConfig(destination=(def_blob_store,'/prep1/')).as_mount()
 intermediate_filename = 'step1output'
 cleanup_step = PythonScriptStep(
     name="Transform data",
@@ -55,8 +57,8 @@ processed_step = PythonScriptStep(
     script_name="register_dataset.py",
     compute_target=compute_target,
     arguments=[
-        "--input_file_path", final_source.as_input(),
-        "--filename", final_filename,
+        "--input_file_path", intermediate_source.as_input(),
+        "--filename", intermediate_filename,
         "--output_file_path", prepped_data,
         "--output_filename", prepped_filename
         ],
@@ -64,7 +66,8 @@ processed_step = PythonScriptStep(
     allow_reuse=False
 )
 
-## Ensure that when you run the read_delimited_files it does not absorb more files than needed
+# Ensure that when you run the read_delimited_files it does not absorb more files than needed
+prepped_data = prepped_data.read_delimited_files()
 #prepped_data = prepped_data.read_delimited_files(set_column_types={"Place": DataType.to_float()})
 
 metrics_data = PipelineData(
@@ -91,23 +94,24 @@ automl_settings = {
     "max_concurrent_iterations": 4,
     #"verbosity": logging.INFO,
     "training_data":prepped_data.as_input(),
-    "label_column_name":'Place',
+    "label_column_name":'Churn',
     "n_cross_validations": 5,
     "enable_voting_ensemble":True,
     "enable_early_stopping": True,
     "model_explainability":True,
-    "enable_dnn":True,
+    #"enable_dnn":True,
         }
 
 automl_config = AutoMLConfig(**automl_settings)
 
-train_step = AutoMLStep(name='Churn Classification',
-    automl_config=automl_config,
-    passthru_automl_config=False,
-    outputs=[metrics_data,model_data],
-    enable_default_model_output=True,
-    enable_default_metrics_output=True,
-    allow_reuse=False
+train_step = AutoMLStep(
+        name='Churn Classification',
+        automl_config=automl_config,
+        passthru_automl_config=False,
+        outputs=[metrics_data,model_data],
+        enable_default_model_output=True,
+        enable_default_metrics_output=True,
+        allow_reuse=False
     )
 
 # Register the model
@@ -131,8 +135,8 @@ pipeline = Pipeline(ws, [cleanup_step, processed_step, train_step, register_mode
 remote_run = experiment.submit(pipeline, show_output=True, wait_post_processing=True)
 remote_run.wait_for_completion()
 
-# Retrieve model and metrics
-metrics_output_port = remote_run.get_pipeline_output('metrics_output')
-model_output_port = remote_run.get_pipeline_output('model_output')
-metrics_output_port.download('.', show_progress=True)
-model_output_port.download('.', show_progress=True)
+## Retrieve model and metrics
+#metrics_output_port = remote_run.get_pipeline_output('metrics_output')
+#model_output_port = remote_run.get_pipeline_output('model_output')
+#metrics_output_port.download('.', show_progress=True)
+#model_output_port.download('.', show_progress=True)
