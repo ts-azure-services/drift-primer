@@ -1,5 +1,4 @@
 # Maturity Levels
-<span style="color:red">**show example**</span>
 
 ## Level 0
 ![maturity_levels](./imgs/mlops_level0.png)

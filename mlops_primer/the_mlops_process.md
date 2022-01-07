@@ -1,5 +1,4 @@
 # The MLOps Process
-<span style="color:red">**show example**</span>
 - Define what MLOps is, and what it is not.
 
 - Unlike traditional software where a fairly deterministic set of requirements is pushed out and then required

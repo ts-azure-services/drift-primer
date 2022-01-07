@@ -9,3 +9,4 @@
 - Get all the metrics of the model downloaded and viewable.
 - Download the model, register the model, and tie the dataset to the model
 - Be able to run an inference against the model itself in ACI
+- Reference the Kaggle resource for ideas on exploration

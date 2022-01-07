@@ -1,7 +1,7 @@
 # Import in data, do some processing and break up the file
 #import logging
 from authentication import ws
-from azureml.core import Dataset, ScriptRunConfig, Environment
+from azureml.core import Dataset#, ScriptRunConfig, Environment
 from azureml.core.experiment import Experiment
 from azureml.core.compute import ComputeTarget
 from azureml.core.runconfig import RunConfiguration, DEFAULT_CPU_IMAGE, DockerConfiguration
@@ -9,13 +9,8 @@ from azureml.core.conda_dependencies import CondaDependencies
 from azureml.pipeline.core import Pipeline, PipelineData, TrainingOutput
 from azureml.pipeline.core.graph import PipelineParameter
 from azureml.pipeline.steps import PythonScriptStep
-from azureml.data import OutputFileDatasetConfig, DataType#, OutputTabularDatasetConfig
-from azureml.data.output_dataset_config import OutputTabularDatasetConfig
-from azureml.data.data_reference import DataReference
+from azureml.data import OutputFileDatasetConfig
 from azureml.train.automl import AutoMLConfig
-from azureml.train.automl.run import AutoMLRun
-from azureml.automl.core.forecasting_parameters import ForecastingParameters
-from azureml.automl.core.featurization.featurizationconfig import FeaturizationConfig
 from azureml.pipeline.steps import AutoMLStep
 
 ## Set up resources and run configuration
@@ -35,7 +30,7 @@ intermediate_source = OutputFileDatasetConfig(destination=(def_blob_store,'/prep
 #intermediate_source = OutputTabularDatasetConfig(destination=(def_blob_store,'/prep1/')).as_mount()
 intermediate_filename = 'step1output'
 cleanup_step = PythonScriptStep(
-    name="Transform data",
+    name="Transform Data",
     source_directory=".",
     script_name="transform.py",
     compute_target=compute_target,
@@ -52,7 +47,7 @@ cleanup_step = PythonScriptStep(
 prepped_data = OutputFileDatasetConfig(destination=(def_blob_store,'/prep2/')).as_mount()
 prepped_filename = 'step2output'
 processed_step = PythonScriptStep(
-    name="register_dataset",
+    name="Register the transformed dataset",
     source_directory=".",
     script_name="register_dataset.py",
     compute_target=compute_target,
@@ -89,7 +84,7 @@ automl_settings = {
     "task": 'classification',
     "primary_metric":'AUC_weighted',
     "iteration_timeout_minutes": 10,
-    "experiment_timeout_hours": 0.5,
+    "experiment_timeout_hours": 1,
     "compute_target":compute_target,
     "max_concurrent_iterations": 4,
     #"verbosity": logging.INFO,
@@ -97,7 +92,7 @@ automl_settings = {
     "label_column_name":'Churn',
     "n_cross_validations": 5,
     "enable_voting_ensemble":True,
-    "enable_early_stopping": True,
+    "enable_early_stopping": False,
     "model_explainability":True,
     #"enable_dnn":True,
         }
@@ -118,7 +113,7 @@ train_step = AutoMLStep(
 model_name = PipelineParameter("model_name", default_value="bestModel")
 register_model_step = PythonScriptStep(
         script_name="register_model.py",
-        name="register_model",
+        name="Register the Best Model",
         arguments=[
             "--model_name", model_name,
             "--model_path", model_data
