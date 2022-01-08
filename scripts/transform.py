@@ -16,6 +16,12 @@ def transform(source=None):
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+    df['Tenure_Bucket'] = pd.cut(
+            x = df['tenure'],
+            bins=[0,10,30,100],
+            labels=['One to 10 days', '+10 to 30 days', 'Beyond +1 month'],
+            include_lowest=True
+            )
     return df
 
 if __name__ == "__main__":
