@@ -12,7 +12,6 @@ df['bucket'] = pd.cut(
         include_lowest=True
         )
 df = df.sort_values(by = 'tenure', ascending=True)
-df.to_csv('groups.csv')
 
 df = df.groupby(['bucket']).agg({
     'customerID': 'count',
