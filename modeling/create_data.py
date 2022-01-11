@@ -46,7 +46,7 @@ def load_original_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Custom
 
     # Include periods
     df['Period'] = 'M0'
-    df.to_pickle('./../datasets/M0.pkl')
+    df.to_parquet('./../datasets/M0.parquet')
     return df, attribute_cols, choice_list, min_mc, max_mc
 
 
@@ -153,7 +153,7 @@ def generate_monthly_pull(
             )
 
     # Take the prior base, and filter out churned customers
-    prior_customers = pd.read_pickle(prior_source)
+    prior_customers = pd.read_parquet(prior_source)
     prior_customers = prior_customers.loc[ prior_customers['Churn'] == 0 ]
 
     # Increment their tenure by 1
@@ -183,8 +183,8 @@ def generate_monthly_pull(
             churn_percentage=churn_percentage
             )
 
-    # Pickle the latest file
-    combined_df.to_pickle('./../datasets/' + str(current_period) + '.pkl')
+    # Convert to a parquet file
+    combined_df.to_parquet('./../datasets/' + str(current_period) + '.parquet')
     print(f'Current period: {current_period}')
     print(f'Length of prior customers: {len(prior_customers)}')
     print(f'Length of new customers: {len(new_customers)}')
@@ -214,7 +214,7 @@ def main():
             # Generate the monthly pull
             generate_monthly_pull(
                 current_period = current_period,
-                prior_source='./../datasets/' + str(prior_period) +'.pkl',
+                prior_source='./../datasets/' + str(prior_period) +'.parquet',
                 min_vol=1500,
                 max_vol=2000,
                 choice_list=choice_list,
