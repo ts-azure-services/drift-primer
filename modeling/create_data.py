@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 # Load original data source, create choice list
-def load_original_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+def load_original_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data"""
     df = pd.read_csv(source)
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
