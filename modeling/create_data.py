@@ -84,7 +84,7 @@ def apply_churn(churn_prob=None, df=None, churn_percentage=None):
 
     # Preserve the order of the rows to rank with 'churn' and assign churn values
     df = df.reset_index(drop=True) 
-    print(f'Rows to churn: {rows_to_churn}')
+    #print(f'Rows to churn: {rows_to_churn}')
     df.loc[:rows_to_churn, 'Churn'] = 1
     df.loc[rows_to_churn:, 'Churn'] = 0
 
