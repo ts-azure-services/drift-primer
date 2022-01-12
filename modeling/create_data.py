@@ -175,13 +175,13 @@ def generate_monthly_pull(
     combined_df = combined_df.reset_index(drop=True)
 
     ## Churn based on the combined dataset
-    combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
-    #churn_percentage = 0.24
-    #combined_df = apply_churn(
-    #        churn_prob=churn_prob, 
-    #        df=combined_df, 
-    #        churn_percentage=churn_percentage
-    #        )
+    #combined_df['Churn'] = np.random.choice([0,1], size=len(combined_df), p=(0.74,0.26))
+    churn_percentage = 0.26
+    combined_df = apply_churn(
+            churn_prob=churn_prob, 
+            df=combined_df, 
+            churn_percentage=churn_percentage
+            )
 
     # Convert to a parquet file
     combined_df.to_parquet('./../datasets/' + str(current_period) + '.parquet', index=False)
@@ -189,7 +189,6 @@ def generate_monthly_pull(
     print(f'Length of prior customers: {len(prior_customers)}')
     print(f'Length of new customers: {len(new_customers)}')
     print(f'Length of combined dataframe: {len(combined_df)}')
-
 
 
 def main():
