@@ -22,7 +22,7 @@ def attribute_col_ratio(df=None, col_list=None):
         print(f'Customer count by {i}:\n{temp_df}\n')
 
 
-def binning(df=None):
+def binning_tenure(df=None):
     df['bucket'] = pd.cut(x = df['tenure'],bins=[0,10,30,100],
             labels=['One to 10 days', '+10 to 30 days', 'Beyond +1 month'],
             include_lowest=True

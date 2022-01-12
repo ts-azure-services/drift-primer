@@ -214,8 +214,8 @@ def main():
             generate_monthly_pull(
                 current_period = current_period,
                 prior_source='./../datasets/' + str(prior_period) +'.parquet',
-                min_vol=1500,
-                max_vol=2000,
+                min_vol=500,
+                max_vol=1000,
                 choice_list=choice_list,
                 min_mc = min_mc,
                 max_mc = max_mc,
