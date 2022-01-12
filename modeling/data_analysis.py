@@ -1,8 +1,6 @@
 import pandas as pd
-#import numpy as np
 
-
-def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+def load_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data, and key lists"""
     df = pd.read_csv(source)
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
@@ -24,6 +22,16 @@ def attribute_col_ratio(df=None, col_list=None):
         print(f'Customer count by {i}:\n{temp_df}\n')
 
 
+def binning(df=None):
+    df['bucket'] = pd.cut(x = df['tenure'],bins=[0,10,30,100],
+            labels=['One to 10 days', '+10 to 30 days', 'Beyond +1 month'],
+            include_lowest=True
+            )
+    df = df.sort_values(by = 'tenure', ascending=True)
+    df = df.groupby(['bucket']).agg({'customerID': 'count','Churn':'sum'})
+    df['Churn %'] = df['Churn'] / df['customerID']
+
+
 def churn_ratio_by_attribute(df=None, col_list=None):
     """Get churn ratio by key attributes"""
     for i in col_list:
@@ -37,21 +45,11 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
     """Showcase metrics by discrete combinations"""
     #non_numeric_cols.append('Churn')
     print(non_numeric_cols)
-    #temp_df = df['Churn'].groupby(non_numeric_cols).sum()
-    #temp_df = df['Churn'].groupby(['StreamingTV','MultipleLines']).sum()
-    #temp_df = df.groupby(
-    #        )
     temp_df = df.groupby(non_numeric_cols).\
         agg({'Churn': ['min','mean', 'median', 'max', 'sum', 'count']})
     print(temp_df.head())
     print(temp_df.columns)
     print(temp_df.index)
-
-    # What works
-    #temp_df = df.groupby(non_numeric_cols).size()
-    #temp_df = df.groupby(non_numeric_cols).describe()#sum()
-    #temp_df.to_csv('sample.csv')
-    #print(temp_df)
 
 
 def main():
