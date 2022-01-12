@@ -34,6 +34,7 @@ def binning_tenure(df=None):
 
 def churn_ratio_by_attribute(df=None, col_list=None):
     """Get churn ratio by key attributes"""
+    col_list.append('tenure')
     for i in col_list:
         temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
         temp_df.columns = ['sum', 'count']
@@ -56,7 +57,7 @@ def main():
     # Load and format data
     df, attribute_cols = load_data()
 
-    df = df [ df['tenure'] ==1 ]
+    df = df [ df['tenure'] <= 2 ]
 
     # Get customer count by major attribute
     #attribute_col_ratio(df=df, col_list=attribute_cols)
