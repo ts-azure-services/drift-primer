@@ -10,7 +10,7 @@ def create_compute_cluster(workspace=None, compute_name=None):
     except ComputeTargetException:
         # To use a different region for the compute, add a location='<region>' parameter
         compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_D2_V2',
-                min_nodes=1,
+                min_nodes=0,
                 max_nodes=5)
         cpu_cluster = ComputeTarget.create(workspace, compute_name, compute_config)
         print(f'Triggered the creation of {compute_name} cluster')
