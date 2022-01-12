@@ -38,7 +38,7 @@ def churn_ratio_by_attribute(df=None, col_list=None):
         temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
         temp_df.columns = ['sum', 'count']
         temp_df['percent'] = temp_df['sum'] / temp_df['count']
-        print( temp_df )
+        print(f'For {i}, the dataframe is:\n {temp_df}\n')
 
 
 def numeric_col_spreads(df=None, non_numeric_cols=None):
@@ -55,6 +55,8 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
 def main():
     # Load and format data
     df, attribute_cols = load_data()
+
+    df = df [ df['tenure'] ==1 ]
 
     # Get customer count by major attribute
     #attribute_col_ratio(df=df, col_list=attribute_cols)
