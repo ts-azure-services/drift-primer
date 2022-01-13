@@ -1,5 +1,10 @@
 import pandas as pd
 
+def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
+    """Bin data for specific columns"""
+    df[new_col_name] = pd.cut(x = df[base_col],bins=number_bins,include_lowest=True)
+    return df
+
 def load_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data, and key lists"""
     df = pd.read_csv(source)
@@ -7,6 +12,11 @@ def load_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
     #df.info()
+
+    # Bin columns
+    df = bin_column(df=df, new_col_name='tenure_bins', base_col='tenure', number_bins=10)
+    df = bin_column(df=df, new_col_name='monthly_charges_bins', base_col='MonthlyCharges', number_bins=10)
+
     total_cols = df.columns
     non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
     attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
@@ -20,16 +30,6 @@ def attribute_col_ratio(df=None, col_list=None):
         temp_df = df['customerID'].groupby(df[i]).count().to_frame()
         temp_df['percent'] = temp_df['customerID'] / temp_df['customerID'].sum()
         print(f'Customer count by {i}:\n{temp_df}\n')
-
-
-def binning_tenure(df=None):
-    df['bucket'] = pd.cut(x = df['tenure'],bins=[0,10,30,100],
-            labels=['One to 10 days', '+10 to 30 days', 'Beyond +1 month'],
-            include_lowest=True
-            )
-    df = df.sort_values(by = 'tenure', ascending=True)
-    df = df.groupby(['bucket']).agg({'customerID': 'count','Churn':'sum'})
-    df['Churn %'] = df['Churn'] / df['customerID']
 
 
 def churn_ratio_by_attribute(df=None, col_list=None):
@@ -48,6 +48,7 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
     print(non_numeric_cols)
     temp_df = df.groupby(non_numeric_cols).\
         agg({'Churn': ['min','mean', 'median', 'max', 'sum', 'count']})
+    temp_df.columns = ['min', 'mean', 'median', 'max', 'sum', 'count']
     print(temp_df.head())
     print(temp_df.columns)
     print(temp_df.index)
@@ -57,7 +58,7 @@ def main():
     # Load and format data
     df, attribute_cols = load_data()
 
-    df = df [ df['tenure'] <= 2 ]
+    #df = df [ df['tenure'] <= 3 ]
 
     # Get customer count by major attribute
     #attribute_col_ratio(df=df, col_list=attribute_cols)
@@ -70,8 +71,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-#df_temp = df.groupby(['gender', 'SeniorCitizen', 'Contract']).\
-#        agg({'MonthlyCharges': ['min','mean', 'median', 'max']})
-

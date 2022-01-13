@@ -9,5 +9,4 @@ lint:
 	pylint --disable=R,C,W1203,W0702 ./scripts/datasets.py &&\
 	pylint --disable=R,C,W1203,W0702 ./scripts/clusters.py
 
-
 all: install lint

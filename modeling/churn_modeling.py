@@ -4,7 +4,7 @@ import hashlib, math
 #import numpy as np
 
 
-def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+def load_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
     """Load original data, and key lists"""
     df = pd.read_csv(source)
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
@@ -21,6 +21,7 @@ def load_data(source='./../datasets/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
 def churn_ratio_by_attribute(df=None, col_list=None):
     """Get churn ratio by key attributes"""
     churn_prob = {}
+    col_list.append('tenure')
     for i in col_list:
         temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
         temp_df.columns = ['sum', 'count']

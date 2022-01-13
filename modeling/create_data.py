@@ -58,6 +58,7 @@ def random_monthly_charge(min_mc=None, max_mc=None):
 
 def churn_ratio_by_attribute(df=None, col_list=None):
     """Get churn ratio by key attributes off the original data"""
+    col_list.append('tenure')
     churn_prob = {}
     for i in col_list:
         temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
@@ -214,8 +215,8 @@ def main():
             generate_monthly_pull(
                 current_period = current_period,
                 prior_source='./../datasets/' + str(prior_period) +'.parquet',
-                min_vol=500,
-                max_vol=1000,
+                min_vol=1800,
+                max_vol=2000,
                 choice_list=choice_list,
                 min_mc = min_mc,
                 max_mc = max_mc,
