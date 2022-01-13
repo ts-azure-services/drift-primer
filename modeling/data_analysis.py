@@ -5,13 +5,16 @@ def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
     df[new_col_name] = pd.cut(x = df[base_col],bins=number_bins,include_lowest=True)
     return df
 
-def load_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv'):
+def load_data(source=None):
     """Load original data, and key lists"""
-    df = pd.read_csv(source)
-    df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
-    df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
-    df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
-    #df.info()
+    if 'parquet' in source:
+        df = pd.read_parquet(source)
+    else:
+        df = pd.read_csv(source)
+        df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
+        df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
+        df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+        #df.info()
 
     # Bin columns
     df = bin_column(df=df, new_col_name='tenure_bins', base_col='tenure', number_bins=10)
@@ -56,7 +59,8 @@ def numeric_col_spreads(df=None, non_numeric_cols=None):
 
 def main():
     # Load and format data
-    df, attribute_cols = load_data()
+    source = './../datasets/M1.parquet'
+    df, attribute_cols = load_data(source=source)
 
     #df = df [ df['tenure'] <= 3 ]
 
