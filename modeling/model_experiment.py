@@ -85,11 +85,11 @@ def plot_confusion_matrix(
 def main():
 
     # Load initial dataframe
-    df = pd.read_parquet('./../datasets/M0.parquet')
+    df = pd.read_parquet('./../datasets/M9.parquet')
     train, test = split_data(df=df, frac=0.2)
 
     # Set key objects
-    experiment_name = 'baseline_scenario'
+    experiment_name = 'm9_attempt'
     datastore = ws.get_default_datastore()
     compute_target = ComputeTarget(workspace=ws, name='cpu-cluster')
     experiment = Experiment(ws, name=experiment_name)
@@ -98,8 +98,8 @@ def main():
     run = run_automl_classification(
             df = train,
             datastore = datastore,
-            datastore_folder_name='base',
-            dataset_name='base_boo',
+            datastore_folder_name='m9attempt',
+            dataset_name='m9_attempt',
             compute_target = compute_target,
             experiment = experiment,
             )

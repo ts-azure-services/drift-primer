@@ -5,7 +5,7 @@ end=$'\e[0m'
 
 # Start of script
 SECONDS=0
-printf "${grn}STARTING CREATION OF WORKSPACE, LOADING OF DATASETS, AND CREATION OF CLUSTERS...${end}\n"
+printf "${grn}STARTING CREATION OF WORKSPACE...${end}\n"
 
 # Source subscription ID, and prep config file
 source sub.env
