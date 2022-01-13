@@ -1,7 +1,6 @@
 """Script to test training against simulated data"""
 import sys
 sys.path.append('./../scripts/')
-import os
 from authentication import ws
 import pandas as pd
 from azureml.data.dataset_factory import TabularDatasetFactory
