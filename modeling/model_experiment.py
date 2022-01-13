@@ -106,15 +106,16 @@ def main():
 
     # Retrieve results
     best_run, fitted_model = run.get_output()
-    print(fitted_model)
+    print(f"\033[1;32;40m The fitted model is: {fitted_model}.\033[0;0m")
 
     # Convert test dataframe in features/target
     # Predict with model
     x_test = test.drop('Churn', axis=1)
     y_test = test['Churn'].to_frame()
     y_pred = fitted_model.predict( x_test )
-    print(y_pred)
+    print(f"\033[1;32;40m The 'y_pred' array is: {y_pred}.\033[0;0m")
     
+    # Download the fitted model
 
     # Plot confusion matrix
     plot_confusion_matrix(
@@ -123,6 +124,7 @@ def main():
             )
 
     # Calculate metrics
+
 
     # Build an inference
 
