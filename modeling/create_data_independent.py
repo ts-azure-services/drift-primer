@@ -13,12 +13,14 @@ def load_original_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Custom
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+    df = df.drop('TotalCharges', axis=1)
 
     # Get the core attributes in the dataset
     def key_columns(df=None):
         total_cols = df.columns
         #non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'tenure']
-        non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn']
+        #non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn']
+        non_attribute_cols = ['customerID', 'MonthlyCharges', 'Churn']
         attribute_cols = list( set(total_cols) - set(non_attribute_cols) )
         attribute_cols.sort()
         return attribute_cols
@@ -46,9 +48,9 @@ def load_original_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Custom
 
     min_mc, max_mc = monthly_charge_generator(df=df)
 
-    ## Include periods
-    #df['Period'] = 'M0'
-    #df.to_parquet('./../datasets/M0.parquet', index=False)
+    # Include periods
+    df['Period'] = 'M0'
+    df.to_parquet('./../datasets/M0.parquet', index=False)
     return df, attribute_cols, choice_list, min_mc, max_mc
 
 
