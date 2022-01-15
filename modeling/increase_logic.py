@@ -7,7 +7,7 @@ def integer_alignment(
         change_list=None,
         target=None,
         ):
-    # Get the sum of each list
+    # Get the sum of the base and the list to change
     base_list_sum=sum(base_list)
     change_list_sum=sum(change_list)
 
@@ -18,6 +18,7 @@ def integer_alignment(
         # Then +1, for each list item
         i = 0
         while change_list_sum != target:
+            # Keep iterating through if you come to the end of the list
             if i > len(change_list) - 1:
                 i = 0
             else:
@@ -34,11 +35,16 @@ def integer_alignment(
                 change_list[i] = change_list[i] - 1
                 change_list_sum = sum(change_list)
                 i += 1
+    print(f'original list: {base_list}')
+    print(f'new list: {change_list}')
+    print(f'target: {target}')
+    print(f'sum of original list: {base_list_sum}')
+    print(f'sum of new list: {change_list_sum}')
     return base_list, change_list, base_list_sum, change_list_sum
 
 sample_list = [1,2,3,4,5]
 new_list = sample_list.copy()
-target=2
+target=150
 
 base_list, change_list, base_list_sum, change_list_sum =\
         integer_alignment(
@@ -46,9 +52,3 @@ base_list, change_list, base_list_sum, change_list_sum =\
         change_list=new_list,
         target= target,
         )
-
-print(f'original list: {base_list}')
-print(f'new list: {change_list}')
-print(f'target: {target}')
-print(f'sum of original list: {base_list_sum}')
-print(f'sum of new list: {change_list_sum}')

@@ -22,7 +22,7 @@ df = df.drop(['TotalCharges', 'MonthlyCharges', 'tenure'], axis=1)
 df['monthly_charges_bins'] = df['monthly_charges_bins'].astype(object)
 df['tenure_bins'] = df['tenure_bins'].astype(object)
 
-df.to_csv('original.csv', encoding='utf-8', index=False)
+#df.to_csv('original.csv', encoding='utf-8', index=False)
 
 col_list = list(df.columns)
 non_attribute_cols = ['customerID', 'MonthlyCharges', 'Churn']
@@ -45,11 +45,11 @@ def round_logic(val=None):
     """Round logic"""
     frac, whole = math.modf(val)
     if frac < 0.5:
-        ret = math.floor(val)
+        ret_val = math.floor(val)
     else:
-        ret = np.ceil(val)
+        ret_val = np.ceil(val)
     #print(f'Original value: {val}; Fraction: {frac}, hence, return value:{ret}')
-    return ret
+    return ret_val
 
 
 new_vol = 7200
@@ -57,11 +57,11 @@ new_df['new_customer_count'] = new_df['original_customer_ratio'] * new_vol
 new_df['new_churn_count'] = new_df['new_customer_count'] * new_df['original_churn_ratio']
 new_df['new_customer_count_rounded'] = new_df.apply(lambda x: round_logic(x['new_customer_count']), axis=1)
 new_df['new_churn_count_rounded'] = new_df.apply(lambda x: round_logic(x['new_churn_count']), axis=1)
-#new_df['new_customer_count_rounded'] = new_df.apply(lambda x:\
-#        math.floor(x['new_customer_count']) if new_vol >= 7401 else \
-#        np.ceil(x['new_customer_count']), axis=1)
-#new_df['new_churn_count_rounded'] = new_df.apply(lambda x: round_logic(x['new_churn_count']), axis=1)
+new_df = new_df.sort_values(by='new_customer_count_rounded', ascending=False)
+
+# After resolving to integers and sorting, then finetune to get to the right population size
+
+
 
 # Sort to get the most volume for reconciling
-new_df = new_df.sort_values(by='new_customer_count_rounded', ascending=False)
 new_df.to_csv('temp.csv', encoding='utf-8', index=False)
