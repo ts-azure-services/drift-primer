@@ -1,23 +1,6 @@
 import pandas as pd
 import numpy as np
 
-def customer_distribution(df=None):
-    """Show percent of customers by various attribuites"""
-    for i in col_list:
-        temp_df = df['customerID'].groupby(df[i]).count().to_frame()
-        temp_df['percent'] = temp_df['customerID'] / temp_df['customerID'].sum()
-        print(f'Customer count by {i}:\n{temp_df}\n')
-
-
-def churn_ratio_by_attribute(df=None, col_list=None):
-    """Get churn ratio by various attributes"""
-    col_list.append('tenure')
-    for i in col_list:
-        temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
-        temp_df.columns = ['sum', 'count']
-        temp_df['percent'] = temp_df['sum'] / temp_df['count']
-        print(f'For {i}, the dataframe is:\n {temp_df}\n')
-
 
 def main():
     # Load and format data
@@ -30,16 +13,27 @@ def main():
 
     # Mix difference by period
     col_list = list(combined.columns)
-    col_list.remove('Period')
-    col_list.remove('Churn')
-    col_list.remove('MonthlyCharges')
-    col_list.remove('TotalCharges')
+    non_attribute_cols = ['customerID', 'MonthlyCharges', 'TotalCharges', 'Churn', 'Period']
+    attribute_cols = list( set(col_list) - set(non_attribute_cols) )
 
-    for i in col_list:
-        temp_df = combined.groupby(by=[i, 'Period']).agg({'customerID':['count']}).\
-                rename(columns={'count':'customer_count'})
+    # Compare distributions of attributes
+    for i in attribute_cols:
+        temp_df = combined.groupby(by=[i, 'Period']).agg({'customerID':'count'})
+        temp_df.columns = ['customer_count']
         temp_df = temp_df.pivot_table(index=i, columns='Period', values='customer_count')
-        print(temp_df)
+        temp_df['M0%'] = temp_df['M0'] / temp_df['M0'].sum()
+        temp_df['M1%'] = temp_df['M1'] / temp_df['M1'].sum()
+        print(f'For {i}, the dataframe is:\n {temp_df}\n')
+
+    # Compare churn ratios
+    for i in attribute_cols:
+        temp_df = combined.groupby(by=[i, 'Period']).agg({'Churn': ['sum','count']})
+        temp_df.columns = ['sum', 'count']
+        temp_df = temp_df.pivot_table(index=i, columns='Period', values=['sum', 'count'])
+        temp_df.columns = ['M0_count', 'M1_count', 'M0_sum', 'M1_sum']
+        temp_df['M0-Churn'] = temp_df['M0_sum'] / temp_df['M0_count']
+        temp_df['M1-Churn'] = temp_df['M1_sum'] / temp_df['M1_count']
+        print(f'For {i}, the dataframe is:\n {temp_df}\n')
 
 
 if __name__ == "__main__":

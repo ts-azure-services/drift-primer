@@ -13,6 +13,8 @@ def load_original_data(source='./../datasets/input-data/WA_Fn-UseC_-Telco-Custom
     df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
+
+    # No change in classification accuracy, so dropping feature
     df = df.drop('TotalCharges', axis=1)
 
     # Get the core attributes in the dataset
