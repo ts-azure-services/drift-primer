@@ -52,7 +52,7 @@ def round_logic(val=None):
     return ret_val
 
 
-new_vol = 7200
+new_vol = 6900
 new_df['new_customer_count'] = new_df['original_customer_ratio'] * new_vol
 new_df['new_churn_count'] = new_df['new_customer_count'] * new_df['original_churn_ratio']
 new_df['new_customer_count_rounded'] = new_df.apply(lambda x: round_logic(x['new_customer_count']), axis=1)
@@ -60,8 +60,57 @@ new_df['new_churn_count_rounded'] = new_df.apply(lambda x: round_logic(x['new_ch
 new_df = new_df.sort_values(by='new_customer_count_rounded', ascending=False)
 
 # After resolving to integers and sorting, then finetune to get to the right population size
+cust_count_base_list = new_df['new_customer_count_rounded'].to_list()
+change_list = cust_count_base_list.copy()
 
+def integer_alignment(
+        base_list=None,
+        change_list=None,
+        target=None,
+        ):
+    # Get the sum of the base and the list to change
+    base_list_sum=sum(base_list)
+    change_list_sum=sum(change_list)
 
+    # Compare against the target, and iterate
+    if base_list_sum == target:
+        pass
+    elif base_list_sum < target:
+        # Then +1, for each list item
+        i = 0
+        while change_list_sum != target:
+            # Keep iterating through if you come to the end of the list
+            if i > len(change_list) - 1:
+                i = 0
+            else:
+                change_list[i] = change_list[i] + 1
+                change_list_sum = sum(change_list)
+                i += 1
+    else:
+        # Then -1, for each list item
+        i = 0
+        while change_list_sum != target:
+            if i > len(change_list) - 1:
+                i = 0
+            else:
+                change_list[i] = change_list[i] - 1
+                change_list_sum = sum(change_list)
+                i += 1
+    #print(f'original list: {base_list}')
+    #print(f'new list: {change_list}')
+    #print(f'target: {target}')
+    #print(f'sum of original list: {base_list_sum}')
+    #print(f'sum of new list: {change_list_sum}')
+    return base_list, change_list, base_list_sum, change_list_sum
+
+base_list, change_list, base_list_sum, change_list_sum =\
+        integer_alignment(
+        base_list=cust_count_base_list,
+        change_list=change_list,
+        target= new_vol,
+        )
+
+new_df['new_customer_totals'] = change_list
 
 # Sort to get the most volume for reconciling
 new_df.to_csv('temp.csv', encoding='utf-8', index=False)
