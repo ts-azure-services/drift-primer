@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 import numpy as np
+import uuid
 
 def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
     """Bin data for specific columns"""
@@ -116,9 +117,21 @@ new_df['new_churn_customers'] = new_df.apply(lambda x: round_logic(x['new_churn_
 list_of_records = new_df.to_dict('records')
 s1 = list_of_records[0:1]
 
+temp_customer_list = []
 # Iterate through the dictionary to produce rows
 for dictionary in s1:
     for i in range(dictionary['new_customer_optimized']):
-        print(i)
+        # Provide the blueprint to create a distinct row
+        temp_dict = dictionary
+        temp_dict['customerID'] = str(uuid.uuid1())
+        temp_customer_list.append(temp_dict)
 
+    temp_df = pd.DataFrame(temp_customer_list)
+    segment_churn_ratio = dictionary['original_churn_ratio']
+    temp_df['Churn'] = np.random.choice([1,0], size=len(temp_df),
+            p=(segment_churn_ratio, 1-segment_churn_ratio )
+            )
 
+final_df = pd.DataFrame()
+final_df = final_df.append(temp_df)
+final_df.to_csv('final_df.csv', encoding='utf-8')
