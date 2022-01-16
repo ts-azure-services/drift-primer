@@ -66,7 +66,6 @@ df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Y
 df = bin_column(df=df, new_col_name='tenure_bins', base_col='tenure', number_bins=10)
 df = bin_column(df=df, new_col_name='monthly_charges_bins', base_col='MonthlyCharges', number_bins=10)
 df = df.drop(['TotalCharges', 'MonthlyCharges', 'tenure'], axis=1)
-
 df['monthly_charges_bins'] = df['monthly_charges_bins'].astype(object)
 df['tenure_bins'] = df['tenure_bins'].astype(object)
 
@@ -91,6 +90,7 @@ new_df['original_customer_ratio'] = new_df['original_customer_count'] / new_df['
 new_vol = 6900
 new_df['new_customer_count_float'] = new_df['original_customer_ratio'] * new_vol
 new_df['new_customer_count_int'] = new_df.apply(lambda x: round_logic(x['new_customer_count_float']), axis=1)
+# Sort to get the most volume for reconciling
 new_df = new_df.sort_values(by='new_customer_count_int', ascending=False)
 
 # After resolving to integers and sorting, then finetune to get to the right population size
@@ -105,8 +105,20 @@ base_list, change_list, base_list_sum, change_list_sum =\
         )
 
 new_df['new_customer_optimized'] = change_list
+# Convert to int, so it can be used in range functions
+new_df['new_customer_optimized'] = new_df['new_customer_optimized'].astype(int)
 new_df['new_churn_customers'] = new_df['new_customer_optimized'] * new_df['original_churn_ratio']
 new_df['new_churn_customers'] = new_df.apply(lambda x: round_logic(x['new_churn_customers']), axis=1)
 
-# Sort to get the most volume for reconciling
-new_df.to_csv('temp.csv', encoding='utf-8', index=False)
+#print(new_df.info())
+#new_df.to_csv('temp.csv', encoding='utf-8', index=False)
+
+list_of_records = new_df.to_dict('records')
+s1 = list_of_records[0:1]
+
+# Iterate through the dictionary to produce rows
+for dictionary in s1:
+    for i in range(dictionary['new_customer_optimized']):
+        print(i)
+
+
