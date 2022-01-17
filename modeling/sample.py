@@ -1,8 +1,11 @@
+"""Script to generate records as per baseline distributions"""
 import math
+import uuid
+import time
 import pandas as pd
 import numpy as np
-import uuid
 
+start_time = time.time()
 def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
     """Bin data for specific columns"""
     df[new_col_name] = pd.cut(x = df[base_col],bins=number_bins,include_lowest=True)
@@ -109,29 +112,40 @@ new_df['new_customer_optimized'] = change_list
 # Convert to int, so it can be used in range functions
 new_df['new_customer_optimized'] = new_df['new_customer_optimized'].astype(int)
 new_df['new_churn_customers'] = new_df['new_customer_optimized'] * new_df['original_churn_ratio']
-new_df['new_churn_customers'] = new_df.apply(lambda x: round_logic(x['new_churn_customers']), axis=1)
+new_df['new_churn_customers'] = new_df.apply(\
+        lambda x: round_logic(x['new_churn_customers']),axis=1)\
+        .astype(int)
 
 #print(new_df.info())
 #new_df.to_csv('temp.csv', encoding='utf-8', index=False)
 
 list_of_records = new_df.to_dict('records')
-s1 = list_of_records[0:1]
-
-temp_customer_list = []
-# Iterate through the dictionary to produce rows
-for dictionary in s1:
-    for i in range(dictionary['new_customer_optimized']):
-        # Provide the blueprint to create a distinct row
-        temp_dict = dictionary
-        temp_dict['customerID'] = str(uuid.uuid1())
-        temp_customer_list.append(temp_dict)
-
-    temp_df = pd.DataFrame(temp_customer_list)
-    segment_churn_ratio = dictionary['original_churn_ratio']
-    temp_df['Churn'] = np.random.choice([1,0], size=len(temp_df),
-            p=(segment_churn_ratio, 1-segment_churn_ratio )
-            )
+#s1 = list_of_records[:2]
+s1 = list_of_records[:]
 
 final_df = pd.DataFrame()
-final_df = final_df.append(temp_df)
+# Iterate through the dictionary to produce rows
+for dictionary in s1:
+    # Initialize the temporary list and dataframe
+    temp_customer_list = []
+    temp_df = pd.DataFrame()
+
+    # Iterate through each blueprint to produce rows
+    for i in range(dictionary['new_customer_optimized']):
+        temp_dict = dictionary.copy()
+        temp_dict.update({'customerID': str(uuid.uuid1())})
+        temp_customer_list.append(temp_dict)
+
+    temp_df = temp_df.append(temp_customer_list)
+    temp_df['Churn'] = 0
+    churn_temp_df = temp_df.sample(n=dictionary['new_churn_customers'])
+    temp_df.loc[ churn_temp_df.index, 'Churn' ] = 1
+
+    # Append the temp_df results to the final dataframe
+    final_df = final_df.append(temp_df)
+
+# Shuffle the final result, and produce output
+final_df = final_df.sample(frac=1)
+final_df = final_df.reset_index(drop=True)
 final_df.to_csv('final_df.csv', encoding='utf-8')
+print('Entire script took %s seconds' % (time.time() - start_time))
