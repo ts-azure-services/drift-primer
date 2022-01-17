@@ -25,4 +25,5 @@ parts:
     - file: fourth_event
   - caption: Other
     chapters:
+    - file: year_in_review
     - file: economics

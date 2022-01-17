@@ -1,15 +1,19 @@
-# Black Swan
+# Concept Drift
+Six months after the initial deployment of the model, there are early signs that the model is starting to
+degrade. On the bright side, this seems to be largely because the churn rate is starting to decline in
+response to some of the initiatives taken by the marketing and customer success teams. Given the MLOps team is
+being held to a +80% accuracy on the churn prediction metric, an early alert has shown continual decline in
+the model's ability to predict accurately.
 
-- Potentially, complete rebaselining
-- Deliberately degrade the model's accuracy over time. Why? Shift in attributes, and predictions.
-- Introduce data drift, and concept drift as concepts.
-- This is where the proxy to COVID may be relevant.
+In response, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of data. It
+it outperforms the existing model, it will be promoted as the new model to the production system.
 
-- https://www.bankofengland.co.uk/bank-overground/2021/how-has-covid-affected-the-performance-of-machine-learning-models-used-by-uk-banks
-- https://medium.com/eliiza-ai/why-your-models-might-not-work-after-covid-19-a00509e4920b
-- https://towardsdatascience.com/the-covid-19-concept-drift-using-sydney-ferry-activity-data-32bbff63cb9f
+- This is where alerting can be showcased through App Insights, and Power BI.
+
+- Change the underlying assumptions on the model side.
+- In our case, this is likely going to be changes on the 'data drift'. " To detect data drift, we can trigger
+  data factory pipelines weekly that analyze the dataset profiles, with data validation tests."
 
 - How do we handle these situations?
 	- Establish a new pipeline, with data after xyz date and train a new model
 	- In practice, are the changes this dramatic?
-

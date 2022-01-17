@@ -1,15 +1,14 @@
-# Model Degradation (t+6...)
+# Data Drift
 
-- Deliberately degrade the model's accuracy over time. Why? Shift in attributes, and predictions.
-- Introduce data drift, and concept drift as concepts.
-- This is where alerting can be showcased through App Insights, and Power BI.
-- Use of data drift monitor.
+A couple of things to note:
+- Show how data was collected at the endpoint.
+- The data drift monitor has been operational every day since it started, and highlighted that there are no
+  major changes in the distributions, or the categories of the data feeding the model.
+- There are 2 new attributes that the business onboarded.
+- They anticipate little to no changes to the algorithm being used.
 
-- Change the underlying assumptions on the model side.
-- In our case, this is likely going to be changes on the 'data drift'. " To detect data drift, we can trigger
-  data factory pipelines weekly that analyze the dataset profiles, with data validation tests."
+https://github.com/ts-azure-services/aml-datadrift
 
-- How do we handle these situations?
-	- Establish a new pipeline, with data after xyz date and train a new model
-	- In practice, are the changes this dramatic?
-
+## Requirements
+- Show how the re-training works with snapshots.
+- Show how the re-deployment works, including the lineage aspects.

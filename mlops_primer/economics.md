@@ -1,4 +1,4 @@
-# Economics
+# Cost of the Model 
 It's been stressed before that prioritizing machine learning projects is a function of impact and cost.
 Considering the 'cost' of running the above scenarios, we can see the full bill broken out as follows:
 	- Initial training $xxx

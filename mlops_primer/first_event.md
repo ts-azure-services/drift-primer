@@ -1,22 +1,40 @@
-# The First Train (t+3...)
-A few months into the use of the ML model, the business is pleased at how the predictive capabilities of the
-pipeline are now saving time, and producing results that demonstrate accuracy.  The model is accurate (show
-this with a comparison of residuals vs. predictions - new dataset to create...), and the business is getting
-comfortable with the use of ML in their activities. A great win!
+# Three Months Later...
+A few months into the use of the ML model, the business is pleased at both the use of the model to identify
+potential churned customers, and the internal cultural and process changes that marketing is continuing to
+drive to improve customer retention. Though the churn rate has not dramatically improved, the learnings from
+the model coupled with the ongoing short-term and long-term investments feels a much better step in the right
+direction.
 
-As a policy, the MLOps team has decided to never let the model 'get stale' beyond 3 months. Three months have
-passed and the team is ready to re-train the model, and re-deploy it.
+The MLOps team is encouraged by the progress. But now that three months have passed, they are intersted in
+ensuring the model continues to be retrained on more recent data. As a policy, and in agreement with the
+business, an early goal had been not to let data grow stale beyond a few months.
 
-- How is the model performing with respect to the actuals?
-	- Can only establish this by setting some standard for ground truth. Some assumption has to inform
-	  this.
-	- How can we show how this is being tracked against the new data? Compare the old model against the
-	  new observations. How does the old model do on the new data? How does the new model do on the old
-	  data?
+As part of the ongoing monitoring, there has been no significant degradation in the model performance. Still,
+they would like to retrain on a fresh batch of data, and test if the new model performs equally well, or
+consistent with the old model. It's an opportunity to:
+	- Test the new model on the old data
+	- Test the old model on the new data
+
+Based on the above, they can take a call on whether to keep the existing model in operation, or push a new
+model into production. This is also where having the original pipeline which trained the model will come in
+handy since this allows for reusability of the same workflows.
+
+## Steps involved
+- Retrain using the existing pipeline
+- Show accuracy of the new model on the old data
+- Show accuracy of the old model on the new data
+
+
+## Considerations
+- For simulating this scenario, a simulated dataset has been created which mimics similar distributions and
+  input/output relationships from the original dataset. The retraining process should yield a model that is
+  fairly close in accuracy to the original model. As mentioned in the 'The Business Scenario', establishing
+  ground truth for a customer that has actually churned is a function of both time lag since recent
+  transactions and part of the marketing team labelling customers who have decided to leave the service.
+
+
 
 A couple of things to note:
-- Since they had a pipeline trained and ready, this is re-usable and just needs to account for the full
-  dataset.
 - Show how data was collected at the endpoint.
 - The data drift monitor has been operational every day since it started, and highlighted that there are no
   major changes in the distributions, or the categories of the data feeding the model.
