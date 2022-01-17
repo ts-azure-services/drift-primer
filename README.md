@@ -1,10 +1,8 @@
 # mlops-csa-playbook
-- A repo to educate on the MLOps process, with a case study in practice.
-- Meant to support iterative CSA education on this topic.
-
-Feedback from meeting:
-- The real litmus test for whether this is impactful is if this is useful to a customer and drives MLOps
-  conversations. After completing this, we want to take this to customers like Trimble, Workday, etc. and see
-  if this is consumable and addresses questions around the AML platform.
-- A lot of existing documentation and collateral can quickly become overwhelming because you start clicking on all the links. For this book, minimize the potential to "click away" and keep the narrative moving forward.
-- We are picking 'predicting churn' as a generalized problem across enterprises to illustrate MLOps concepts in AML. This should not be construed to be our recommendation for how to predict churn since these capabilities exist in various products. We are merely using this dataset and storyline to highlight capabilities of the platform, in the context of MLOps.
+- A repo to educate on the MLOps process in Azure Machine Learning, completed with a case study for illustration.
+- Meant to support continuing CSA education on the MLOps process.
+- Intended to support and share with customers to support MLOps practices.
+- Setup as a Jupyter book, minimizing cross-referenced links to keep the design simple and consummable.
+- Leverages 'customer churn' as the general theme to illustrate the MLOps process in AML. This is not intended
+  to the best practice recommendation for how to predict customer churn using Microsoft/Azure products &
+  services.
