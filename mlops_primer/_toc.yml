@@ -23,3 +23,6 @@ parts:
     - file: second_event
     - file: third_event
     - file: fourth_event
+  - caption: Other
+    chapters:
+    - file: economics
