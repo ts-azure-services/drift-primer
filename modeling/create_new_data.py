@@ -69,6 +69,7 @@ def transform_original_dataset():
     df = df.drop(['TotalCharges', 'MonthlyCharges', 'tenure'], axis=1)
     df['monthly_charges_bins'] = df['monthly_charges_bins'].astype(object)
     df['tenure_bins'] = df['tenure_bins'].astype(object)
+    df.to_csv('./../datasets/baseline_revised.csv', encoding='utf-8', index=False)
 
     # Groupby unique combinations
     col_list = list(df.columns)
@@ -155,7 +156,7 @@ def create_lookup(df=None, attribute_cols=None, volume=None):
         'new_customer_count_int',
         'new_customer_optimized'
         ], axis=1)
-    final_df.to_csv('final_df.csv', encoding='utf-8', index=False)
+    final_df.to_csv('./../datasets/three_months_after.csv', encoding='utf-8', index=False)
 
 
 def main():
