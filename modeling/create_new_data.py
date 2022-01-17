@@ -2,6 +2,7 @@
 import math
 import uuid
 import time
+import random
 import pandas as pd
 import numpy as np
 
@@ -59,7 +60,7 @@ def integer_alignment(
 def transform_original_dataset():
 
     # Initial transformations
-    df = pd.read_csv('./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+    df = pd.read_csv('./../datasets/original/WA_Fn-UseC_-Telco-Customer-Churn.csv')
     df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
     df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
 
@@ -143,6 +144,9 @@ def create_lookup(df=None, attribute_cols=None, volume=None):
         # Append the temp_df results to the final dataframe
         final_df = final_df.append(temp_df)
 
+    # Assert that the final dataframe equals the volume inputted into the function
+    assert len(final_df) == volume
+
     # Shuffle the final result, and produce output
     final_df = final_df.sample(frac=1)
     final_df = final_df.reset_index(drop=True)
@@ -166,10 +170,12 @@ def main():
     df, attribute_cols = transform_original_dataset()
 
     # Use original dataset to create a blueprint for simulating data
+    min_vol = 6900
+    max_vol = 7200
     create_lookup(
             df = df,
             attribute_cols= attribute_cols,
-            volume = 7200
+            volume = random.randint(min_vol, max_vol)
             )
 
     print('Entire script took %s seconds' % (time.time() - start_time))
