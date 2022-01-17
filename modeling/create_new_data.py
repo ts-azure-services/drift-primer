@@ -58,6 +58,7 @@ def integer_alignment(
     return base_list, change_list, base_list_sum, change_list_sum
 
 def transform_original_dataset():
+    """Get original dataset into transformed state"""
 
     # Initial transformations
     df = pd.read_csv('./../datasets/original/WA_Fn-UseC_-Telco-Customer-Churn.csv')
@@ -78,23 +79,32 @@ def transform_original_dataset():
     attribute_cols = list( set(col_list) - set(non_attribute_cols) )
     return df, attribute_cols
 
-def create_lookup(df=None, attribute_cols=None, volume=None):
+def create_lookup(
+        df=None,
+        attribute_cols=None,
+        volume=None,
+        churn_factor=None
+        ):
+    """Create lookup blueprint"""
 
     # Groupby to get unique combinations
-    temp_df = df.groupby(by=attribute_cols).agg({
+    new_df = df.groupby(by=attribute_cols).agg({
         'customerID':'count',
         'Churn':['sum']#,'count']
         })
-    temp_df.columns = ['original_customer_count', 'original_churn_sum']#, 'churn_count']
+    new_df.columns = ['original_customer_count', 'original_churn_sum']#, 'churn_count']
 
     # Convert to new df
-    new_df = temp_df.reset_index()
-    new_df['original_churn_ratio'] = new_df['original_churn_sum'] / new_df['original_customer_count']
+    new_df = new_df.reset_index()
     new_df['original_customer_ratio'] = new_df['original_customer_count'] / new_df['original_customer_count'].sum()
 
+    # Calculate churn, adjust for any factor
+    new_df['original_churn_ratio'] = new_df['original_churn_sum'] / new_df['original_customer_count']
+    if churn_factor is not None:
+        new_df['original_churn_ratio'] = new_df['original_churn_ratio'] * churn_factor
+
     # Distribute customer totals
-    new_vol = volume
-    new_df['new_customer_count_float'] = new_df['original_customer_ratio'] * new_vol
+    new_df['new_customer_count_float'] = new_df['original_customer_ratio'] * volume
     new_df['new_customer_count_int'] = new_df.apply(lambda x: round_logic(x['new_customer_count_float']), axis=1)
 
     # Sort to get the most volume for reconciling
@@ -109,7 +119,7 @@ def create_lookup(df=None, attribute_cols=None, volume=None):
             integer_alignment(
             base_list=cust_count_base_list,
             change_list=change_list,
-            target= new_vol,
+            target= volume,
             )
 
     new_df['new_customer_optimized'] = change_list
@@ -172,10 +182,12 @@ def main():
     # Use original dataset to create a blueprint for simulating data
     min_vol = 6900
     max_vol = 7200
+    churn_factor = 0.5
     create_lookup(
             df = df,
             attribute_cols= attribute_cols,
-            volume = random.randint(min_vol, max_vol)
+            volume = random.randint(min_vol, max_vol),
+            churn_factor= churn_factor
             )
 
     print('Entire script took %s seconds' % (time.time() - start_time))
