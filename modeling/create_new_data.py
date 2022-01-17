@@ -54,15 +54,12 @@ def integer_alignment(
                 change_list[i] = change_list[i] - 1
                 change_list_sum = sum(change_list)
                 i += 1
-    #print(f'original list: {base_list}')
-    #print(f'new list: {change_list}')
-    #print(f'target: {target}')
-    #print(f'sum of original list: {base_list_sum}')
-    #print(f'sum of new list: {change_list_sum}')
     return base_list, change_list, base_list_sum, change_list_sum
 
+def create_lookup():
+
+# Initial transformations
 df = pd.read_csv('./../datasets/input-data/WA_Fn-UseC_-Telco-Customer-Churn.csv')
-#df['TotalCharges'] = df['TotalCharges'].str.replace(r' ','0').astype(float)
 df['Churn'] = df['Churn'].apply(lambda x: 0 if x == "No" else 1)
 df['SeniorCitizen'] = df['SeniorCitizen'].apply(lambda x: "No" if x == 0 else "Yes")
 
@@ -73,7 +70,7 @@ df = df.drop(['TotalCharges', 'MonthlyCharges', 'tenure'], axis=1)
 df['monthly_charges_bins'] = df['monthly_charges_bins'].astype(object)
 df['tenure_bins'] = df['tenure_bins'].astype(object)
 
-
+# Groupby unique combinations
 col_list = list(df.columns)
 non_attribute_cols = ['customerID', 'MonthlyCharges', 'Churn']
 attribute_cols = list( set(col_list) - set(non_attribute_cols) )
@@ -116,16 +113,11 @@ new_df['new_churn_customers'] = new_df.apply(\
         lambda x: round_logic(x['new_churn_customers']),axis=1)\
         .astype(int)
 
-#print(new_df.info())
-#new_df.to_csv('temp.csv', encoding='utf-8', index=False)
-
 list_of_records = new_df.to_dict('records')
-#s1 = list_of_records[:2]
-s1 = list_of_records[:]
 
 final_df = pd.DataFrame()
 # Iterate through the dictionary to produce rows
-for dictionary in s1:
+for dictionary in list_of_records:
     # Initialize the temporary list and dataframe
     temp_customer_list = []
     temp_df = pd.DataFrame()
