@@ -2,9 +2,8 @@
 
 Welcome to the MLOps primer! 
 
-This is intended to be a complement to the <blah, blah consumption motion>. This
-is meant as a miniature training guide to help CSAs and customers better understand the MLOps process, and
-capabilities through Azure Machine Learning.
+This is intended to be a complement to the <xx consumption motion>, and a miniature training guide to help
+CSAs and customers better understand the MLOps process, and capabilities leveraging Azure Machine Learning.
 
 MLOps is often confused with just Devops and automation. This is a big part of it, but the added complication
 of managing a model's accuracy and understanding changes in data are areas that require additional thinking,
