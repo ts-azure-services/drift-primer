@@ -130,6 +130,7 @@ def create_lookup(
     new_df['new_churn_customers'] = new_df.apply(\
             lambda x: round_logic(x['new_churn_customers']),axis=1)\
             .astype(int)
+    new_df.to_csv('newdf.csv', index=False, encoding='utf-8')
 
     list_of_records = new_df.to_dict('records')
 
@@ -182,7 +183,8 @@ def main():
     # Use original dataset to create a blueprint for simulating data
     min_vol = 6900
     max_vol = 7200
-    churn_factor = 0.1
+    #churn_factor = 0.1
+    churn_factor = None
     create_lookup(
             df = df,
             attribute_cols= attribute_cols,
