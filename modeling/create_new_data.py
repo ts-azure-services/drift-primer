@@ -87,12 +87,12 @@ def create_lookup(
         volume=None,
         churn_factor=None
         ):
-    """Create lookup bluelogging.info"""
+    """Create lookup blueprint"""
 
     # Groupby to get unique combinations
     new_df = df.groupby(by=attribute_cols).agg({
         'customerID':'count',
-        'Churn':['sum']#,'count']
+        'Churn':['sum']
         })
     new_df.columns = ['original_customer_count', 'original_churn_sum']#, 'churn_count']
 
