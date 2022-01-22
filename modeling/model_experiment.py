@@ -104,7 +104,7 @@ def main():
             )
 
     # Retrieve results
-    best_run, fitted_model = run.get_output()
+    _, fitted_model = run.get_output()
     print(f"\033[1;32;40m The fitted model is: {fitted_model}.\033[0;0m")
 
     # Convert test dataframe in features/target

@@ -1,4 +1,3 @@
-import math
 import pandas as pd
 
 def get_ratios(df = None, column_name=None):
