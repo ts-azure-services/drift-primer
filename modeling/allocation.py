@@ -36,7 +36,7 @@ def create_adjusted_list(
         temp_dict=None
         ):
     """Create the adjusted list for the specified column"""
-    original_column_df = column_df
+    temp_column_df = column_df.copy()
 
     if sum(temp_dict.values()) == 0:
 
@@ -46,7 +46,7 @@ def create_adjusted_list(
 
             # Test if marklist has elements
             if not marklist:
-                print('No elements in dictionary')
+                print('No elements left in dictionary')
                 break
 
             # Sort the dictionary
@@ -67,9 +67,10 @@ def create_adjusted_list(
                 temp_dict = rem_key
 
                 # Augment the dataframe for the LHS, for the exact number on RHS
-                temporary_slice = column_df[ column_df[column_name] == keys[0] ].copy()
-                temporary_slice = temporary_slice.sample(n=abs(result))
-                column_df.loc[temporary_slice.index, column_name] == keys[ len(keys) - 1 ]
+                t_slice = temp_column_df[ temp_column_df[column_name] == keys[0] ]
+                t_slice = t_slice.sample(n=abs(rhs))
+                replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
+                temp_column_df.loc[t_slice.index, column_name] = replacement_list
 
             elif result < 0:
                 rem_key = {n_key:n_val for n_key, n_val in sortdict.items() if n_val != lhs}
@@ -78,9 +79,10 @@ def create_adjusted_list(
                 temp_dict[keys[0]] = result
 
                 # Augment the dataframe for the LHS, for the exact number on RHS
-                temporary_slice = column_df[ column_df[column_name] == keys[0] ].copy()
-                temporary_slice = temporary_slice.sample(n=abs(result))
-                column_df.loc[temporary_slice.index, column_name] == keys[ len(keys) - 1 ]
+                t_slice = temp_column_df[ temp_column_df[column_name] == keys[0] ]
+                t_slice = t_slice.sample(n=abs(rhs))
+                replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
+                temp_column_df.loc[t_slice.index, column_name] = replacement_list
 
             #else:
             #    rem_key = {n_key:n_val for n_key, n_val in sortdict.items() if n_val != lhs}
@@ -89,14 +91,14 @@ def create_adjusted_list(
             #    temp_dict[keys[len(values)-1]] = result
 
             #    # Augment the dataframe for the LHS, for the exact number on RHS
-            #    temporary_slice = column_df[ column_df[column_name] == key[0] ].copy()
-            #    temporary_slice = temporary_slice.sample(n=abs(result))
-            #    column_df.loc[temporary_slice.index, column_name] == key[ len(keys) - 1 ]
+            #    t_slice = column_df[ column_df[column_name] == key[0] ].copy()
+            #    t_slice = t_slice.sample(n=abs(result))
+            #    column_df.loc[t_slice.index, column_name] == key[ len(keys) - 1 ]
 
             #print(result)
             print(f'New list: {temp_dict}')
 
-    return original_column_df, column_df
+    return column_df, temp_column_df
 
 def main():
 
@@ -108,15 +110,14 @@ def main():
     temp_dict = get_ratios(df=df, column_name=column_name)
 
     # Pass in the list to adjust to get the adjusted list
-    original_df, column_df = create_adjusted_list(
+    column_df, temp_column_df = create_adjusted_list(
             column_df=df[[column_name]], 
             column_name=column_name, 
             temp_dict=temp_dict
             )
 
-    original_df.to_csv('originaldf.csv', encoding='utf-8')
-    column_df.to_csv('columndf.csv', encoding='utf-8')
-    print(column_df)
+    combined_df = pd.merge(column_df, temp_column_df, left_index=True, right_index=True)
+    combined_df.to_csv('COMBINED.csv', encoding='utf-8')
 
 if __name__ == "__main__":
     main()
