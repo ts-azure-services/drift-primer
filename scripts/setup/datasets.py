@@ -3,6 +3,8 @@ from pathlib import Path
 from authentication import ws
 from azureml.core import Dataset
 from azureml.data.dataset_factory import DataType
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def data_filepaths(data_folder=None):
     """Get full paths to discrete data files"""
@@ -18,9 +20,9 @@ def register_dataset(dataset=None, workspace=None, name=None, desc=None,tags=Non
     """Register datasets"""
     try:
         dataset = dataset.register(workspace=workspace,name=name,description=desc,tags=tags,create_new_version=True)
-        print(f" Dataset registration successful for {name}")
+        logging.info(f" Dataset registration successful for {name}")
     except Exception as e:
-        print(f" Exception in registering dataset. Error is {e}")
+        logging.info(f" Exception in registering dataset. Error is {e}")
 
 def main():
     """Main operational flow"""

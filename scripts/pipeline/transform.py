@@ -2,6 +2,8 @@
 import os, datetime, random, argparse
 import pandas as pd
 import datetime as dt
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def getArgs(argv=None):
     parser = argparse.ArgumentParser(description="filepaths")
@@ -26,8 +28,8 @@ def transform(source=None):
 
 if __name__ == "__main__":
     args = getArgs()
-    print(f'Input args: {args.input_file_path}')
-    print(f'Output args: {args.output_file_path}')
-    print(f'Filename: {args.filename}')
+    logging.info(f'Input args: {args.input_file_path}')
+    logging.info(f'Output args: {args.output_file_path}')
+    logging.info(f'Filename: {args.filename}')
     df = transform(source=args.input_file_path)
     df.to_csv(args.output_file_path + '/' + args.filename, index=False)

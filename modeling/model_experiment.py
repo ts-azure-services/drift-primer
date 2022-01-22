@@ -11,6 +11,8 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import itertools
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def split_data(df=None, frac=None):
     """Split data into train/test"""
@@ -105,14 +107,14 @@ def main():
 
     # Retrieve results
     _, fitted_model = run.get_output()
-    print(f"\033[1;32;40m The fitted model is: {fitted_model}.\033[0;0m")
+    logging.info(f"\033[1;32;40m The fitted model is: {fitted_model}.\033[0;0m")
 
     # Convert test dataframe in features/target
     # Predict with model
     x_test = test.drop('Churn', axis=1)
     y_test = test['Churn'].to_frame()
     y_pred = fitted_model.predict( x_test )
-    print(f"\033[1;32;40m The 'y_pred' array is: {y_pred}.\033[0;0m")
+    logging.info(f"\033[1;32;40m The 'y_pred' array is: {y_pred}.\033[0;0m")
     
     # Download the fitted model
 

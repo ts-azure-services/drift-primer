@@ -5,6 +5,8 @@ import time
 import random
 import pandas as pd
 import numpy as np
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
@@ -85,7 +87,7 @@ def create_lookup(
         volume=None,
         churn_factor=None
         ):
-    """Create lookup blueprint"""
+    """Create lookup bluelogging.info"""
 
     # Groupby to get unique combinations
     new_df = df.groupby(by=attribute_cols).agg({
@@ -141,7 +143,7 @@ def create_lookup(
         temp_customer_list = []
         temp_df = pd.DataFrame()
 
-        # Iterate through each blueprint to produce rows
+        # Iterate through each bluelogging.info to produce rows
         for i in range(dictionary['new_customer_optimized']):
             temp_dict = dictionary.copy()
             temp_dict.update({'customerID': str(uuid.uuid1())})
@@ -180,7 +182,7 @@ def main():
     # Load, and transform original dataset
     df, attribute_cols = transform_original_dataset()
 
-    # Use original dataset to create a blueprint for simulating data
+    # Use original dataset to create a bluelogging.info for simulating data
     min_vol = 6900
     max_vol = 7200
     #churn_factor = 0.1
@@ -192,7 +194,7 @@ def main():
             churn_factor= churn_factor
             )
 
-    print('Entire script took %s seconds' % (time.time() - start_time))
+    logging.info('Entire script took %s seconds' % (time.time() - start_time))
 
 if __name__ == "__main__":
     main()

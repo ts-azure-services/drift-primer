@@ -1,4 +1,6 @@
 import pandas as pd
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def get_ratios(df = None, column_name=None):
     """Get ratios for specified column from original dataset"""
@@ -22,11 +24,11 @@ def get_ratios(df = None, column_name=None):
     # Apply back the total to the list
     df['new_allocation'] = new_customer_totals
     df['delta'] = df['new_allocation'] - df['customer_count']
-    print(new_customer_totals)
-    print(df)
+    logging.info(new_customer_totals)
+    logging.info(df)
 
     delta_dict = dict(zip(df[column_name], df['delta']))
-    print(f'Delta dict: {delta_dict}')
+    logging.info(f'Delta dict: {delta_dict}')
     return delta_dict
 
 def create_adjusted_list(
@@ -45,12 +47,12 @@ def create_adjusted_list(
 
             # Test if marklist has elements
             if not marklist:
-                print('No elements left in dictionary')
+                logging.info('No elements left in dictionary')
                 break
 
             # Sort the dictionary
             sortdict = dict(marklist)
-            print(f'Sorted dictionary: {sortdict}')
+            logging.info(f'Sorted dictionary: {sortdict}')
 
             keys = list ( sortdict.keys() )
             values = list ( sortdict.values() )
@@ -94,8 +96,8 @@ def create_adjusted_list(
             #    t_slice = t_slice.sample(n=abs(result))
             #    column_df.loc[t_slice.index, column_name] == key[ len(keys) - 1 ]
 
-            #print(result)
-            print(f'New list: {temp_dict}')
+            #logging.info(result)
+            logging.info(f'New list: {temp_dict}')
 
     return column_df, temp_column_df
 

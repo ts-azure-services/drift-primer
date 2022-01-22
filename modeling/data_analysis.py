@@ -1,4 +1,6 @@
 import pandas as pd
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
     """Bin data for specific columns"""
@@ -32,7 +34,7 @@ def attribute_col_ratio(df=None, col_list=None):
     for i in col_list:
         temp_df = df['customerID'].groupby(df[i]).count().to_frame()
         temp_df['percent'] = temp_df['customerID'] / temp_df['customerID'].sum()
-        print(f'Customer count by {i}:\n{temp_df}\n')
+        logging.info(f'Customer count by {i}:\n{temp_df}\n')
 
 
 def churn_ratio_by_attribute(df=None, col_list=None):
@@ -42,19 +44,19 @@ def churn_ratio_by_attribute(df=None, col_list=None):
         temp_df = df.groupby(i).agg({'Churn': ['sum','count']})
         temp_df.columns = ['sum', 'count']
         temp_df['percent'] = temp_df['sum'] / temp_df['count']
-        print(f'For {i}, the dataframe is:\n {temp_df}\n')
+        logging.info(f'For {i}, the dataframe is:\n {temp_df}\n')
 
 
 def numeric_col_spreads(df=None, non_numeric_cols=None):
     """Showcase metrics by discrete combinations"""
     #non_numeric_cols.append('Churn')
-    print(non_numeric_cols)
+    logging.info(non_numeric_cols)
     temp_df = df.groupby(non_numeric_cols).\
         agg({'Churn': ['min','mean', 'median', 'max', 'sum', 'count']})
     temp_df.columns = ['min', 'mean', 'median', 'max', 'sum', 'count']
-    print(temp_df.head())
-    print(temp_df.columns)
-    print(temp_df.index)
+    logging.info(temp_df.head())
+    logging.info(temp_df.columns)
+    logging.info(temp_df.index)
 
 
 def main():

@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 def main():
@@ -23,7 +25,7 @@ def main():
         temp_df = temp_df.pivot_table(index=i, columns='Period', values='customer_count')
         temp_df['M0%'] = temp_df['M0'] / temp_df['M0'].sum()
         temp_df['M1%'] = temp_df['M1'] / temp_df['M1'].sum()
-        print(f'For {i}, the dataframe is:\n {temp_df}\n')
+        logging.info(f'For {i}, the dataframe is:\n {temp_df}\n')
 
     # Compare churn ratios
     for i in attribute_cols:
@@ -33,7 +35,7 @@ def main():
         temp_df.columns = ['M0_count', 'M1_count', 'M0_sum', 'M1_sum']
         temp_df['M0-Churn'] = temp_df['M0_sum'] / temp_df['M0_count']
         temp_df['M1-Churn'] = temp_df['M1_sum'] / temp_df['M1_count']
-        print(f'For {i}, the dataframe is:\n {temp_df}\n')
+        logging.info(f'For {i}, the dataframe is:\n {temp_df}\n')
 
 
 if __name__ == "__main__":
