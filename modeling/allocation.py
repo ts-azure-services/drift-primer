@@ -85,18 +85,6 @@ def create_adjusted_list(
                 replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
                 temp_column_df.loc[t_slice.index, column_name] = replacement_list
 
-            #else:
-            #    rem_key = {n_key:n_val for n_key, n_val in sortdict.items() if n_val != lhs}
-            #    rem_key = {n_key:n_val for n_key, n_val in rem_key.items() if n_val != rhs}
-            #    temp_dict = rem_key
-            #    temp_dict[keys[len(values)-1]] = result
-
-            #    # Augment the dataframe for the LHS, for the exact number on RHS
-            #    t_slice = column_df[ column_df[column_name] == key[0] ].copy()
-            #    t_slice = t_slice.sample(n=abs(result))
-            #    column_df.loc[t_slice.index, column_name] == key[ len(keys) - 1 ]
-
-            #logging.info(result)
             logging.info(f'New list: {temp_dict}')
 
     return column_df, temp_column_df
@@ -106,8 +94,8 @@ def main():
     # Get original data
     df = pd.read_csv('./../datasets/original/WA_Fn-UseC_-Telco-Customer-Churn.csv')
 
-    # Get delta ratios
-    column_name = 'PaymentMethod'
+    # Get delta ratios, based on the new ratio
+    column_name = 'Contract'
     temp_dict = get_ratios(df=df, column_name=column_name)
 
     # Pass in the list to adjust to get the adjusted list
@@ -117,8 +105,13 @@ def main():
             temp_dict=temp_dict
             )
 
+    # Check if variances have been accounted for
     combined_df = pd.merge(column_df, temp_column_df, left_index=True, right_index=True)
     combined_df.to_csv('COMBINED.csv', encoding='utf-8')
+
+    # Adjust the new column on the dataframe
+    df[column_name] = temp_column_df
+    df.to_csv('FINAL.csv', encoding='utf-8')
 
 if __name__ == "__main__":
     main()
