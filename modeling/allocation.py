@@ -92,7 +92,8 @@ def create_adjusted_list(
 def main():
 
     # Get original data
-    df = pd.read_csv('./../datasets/original/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+    #df = pd.read_csv('./../datasets/original/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+    df = pd.read_csv('./../datasets/baseline_revised.csv')
 
     # Get delta ratios, based on the new ratio
     column_name = 'Contract'
@@ -105,9 +106,9 @@ def main():
             temp_dict=temp_dict
             )
 
-    # Check if variances have been accounted for
-    combined_df = pd.merge(column_df, temp_column_df, left_index=True, right_index=True)
-    combined_df.to_csv('COMBINED.csv', encoding='utf-8')
+    ## Check if variances have been accounted for
+    #combined_df = pd.merge(column_df, temp_column_df, left_index=True, right_index=True)
+    #combined_df.to_csv('COMBINED.csv', encoding='utf-8')
 
     # Adjust the new column on the dataframe
     df[column_name] = temp_column_df
