@@ -1,4 +1,4 @@
-# mlops-csa-playbook
+# mlops-primer
 - Goal: Provide education on the MLOps process in Azure Machine Learning.
 - Setup as a Jupyter book, minimizing cross-referenced links to keep focus and keep content consumable.
 - Leverages 'customer churn' as the general theme to illustrate the MLOps process in AML. This is not intended
