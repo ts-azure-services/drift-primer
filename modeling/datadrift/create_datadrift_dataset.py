@@ -17,7 +17,7 @@ def main():
     temp_dict = get_ratios(df=df, column_name=column_name)
 
     # Pass in the list to adjust to get the adjusted list
-    column_df, temp_column_df = create_adjusted_list(
+    _, temp_column_df = create_adjusted_list(
             column_df=df[[column_name]], 
             column_name=column_name, 
             temp_dict=temp_dict

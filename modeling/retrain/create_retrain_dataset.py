@@ -3,12 +3,8 @@ import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from modeling.datamodeling.common import transform_original_dataset, create_lookup
-import math
-import uuid
 import time
 import random
-import pandas as pd
-import numpy as np
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
@@ -32,7 +28,7 @@ def main():
             dataset_name='retrain_dataset'
             )
 
-    logging.info('Entire script took %s seconds' % (time.time() - start_time))
+    logging.info('Entire script took %s seconds', (time.time() - start_time))
 
 if __name__ == "__main__":
     main()
