@@ -14,4 +14,6 @@ To help illustrate some of the challenges, we have taken an approach of <focusin
 considerations that crop up, and specifically how AML offers capabilities to manage the whole lifecycle.> As
 the product changes, we will update sections for this, and do our best to keep this a living document.
 
-Behind this notebook sits an exhaustive set of scripts
+Behind this notebook and content sits a full working deployment that can be accessed
+[here](https://github.com/ts-azure-services/mlops-primer/tree/main/scripts). The goal of this is to ensure
+individuals can follow along and reproduce the same results.
