@@ -1,5 +1,5 @@
 # in _config.yml
 title: "MLOPs Primer"
-logo: dilbert.jpeg
+logo: aml_logo.png
 execute:
   execute_notebooks: "off"
