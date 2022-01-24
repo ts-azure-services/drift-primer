@@ -9,3 +9,5 @@ Considering the 'cost' of running the above scenarios, we can see the full bill 
 - This needs to be judged against the impact of the efforts to identify customers and then work with them to
   ensure better retention. If the cost of acquiring a net new customer is $x, and this improves the process of
   retention, this well have paid have resulted in an ROI of 10x. 
+
+<span style="color:red">**show example**</span>
