@@ -13,3 +13,5 @@ and stay production worthy.
 To help illustrate some of the challenges, we have taken an approach of <focusing more on the post deployment
 considerations that crop up, and specifically how AML offers capabilities to manage the whole lifecycle.> As
 the product changes, we will update sections for this, and do our best to keep this a living document.
+
+Behind this notebook sits an exhaustive set of scripts
