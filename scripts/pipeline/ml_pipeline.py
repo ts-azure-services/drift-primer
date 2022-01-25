@@ -104,24 +104,6 @@ def main():
         allow_reuse=False
         )
 
-    ## Pipeline step 3: Register the transformed dataset
-    #prepped_data = OutputFileDatasetConfig(destination=(def_blob_store,'/prep3/')).as_mount()
-    #prepped_filename = 'step3output'
-    #processed_step = PythonScriptStep(
-    #    name="Register the transformed dataset",
-    #    source_directory=".",
-    #    script_name="register_dataset.py",
-    #    compute_target=compute_target,
-    #    arguments=[
-    #        "--input_file_path", intermediate_source.as_input(),
-    #        "--filename", intermediate_filename,
-    #        "--output_file_path", prepped_data,
-    #        "--output_filename", prepped_filename
-    #        ],
-    #    runconfig=run_config,
-    #    allow_reuse=False
-    #)
-
     ## Pipeline step 3: Train the model
     # Ensure that when you run the read_delimited_files it does not absorb more files than needed
     prepped_data = train_df_transformed_source.read_delimited_files()
