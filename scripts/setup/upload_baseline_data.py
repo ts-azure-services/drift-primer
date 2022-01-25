@@ -1,4 +1,4 @@
-"""Script to upload and register the baseline dataset"""
+"""Script to upload and register the baseline dataset as a tabular dataset"""
 import sys
 import logging
 import os

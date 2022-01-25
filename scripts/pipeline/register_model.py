@@ -1,5 +1,8 @@
 import argparse
-from authentication import ws
+import sys
+import os.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
+from scripts.authentication.service_principal import ws
 from azureml.core.model import Model, Dataset
 from azureml.core.run import Run, _OfflineRun
 import logging
