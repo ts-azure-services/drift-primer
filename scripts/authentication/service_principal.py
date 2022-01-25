@@ -3,8 +3,14 @@ from dotenv import load_dotenv
 from azureml.core import Workspace
 from azureml.core.authentication import ServicePrincipalAuthentication
 
-# Load env variables
-env_var=load_dotenv('./variables.env')
+## Load env variables
+#env_var=load_dotenv('./variables.env')
+# Load env variables, and ensure it accounts for various file paths
+path_list = ['./variables.env', './../../variables.env', './sample.env']
+for i in path_list:
+    if os.path.isfile(i) is True:
+        env_var = load_dotenv(i) # this equates to True irrespective if a file is found
+        break
 
 auth_dict = {
         "client_id":os.environ['CLIENT_ID'],

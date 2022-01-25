@@ -1,17 +1,28 @@
+import argparse
 import sys
 import os.path
+import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
 from azureml.core import Dataset
-#from azureml.data.dataset_factory import DataType
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
+def getArgs(argv=None):
+    parser = argparse.ArgumentParser(description="filepaths")
+    parser.add_argument("--input_file_path", help='Input file path')
+    parser.add_argument("--output_file_path", help='Output file path')
+    parser.add_argument("--output_filename", help='Output filename')
+    return parser.parse_args(argv)
 
-def register_train_test_split(fd=None, def_blob_store=None):
+
+def register_train_test_split(source=None):
     # Create dataframe out of registered dataset
-    df = fd.to_pandas_dataframe()
-    df = df.reset_index()
+    #df = pd.read_csv(source, engine='python')
+    def_blob_store = ws.get_default_datastore()
+    ds = Dataset.get_by_id(ws, id=source)
+    df = ds.to_pandas_dataframe()
+    df = df.reset_index(drop=True)
 
     # Create train, test splits
     train = df.sample(frac=0.9, random_state=200)
@@ -38,22 +49,21 @@ def register_train_test_split(fd=None, def_blob_store=None):
             description='90% of baseline dataset reserved for testing'
             )
 
+    # Reset index
+    train = train.reset_index()
+
+    return train
+
 
 def main():
     """Main operational flow"""
-    # Set target locations, retrieve default blob store and upload files
-    #target_def_blob_store_path = '/blob-input-data/'
-    def_blob_store = ws.get_default_datastore()
+    args = getArgs()
+    logging.info(f'Input args: {args.input_file_path}')
+    logging.info(f'Output args: {args.output_file_path}')
+    logging.info(f'Filename: {args.output_filename}')
+    train_df = register_train_test_split(source=args.input_file_path)
+    train_df.to_csv(args.output_file_path + '/' + args.output_filename, index=False)
 
-    # Get the registered baseline dataset
-    #datastore_paths = [(def_blob_store, str(target_def_blob_store_path))]
-    fd = Dataset.get_by_name(name='Baseline Dataset', workspace=ws)
-
-    # Create test, train set
-    register_train_test_split(
-            fd = fd, 
-            def_blob_store = def_blob_store
-            )
 
 if __name__ == "__main__":
     main() 

@@ -1,4 +1,4 @@
-"""Script to upload CSV files"""
+"""Script to upload and register the baseline dataset"""
 import sys
 import logging
 import os
@@ -7,6 +7,7 @@ from azureml.core import Dataset
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
 from pathlib import Path
+logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def register_dataset(dataset=None, workspace=None, name=None, desc=None,tags=None):
     """Register datasets"""
@@ -40,11 +41,12 @@ def upload_files_from_local(
 
     # Get input data files from local
     data_file_paths = data_filepaths(data_folder = local_data_folder)
+    logging.info(f'Data file paths: {data_file_paths}')
 
     # Upload files to blob store
     def_blob_store.upload_files(
-            files=data_file_paths,
-            target_path=target_def_blob_store_path,
+            files = data_file_paths,
+            target_path = target_def_blob_store_path,
            overwrite=True,
             show_progress=True
             )
@@ -55,7 +57,7 @@ def main():
     target_def_blob_store_path = '/blob-input-data/'
     def_blob_store = ws.get_default_datastore()
 
-    # Upload files
+    # Upload files to blob store
     upload_files_from_local(
             local_data_folder=local_data_folder,
             target_def_blob_store_path=target_def_blob_store_path,
@@ -64,6 +66,7 @@ def main():
 
     # Register the dataset
     datastore_paths = [(def_blob_store, str(target_def_blob_store_path))]
+    #fd = Dataset.File.from_files(path=datastore_paths)
     fd = Dataset.Tabular.from_delimited_files(path=datastore_paths)
     register_dataset(dataset=fd, workspace=ws, name='Baseline Dataset')
 
