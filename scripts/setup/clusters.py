@@ -1,7 +1,10 @@
-from authentication import ws
 from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
 import logging
+import sys
+import os.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
+from scripts.authentication.service_principal import ws
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 def create_compute_cluster(workspace=None, compute_name=None):

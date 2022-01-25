@@ -1,9 +1,12 @@
 """Script to upload CSV files"""
 import sys
+import logging
 import os
-from pathlib import Path
+import os.path
+from azureml.core import Dataset
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
+from pathlib import Path
 
 def register_dataset(dataset=None, workspace=None, name=None, desc=None,tags=None):
     """Register datasets"""
@@ -18,6 +21,16 @@ def register_dataset(dataset=None, workspace=None, name=None, desc=None,tags=Non
         logging.info(f" Dataset registration successful for {name}")
     except Exception as e:
         logging.info(f" Exception in registering dataset. Error is {e}")
+
+def data_filepaths(data_folder=None):
+    """Get full paths to discrete data files"""
+    full_filepaths = []
+    absolute_path = Path(data_folder).absolute()
+    data_files = os.listdir(data_folder)
+    for file in data_files:
+        file_with_path = str(absolute_path) + '/' + str(file)
+        full_filepaths.append(file_with_path)
+    return full_filepaths
 
 def upload_files_from_local(
         local_data_folder=None,
