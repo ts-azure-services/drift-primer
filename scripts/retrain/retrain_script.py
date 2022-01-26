@@ -13,6 +13,7 @@ from azureml.core.experiment import Experiment
 from azureml.core.compute import ComputeTarget
 from azureml.core.runconfig import RunConfiguration
 from azureml.train.automl import AutoMLConfig
+from azureml.train.automl.run import AutoMLRun
 from azureml.core.run import Run, _OfflineRun
 from azureml.core.model import Model
 import logging
@@ -60,42 +61,52 @@ def model_train(dataset=None, compute_target=None, experiment_name=None):
             }
     automl_config = AutoMLConfig(**automl_settings)
     experiment = Experiment(ws, experiment_name)
-    run = experiment.submit(automl_config, show_output=True, wait_post_processing=True)
-    run.wait_for_completion()
-    run_context = run.get_context()
-    logging.info(f'Run details: {run}')
-    logging.info(f'Run details: {run_context}')
-    return run
+    remote_run = experiment.submit(automl_config, show_output=True, wait_post_processing=True)
+    remote_run.wait_for_completion()
+    logging.info(f'Run details: {remote_run}')
 
+    # Convert to AutoMLRun object
+    remote_run = AutoMLRun(experiment, run_id=remote_run.id)
+    return remote_run
 
-def register_best_model(run=None):
-    """Register the best model from the AutoML run"""
-    best_run = run.get_best_child()
-    model_name = best_run.properties['model_name']
-    description = 'AutoML retrain model'
-    tags = str(time.strftime('%d/%m/%Y %H:%M:%S'))
-    model = best_run.register_model(
+def register_best_model(remote_run=None):
+    """Register the best model from the AutoML Run"""
+    best_child = remote_run.get_best_child()
+    model_name = 'Retrain_Model'
+    model_path = 'outputs/model.pkl'
+    description = 'AutoML Retrain Model'
+    model = best_child.register_model(
             model_name = model_name,
+            model_path = model_path,
             description = description,
-            tags = tags
             )
-    logging.info(f"Registered {model_name}, with {description} and {tags}")
+    logging.info(f"Registered {model_name}, with {description}")
+    return model
+
+
+def deploy_best_model():
+    pass
 
 
 def main():
-
+    
+    # Declare key objects
     name = 'Retrain Dataset'
     experiment_name = 'retrain_experiment'
     compute_target = ComputeTarget(workspace=ws, name='cpu-cluster')
+
     ## Upload the dataset, and register as a tabular dataset
     #upload_and_register(name=name)
 
     # Train the model
     ds = Dataset.get_by_name(workspace=ws, name=name)
-    run = model_train(dataset=ds, compute_target= compute_target, experiment_name=experiment_name)
+    remote_run = model_train(dataset=ds, compute_target= compute_target, experiment_name=experiment_name)
 
     # Register the best model
-    register_best_model(run = run)
+    register_best_model(remote_run = remote_run)
+
+    # Deploy the best model
+    deploy_best_model()
 
 
 if __name__ == "__main__":

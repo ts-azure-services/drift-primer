@@ -16,29 +16,28 @@ from azureml.train.automl import AutoMLConfig
 from azureml.train.automl.run import AutoMLRun
 from azureml.core.run import Run, _OfflineRun
 from azureml.core.model import Model
+from azureml.core.model import InferenceConfig
+from azureml.core.webservice import AciWebservice
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
+from azureml.core import Environment
+from azureml.core.conda_dependencies import CondaDependencies
+
 
 
 def register_best_model(remote_run=None):
     """Register the best model from the AutoML run"""
-    #best_run = run.get_best_child()
-    best_run, fitted_model = remote_run.get_output()
-    print(f'best run properties: {best_run.properties}')
-    #print(type(best_run))
-    #print(type(fitted_model))
-    model_name = best_run.properties['model_name']
-    model_path = best_run.properties['model_output_path']
-    print(f'Model name : {model_name}')
-    description = 'AutoML retrain model'
-    model = Model.register(
-            workspace = ws,
-            #model_path='outputs/model.pkl',
-            model_path=model_path,#'outputs/model.pkl',
-            model_name = model_name, 
+    best_child = remote_run.get_best_child()
+    model_name = 'Retrain_New_Model'
+    model_path = 'outputs/model.pkl'
+    description = 'AutoML Retrain Model'
+    model = best_child.register_model(
+            model_name = model_name,
+            model_path = model_path,
             description = description,
             )
     logging.info(f"Registered {model_name}, with {description}")
+    return model
 
 
 def main():
@@ -53,7 +52,29 @@ def main():
     print(f'type: {type(remote_run)}')
 
     # Register the best model
-    register_best_model(remote_run = remote_run)
+    model = register_best_model(remote_run = remote_run)
+
+    # Deploy the model to ACI
+    environment = Environment('my-sklearn-environment')
+    environment.python.conda_dependencies = CondaDependencies.create(pip_packages=[
+        'azureml-defaults',
+        #'inference-schema[numpy-support]',
+        'joblib',
+        'numpy',
+        'scikit-learn'
+    ])
+
+    inference_config= InferenceConfig(entry_script='score.py', environment=environment)
+    aci_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
+    service_name='sample-service'
+
+    service = Model.deploy(workspace=ws,
+                       name=service_name,
+                       models=[model],
+                       inference_config=inference_config,
+                       deployment_config=aci_config,
+                       overwrite=True)
+    service.wait_for_deployment(show_output=True)
 
 
 if __name__ == "__main__":
