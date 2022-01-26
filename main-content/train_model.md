@@ -27,3 +27,5 @@ we'll see with the first event (a few months in), we will leverage this same pip
 https://github.com/ts-azure-services/aml-automl-pipeline
 
 ![training_process](./imgs/training_process.jpg)
+
+- Another way to trigger a model can be using Functions.
