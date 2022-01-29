@@ -1,0 +1,4 @@
+$schema: https://azuremlschemas.azureedge.net/latest/batchEndpoint.schema.json
+name: "endpoint42"
+description: "Endpoint for batch inferencing"
+auth_mode: aad_token

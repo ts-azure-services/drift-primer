@@ -3,6 +3,8 @@
 grn=$'\e[1;32m'
 end=$'\e[0m'
 
+set -e
+
 # Start of script
 SECONDS=0
 printf "${grn}STARTING CREATION OF WORKSPACE...${end}\n"

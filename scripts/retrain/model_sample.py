@@ -28,7 +28,7 @@ from azureml.core.conda_dependencies import CondaDependencies
 def register_best_model(remote_run=None):
     """Register the best model from the AutoML run"""
     best_child = remote_run.get_best_child()
-    model_name = 'Retrain_New_Model'
+    model_name = 'Retrain_New_Model_new'
     model_path = 'outputs/model.pkl'
     description = 'AutoML Retrain Model'
     model = best_child.register_model(
@@ -54,27 +54,27 @@ def main():
     # Register the best model
     model = register_best_model(remote_run = remote_run)
 
-    # Deploy the model to ACI
-    environment = Environment('my-sklearn-environment')
-    environment.python.conda_dependencies = CondaDependencies.create(pip_packages=[
-        'azureml-defaults',
-        #'inference-schema[numpy-support]',
-        'joblib',
-        'numpy',
-        'scikit-learn'
-    ])
+   # # Deploy the model to ACI
+   # environment = Environment('my-sklearn-environment')
+   # environment.python.conda_dependencies = CondaDependencies.create(pip_packages=[
+   #     'azureml-defaults',
+   #     #'inference-schema[numpy-support]',
+   #     'joblib',
+   #     'numpy',
+   #     'scikit-learn'
+   # ])
 
-    inference_config= InferenceConfig(entry_script='score.py', environment=environment)
-    aci_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
-    service_name='sample-service'
+   # inference_config= InferenceConfig(entry_script='score.py', environment=environment)
+   # aci_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
+   # service_name='sample-service'
 
-    service = Model.deploy(workspace=ws,
-                       name=service_name,
-                       models=[model],
-                       inference_config=inference_config,
-                       deployment_config=aci_config,
-                       overwrite=True)
-    service.wait_for_deployment(show_output=True)
+   # service = Model.deploy(workspace=ws,
+   #                    name=service_name,
+   #                    models=[model],
+   #                    inference_config=inference_config,
+   #                    deployment_config=aci_config,
+   #                    overwrite=True)
+   # service.wait_for_deployment(show_output=True)
 
 
 if __name__ == "__main__":

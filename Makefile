@@ -17,4 +17,7 @@ create_datasets:
 	python ./modeling/conceptdrift/create_concept_dataset.py
 	python ./modeling/datadrift/create_datadrift_dataset.py
 
+batch_score:
+	./scripts/setup/batch-score.sh
+
 all: install lint
