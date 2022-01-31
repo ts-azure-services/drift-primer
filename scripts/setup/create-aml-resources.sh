@@ -40,14 +40,14 @@ credentials=$(az ad sp create-for-rbac --name "sp$resourcegroup" \
 	--role Contributor \
 	--sdk-auth)
 
-# Create config_file in specific format
-printf "${grn}WRITING OUT CONFIG_FILE VARIABLES...${end}\n"
-configFile='config.json'
-printf "{\n" > $configFile
-printf "\t \"subscription_id\":\"$sub_id\", \n">> $configFile
-printf "\t \"resource_group\":\"$resourcegroup\", \n">> $configFile
-printf "\t \"workspace_name\":\"$workspacename\" \n">> $configFile
-printf "}\n" >> $configFile
+## Create config_file in specific format
+#printf "${grn}WRITING OUT CONFIG_FILE VARIABLES...${end}\n"
+#configFile='config.json'
+#printf "{\n" > $configFile
+#printf "\t \"subscription_id\":\"$sub_id\", \n">> $configFile
+#printf "\t \"resource_group\":\"$resourcegroup\", \n">> $configFile
+#printf "\t \"workspace_name\":\"$workspacename\" \n">> $configFile
+#printf "}\n" >> $configFile
 
 # Capture credentials for 'jq' parsing
 sleep 5
