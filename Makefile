@@ -8,7 +8,6 @@ setup_run:
 	python ./scripts/setup/clusters.py
 	python ./scripts/setup/upload_baseline_data.py
 
-
 create_datasets:
 	python ./modeling/retrain/create_retrain_dataset.py
 	python ./modeling/conceptdrift/create_concept_dataset.py
@@ -19,6 +18,12 @@ create_pipeline:
 
 trigger_retrain:
 	python ./scripts/retrain/retrain.py
+
+trigger_cdrift:
+	python ./scripts/cdrift/cdrift.py
+
+trigger_ddrift:
+	python ./scripts/ddrift/ddrift.py
 
 ### Development section
 lint:
