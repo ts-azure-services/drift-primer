@@ -25,7 +25,7 @@ def main():
             attribute_cols= attribute_cols,
             volume = random.randint(min_vol, max_vol),
             churn_factor= churn_factor,
-            dataset_name='retrain_dataset'
+            dataset_name='retrain_data/retrain_dataset'
             )
 
     logging.info('Entire script took %s seconds', (time.time() - start_time))

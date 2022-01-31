@@ -29,7 +29,7 @@ def main():
 
     # Adjust the new column on the dataframe
     df[column_name] = temp_column_df
-    df.to_csv('./datasets/datadrift_dataset.csv', encoding='utf-8')
+    df.to_csv('./datasets/ddrift_data/datadrift_dataset.csv', encoding='utf-8')
 
 if __name__ == "__main__":
     main()

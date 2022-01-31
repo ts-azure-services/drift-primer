@@ -14,7 +14,7 @@ def main():
 
     # Load, and transform original dataset
     df, attribute_cols = transform_original_dataset()
-    df.to_csv('./datasets/baseline_revised.csv', encoding='utf-8', index=False)
+    #df.to_csv('./datasets/baseline_revised.csv', encoding='utf-8', index=False)
 
     # Use original dataset to create a bluelogging.info for simulating data
     min_vol = 6900
@@ -25,7 +25,7 @@ def main():
             attribute_cols= attribute_cols,
             volume = random.randint(min_vol, max_vol),
             churn_factor= churn_factor,
-            dataset_name= 'concept_dataset'
+            dataset_name= 'cdrift_data/concept_dataset'
             )
 
     logging.info('Entire script took %s seconds', (time.time() - start_time))
