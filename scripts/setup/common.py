@@ -1,7 +1,4 @@
-"""Retrain script that includes
-uploading the dataset, registering it as a tabular dataset,
-training it with AutoML, and registering the model
-"""
+"""Script to consolidate some common functions"""
 import sys
 import time
 import os.path
@@ -19,11 +16,14 @@ from azureml.core.model import Model
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
-
-def upload_and_register(name=None):
+def upload_and_register(
+        name=None,
+        local_data_folder=None,
+        target_def_blob_store_path=None
+        ):
     """Upload and register the specified dataset"""
-    local_data_folder = './datasets/retrain_data/'
-    target_def_blob_store_path = '/blob-retrain-dataset/'
+    local_data_folder = local_data_folder 
+    target_def_blob_store_path = target_def_blob_store_path
     def_blob_store = ws.get_default_datastore()
     datastore_paths = [(def_blob_store, str(target_def_blob_store_path))]
 
@@ -49,7 +49,8 @@ def model_train(dataset=None, compute_target=None, experiment_name=None):
         "experiment_timeout_hours": 0.25,
         "compute_target":compute_target,
         "max_concurrent_iterations": 4,
-        "allowed_models":['XGBoostClassifier'],
+        #"allowed_models":['XGBoostClassifier'],
+        #"blocked_models":['XGBoostClassifier'],
         #"verbosity": logging.INFO,
         "training_data":dataset,#.as_named_input('retrain_dataset'),
         "label_column_name":'Churn',
@@ -69,12 +70,17 @@ def model_train(dataset=None, compute_target=None, experiment_name=None):
     remote_run = AutoMLRun(experiment, run_id=remote_run.id)
     return remote_run
 
-def register_best_model(remote_run=None):
+def register_best_model(
+        remote_run=None,
+        model_name=None,
+        model_path=None,
+        description=None
+        ):
     """Register the best model from the AutoML Run"""
     best_child = remote_run.get_best_child()
-    model_name = 'Retrain_Model'
-    model_path = 'outputs/model.pkl'
-    description = 'AutoML Retrain Model'
+    model_name = model_name
+    model_path = model_path
+    description = description
     model = best_child.register_model(
             model_name = model_name,
             model_path = model_path,
@@ -82,33 +88,3 @@ def register_best_model(remote_run=None):
             )
     logging.info(f"Registered {model_name}, with {description}")
     return model
-
-
-def deploy_best_model():
-    pass
-
-
-def main():
-    
-    # Declare key objects
-    name = 'Retrain Dataset'
-    experiment_name = 'retrain_experiment'
-    compute_target = ComputeTarget(workspace=ws, name='cpu-cluster')
-
-    ## Upload the dataset, and register as a tabular dataset
-    #upload_and_register(name=name)
-
-    # Train the model
-    ds = Dataset.get_by_name(workspace=ws, name=name)
-    remote_run = model_train(dataset=ds, compute_target= compute_target, experiment_name=experiment_name)
-
-    # Register the best model
-    register_best_model(remote_run = remote_run)
-
-    # Deploy the best model
-    deploy_best_model()
-
-
-if __name__ == "__main__":
-    main()
-

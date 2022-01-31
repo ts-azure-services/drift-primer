@@ -130,6 +130,8 @@ def main():
         "experiment_timeout_hours": 1,
         "compute_target":compute_target,
         "max_concurrent_iterations": 4,
+        #"allowed_models":['XGBoostClassifier'],
+        "blocked_models":['XGBoostClassifier'],
         #"verbosity": logging.INFO,
         "training_data":prepped_data.as_input(),
         "label_column_name":'Churn',

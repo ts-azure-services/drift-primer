@@ -30,7 +30,7 @@ printf "Result of resource group create:\n $rg_create \n"
 
 # Create workspace through CLI
 printf "${grn}STARTING CREATION OF AML WORKSPACE...${end}\n"
-ws_result=$(az ml workspace create -w $workspacename -g $resourcegroup)
+ws_result=$(az ml workspace create -n $workspacename -g $resourcegroup)
 printf "Result of workspace create:\n $ws_result \n"
 
 # Generate service principal credentials
