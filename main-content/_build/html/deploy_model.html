@@ -280,6 +280,11 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-requirements-to-deploy-a-model">
+   Key Requirements to deploy a model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#specify-an-inference-configuration">
    Specify an inference configuration
   </a>
@@ -315,6 +320,11 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-requirements-to-deploy-a-model">
+   Key Requirements to deploy a model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#specify-an-inference-configuration">
    Specify an inference configuration
   </a>
@@ -342,27 +352,28 @@
 <h1>Model Deployment<a class="headerlink" href="#model-deployment" title="Permalink to this headline">¶</a></h1>
 <p>XYZ Corporation requires a real-time endpoint to profile new customers as they come in. This provides the
 marketing/GTM team an opportunity to assess if there are ways to ensure these customers are more successful,
-and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML clusters,
-with Azure Kubernetes Service (AKS), managed endpoints and ACI. Given the need to move fast and manage as
-minimal infrastucture as possible, they are interested in leveraging ACI.</p>
+and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML
+clusters, with Azure Kubernetes Service (AKS), managed endpoints and ACI. All require a model, an environment
+with the relevant dependencies, a scoring script (to run the model, and provide the prediction) and a
+deployment configuration. Given the need to move fast and manage as minimal infrastucture as possible, they
+are interested in leveraging the managed online endpoint.</p>
+<p>The easiest approach once a model has been selected is to walk through the wizard option in the studio to
+deploy a real-time endpoint.
+<img alt="deploy_model" src="_images/deploy_model.jpg" /></p>
+<p>Since this flows from the model being evaluated, the scoring script and the dependencies are already part of
+the model’s outputs and will default as part of the endpoint deployment.
+<img alt="model_artifacts" src="_images/model_artifacts.jpg" /></p>
+<p>Once deployed, a live endpoint is available to receive data inputs and provide a prediction.
+<sample></p>
+<div class="section" id="key-requirements-to-deploy-a-model">
+<h2>Key Requirements to deploy a model<a class="headerlink" href="#key-requirements-to-deploy-a-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Requirements to deploy a model:</p>
-<ul>
-<li><p>A registered model</p></li>
-<li><p>A software environment</p></li>
-<li><p>A scoring script</p></li>
-<li><p>A deployment configuration</p></li>
-<li><p>RESTFUL interface</p></li>
-</ul>
-</li>
 <li><p>Online vs. Batch scoring. In this case, we would like a live endpoint as part of our application roll-out
 that can immediately classify the “potential for churn” among the customers signing up to the service.</p></li>
-<li><p>Deploy using managed online endpoint or an AKS cluster?</p></li>
-<li><p>If you need the blue/green deployment, or A/B testing later, might need AKS.</p></li>
-<li><p>If you want to promote the managed online endpoint better, use that (given v2 focus)</p></li>
 <li><p>Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
 (packaging as a Docker container, Flask app etc.)</p></li>
 </ul>
+</div>
 <div class="section" id="specify-an-inference-configuration">
 <h2>Specify an inference configuration<a class="headerlink" href="#specify-an-inference-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">azureml.core.model</span> <span class="kn">import</span> <span class="n">InferenceConfig</span>
