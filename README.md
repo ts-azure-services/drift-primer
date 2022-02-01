@@ -1,3 +1,5 @@
+[![deploy-book](https://github.com/ts-azure-services/mlops-primer/actions/workflows/book.yml/badge.svg)](https://github.com/ts-azure-services/mlops-primer/actions/workflows/book.yml)
+
 # mlops-primer
 - Goal: Educate on MLOps workflows/processes in Azure Machine Learning.
 - Live Jupyter book link: <URL link>
