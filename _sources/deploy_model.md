@@ -1,21 +1,28 @@
 # Model Deployment
 XYZ Corporation requires a real-time endpoint to profile new customers as they come in. This provides the
 marketing/GTM team an opportunity to assess if there are ways to ensure these customers are more successful,
-and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML clusters,
-with Azure Kubernetes Service (AKS), managed endpoints and ACI. Given the need to move fast and manage as
-minimal infrastucture as possible, they are interested in leveraging ACI.
+and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML
+clusters, with Azure Kubernetes Service (AKS), managed endpoints and ACI. All require a model, an environment
+with the relevant dependencies, a scoring script (to run the model, and provide the prediction) and a
+deployment configuration. Given the need to move fast and manage as minimal infrastucture as possible, they
+are interested in leveraging the managed online endpoint.
 
-- Requirements to deploy a model:
-	- A registered model
-	- A software environment
-	- A scoring script
-	- A deployment configuration
-	- RESTFUL interface
+The easiest approach once a model has been selected is to walk through the wizard option in the studio to
+deploy a real-time endpoint. 
+![deploy_model](./imgs/deploy_model.jpg)
+
+Since this flows from the model being evaluated, the scoring script and the dependencies are already part of
+the model's outputs and will default as part of the endpoint deployment.
+![model_artifacts](./imgs/model_artifacts.jpg)
+
+Once deployed, a live endpoint is available to receive data inputs and provide a prediction.
+<sample>
+
+
+
+## Key Requirements to deploy a model
 - Online vs. Batch scoring. In this case, we would like a live endpoint as part of our application roll-out
   that can immediately classify the "potential for churn" among the customers signing up to the service.
-- Deploy using managed online endpoint or an AKS cluster?
-- If you need the blue/green deployment, or A/B testing later, might need AKS.
-- If you want to promote the managed online endpoint better, use that (given v2 focus)
 - Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
   (packaging as a Docker container, Flask app etc.)
 

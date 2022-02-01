@@ -280,6 +280,16 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-a-pipeline">
+   Creating a pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-selection">
+   Model Selection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#top-features">
    Top Features
   </a>
@@ -290,16 +300,33 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#precision-recall">
+     Precision Recall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#roc-curve">
      ROC curve
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calibration-curve">
+     Calibration Curve
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lift-curve">
+     Lift Curve
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pending">
+       Pending
+      </a>
+     </li>
+    </ul>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-pipeline">
-   Create a pipeline
-  </a>
  </li>
 </ul>
 
@@ -322,6 +349,16 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-a-pipeline">
+   Creating a pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-selection">
+   Model Selection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#top-features">
    Top Features
   </a>
@@ -332,16 +369,33 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#precision-recall">
+     Precision Recall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#roc-curve">
      ROC curve
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calibration-curve">
+     Calibration Curve
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lift-curve">
+     Lift Curve
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pending">
+       Pending
+      </a>
+     </li>
+    </ul>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-pipeline">
-   Create a pipeline
-  </a>
  </li>
 </ul>
 
@@ -354,9 +408,31 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="model-training">
 <h1>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">¶</a></h1>
-<p>With the increasing use of AutoML, the training phase is often the easiest to work through and operationalize.
-For this purpose, we will be taking advantage of Azure ML’s AutoML solution to classify this dataset and
-predict churn.</p>
+<p>With the growing use of AutoML, the training phase is often the easiest to work through and operationalize.
+AutoML has the advantage of not only being user-friendly, but significantly reducing the time to both feature
+engineer and evaluate various algorithms against the business problem. We will be taking advantage of Azure
+ML’s AutoML solution to classify this dataset and predict churn.</p>
+<div class="section" id="creating-a-pipeline">
+<h2>Creating a pipeline<a class="headerlink" href="#creating-a-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>While it is trivial to leverage the studio experience as part of Azure Machine Learning to train as model to
+classify churned customers, we will be leveraging a set of scripts and workflows present
+<a class="reference external" href="https://github.com/ts-azure-services/mlops-primer/tree/main/scripts/pipeline">here</a>. Additionally, these
+scripts create a formal pipeline for this process. A pipeline is particularly helpful when one
+wants to standardize a repeatable process. Often, before training, one would need to marry multiple data inputs, do
+some amount of data cleaning and transformation and then have processes after training to register datasets
+and models in the system. Keeping this consistent between training runs is critical.
+<img alt="training_process" src="_images/training_process.jpg" /></p>
+<p>Registration of artifacts through the training process is also a best practice to ensure lineage of data, and reproducability of the
+workflow.
+<img alt="registered_datasets" src="_images/registered_datasets.jpg" /></p>
+</div>
+<div class="section" id="model-selection">
+<h2>Model Selection<a class="headerlink" href="#model-selection" title="Permalink to this headline">¶</a></h2>
+<p>With AutoML, a range of different feature engineering and algorithms are considered and ranked based upon the
+performance metric selected. A final “VotingEnsemble” model will then run to combine the benefits of multiple
+models. This will typically ensure the highest accuracy as shown below.
+<img alt="model_selection" src="_images/model_selection.jpg" /></p>
+</div>
 <div class="section" id="top-features">
 <h2>Top Features<a class="headerlink" href="#top-features" title="Permalink to this headline">¶</a></h2>
 <p>As a part of AutoML’s process, the final “VotingEnsemble” model will also produce an “explanations” run to
@@ -366,29 +442,30 @@ Churn. The results are shown below.
 </div>
 <div class="section" id="key-metrics">
 <h2>Key Metrics<a class="headerlink" href="#key-metrics" title="Permalink to this headline">¶</a></h2>
+<p>With any child run and model produced, a host of charts and metrics are produced which enable evaluation and
+selection of an accurate model. A few that generate automatically from the system are shown below:</p>
+<div class="section" id="precision-recall">
+<h3>Precision Recall<a class="headerlink" href="#precision-recall" title="Permalink to this headline">¶</a></h3>
+<p><img alt="precision_recall" src="_images/precision_recall.jpg" /></p>
+</div>
 <div class="section" id="roc-curve">
 <h3>ROC curve<a class="headerlink" href="#roc-curve" title="Permalink to this headline">¶</a></h3>
 <p><img alt="roc_curve" src="_images/ROC.jpg" /></p>
 </div>
+<div class="section" id="calibration-curve">
+<h3>Calibration Curve<a class="headerlink" href="#calibration-curve" title="Permalink to this headline">¶</a></h3>
+<p><img alt="calibration_curve" src="_images/calibration_curve.jpg" /></p>
 </div>
-<div class="section" id="create-a-pipeline">
-<h2>Create a pipeline<a class="headerlink" href="#create-a-pipeline" title="Permalink to this headline">¶</a></h2>
-<p>Creating a pipeline is particularly helpful to standardize the process to repeat when new data flows in. As
-we’ll see with the first event (a few months in), we will leverage this same pipeline to produce a new model.</p>
-<ul class="simple">
-<li><p>Insist on using a pipeline that can be re-used later for training.</p>
-<ul>
-<li><p>Highlight the difference between the initial script to create the pipeline.</p></li>
-<li><p>And the script to run an existing pipeline.</p></li>
-</ul>
-</li>
-<li><p>Specifically highlight versioning, data registration capabilities to show lineage.</p></li>
-</ul>
-<p><a class="reference external" href="https://github.com/ts-azure-services/aml-automl-pipeline">https://github.com/ts-azure-services/aml-automl-pipeline</a></p>
-<p><img alt="training_process" src="_images/training_process.jpg" /></p>
+<div class="section" id="lift-curve">
+<h3>Lift Curve<a class="headerlink" href="#lift-curve" title="Permalink to this headline">¶</a></h3>
+<p><img alt="lift_curve" src="_images/lift_curve.jpg" /></p>
+<div class="section" id="pending">
+<h4>Pending<a class="headerlink" href="#pending" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>Another way to trigger a model can be using Functions.</p></li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 
