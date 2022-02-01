@@ -33,6 +33,6 @@ jobs:
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.5.9
       with:
-        #github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         #publish_dir: ./main-content/_build/html
         publish_branch: gh-pages
