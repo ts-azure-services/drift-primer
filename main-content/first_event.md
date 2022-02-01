@@ -5,12 +5,13 @@ drive to improve customer retention. Though the churn rate has not dramatically 
 the model coupled with the ongoing short-term and long-term investments feels a much better step in the right
 direction.
 
-The MLOps team is encouraged by the progress. But now that three months have passed, they are intersted in
+The MLOps team is encouraged by the progress. But now that three months have passed, they are interested in
 ensuring the model continues to be retrained on more recent data. As a policy, and in agreement with the
 business, an early goal had been not to let data grow stale beyond a few months.
 
 As part of the ongoing monitoring, there has been no significant degradation in the model performance. Still,
-they would like to retrain on a fresh batch of data, and test if the new model performs equally well, or
+they would like to retrain on a fresh batch of data and see if the new model is any different to the old
+model.
 consistent with the old model. It's an opportunity to:
 	- Test the new model on the old data
 	- Test the old model on the new data
@@ -31,7 +32,6 @@ handy since this allows for reusability of the same workflows.
   fairly close in accuracy to the original model. As mentioned in the 'The Business Scenario', establishing
   ground truth for a customer that has actually churned is a function of both time lag since recent
   transactions and part of the marketing team labelling customers who have decided to leave the service.
-
 
 
 A couple of things to note:

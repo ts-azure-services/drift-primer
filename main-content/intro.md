@@ -15,7 +15,6 @@ considerations that crop up, and specifically how AML offers capabilities to man
 the product changes, we will update sections for this, and do our best to keep this a living document.
 
 Behind this notebook and content sits a full working deployment that can be accessed
-[here](https://github.com/ts-azure-services/mlops-primer/tree/main/scripts). The goal of this is to ensure
-individuals can follow along and reproduce the same results.
+[here](https://github.com/ts-azure-services/mlops-primer/tree/main/scripts). The goal of this is to ensure individuals can follow along and reproduce the same results.
 
 Also mention that this pivots heavier towards concepts around drift.
