@@ -16,7 +16,7 @@ ws = Workspace.from_config()
 ds = Dataset.get_by_name(workspace=ws, name='Test Baseline Dataset')
 ds = ds.to_pandas_dataframe()
 ds['TotalCharges'] = ds['TotalCharges'].fillna(0)
-print(ds.info())
+#print(ds.info())
 
 # Get the original dataset
 # Will not be needed if you reconfigure the pipeline
@@ -28,7 +28,7 @@ df = df[['Tenure_Bucket']]
 ds = ds.merge(df, how='inner', left_index=True, right_index=True)
 
 # Drop 'Churn column'
-churn_truth = ds[['Churn']]
+churn_df = ds[['Churn']]
 ds = ds.drop('Churn', axis=1)
 ds = ds.reset_index()
 
@@ -88,10 +88,14 @@ for item in result_list:
         final_list.append(val)
 
 new_df = pd.DataFrame(final_list)
-print(len(new_df))
-#print(new_df.head())
 
 # Compare model accuracy against test dataset prediction
-churn_truth = churn_truth.merge(new_df, how='inner', left_index=True, right_index=True)
-churn_truth.columns = ['Actual_Churn', 'Predicted_Churn']
-churn_truth.to_csv('churn_truth.csv', encoding='utf-8')
+churn_df = churn_df.merge(new_df, how='inner', left_index=True, right_index=True)
+churn_df.columns = ['Actual_Churn', 'Predicted_Churn']
+churn_df['Actual_Churn'] = churn_df['Actual_Churn'].astype(bool)
+churn_df['Predicted_Churn'] = churn_df['Predicted_Churn'].astype(bool)
+churn_df.to_csv('churn_df.csv', index=False, encoding='utf-8')
+error_count = len(churn_df.loc[(churn_df['Actual_Churn'] != churn_df['Predicted_Churn'])])
+error_rate = error_count / len(churn_df) * 100
+print(f'Error count is: {error_count}')
+print(f'Error rate is: {error_rate}')

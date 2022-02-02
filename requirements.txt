@@ -45,6 +45,7 @@ cloudpickle==2.0.0
 colorama==0.4.4
 contextlib2==21.6.0
 cryptography==36.0.1
+cycler==0.11.0
 debugpy==1.5.1
 decorator==5.1.1
 defusedxml==0.7.1
@@ -53,6 +54,7 @@ docker==5.0.3
 docutils==0.16
 dotnetcore2==2.1.23
 entrypoints==0.3
+fonttools==4.29.1
 gitdb==4.0.9
 GitPython==3.1.26
 greenlet==1.1.2
@@ -82,6 +84,7 @@ jupyter-sphinx==0.3.2
 jupyterlab-pygments==0.1.2
 jupyterlab-widgets==1.0.2
 jupytext==1.11.5
+kiwisolver==1.3.2
 knack==0.8.2
 latexcodec==2.0.1
 linkify-it-py==1.0.3
@@ -113,6 +116,7 @@ parso==0.8.3
 pathspec==0.9.0
 pexpect==4.8.0
 pickleshare==0.7.5
+Pillow==9.0.0
 pkginfo==1.8.2
 portalocker==2.3.2
 prometheus-client==0.13.1
