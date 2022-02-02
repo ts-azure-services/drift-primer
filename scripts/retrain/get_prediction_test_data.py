@@ -10,10 +10,8 @@ from dotenv import load_dotenv
 
 def load_env_variables():
     """Load env variables"""
-    env_var = load_dotenv('./../../endpoint_details.env')
-    auth_dict = {
-            "url": os.environ['BASELINE_URI'],
-            "api_key": os.environ['BASELINE_APIKEY']}
+    env_var = load_dotenv('./baseline_endpoint.env')
+    auth_dict = {"url": os.environ['URL'],"api_key": os.environ['API_KEY']}
     ws = Workspace.from_config()
     return ws, auth_dict
 
