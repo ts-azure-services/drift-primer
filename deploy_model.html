@@ -363,8 +363,16 @@ deploy a real-time endpoint.
 <p>Since this flows from the model being evaluated, the scoring script and the dependencies are already part of
 the model’s outputs and will default as part of the endpoint deployment.
 <img alt="model_artifacts" src="_images/model_artifacts.jpg" /></p>
-<p>Once deployed, a live endpoint is available to receive data inputs and provide a prediction.
-<sample></p>
+<p>Once deployed, a live endpoint is available to receive data inputs and provide a prediction. Note that with
+this endpoint, many options are configurable - in particular, auto-scaling to accomodate traffic bursts,
+either based upon a manual limit, or a set of metrics.
+<img alt="baseline_endpoint" src="_images/baseline_endpoint.jpg" /></p>
+<p>Using this endpoint with an API key, a script can be easily run to provide predictions. Given the model was
+built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
+The <code class="docutils literal notranslate"><span class="pre">get_prediction_test_data.py</span></code> is helpful to run this which yields a ~81% accuracy by the chosen
+performance metric. This is reasonably good, compared to the ~84% accuracy on the training set. Note that the
+trained model preserves the logic for any data transformations as part of its processing so raw original
+inputs can be fed into the endpoint.</p>
 <div class="section" id="key-requirements-to-deploy-a-model">
 <h2>Key Requirements to deploy a model<a class="headerlink" href="#key-requirements-to-deploy-a-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
