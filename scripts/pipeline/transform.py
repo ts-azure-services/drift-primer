@@ -51,5 +51,5 @@ if __name__ == "__main__":
     logging.info(f'Input args: {args.input_file_path}')
     logging.info(f'Output args: {args.output_file_path}')
     logging.info(f'Filename: {args.output_filename}')
-    df = transform(source=args.input_file_path + '/' + args.input_filename)
+    df = transform(source=args.input_file_path)#+ '/' + args.input_filename)
     df.to_csv(args.output_file_path + '/' + args.output_filename, index=False)

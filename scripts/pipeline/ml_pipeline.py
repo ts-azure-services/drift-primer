@@ -86,7 +86,7 @@ def main():
     # Pipeline step 2: Create the train/test split
     train_df_transformed_source = OutputFileDatasetConfig(destination=(def_blob_store,'/prep2/')).as_mount()
     train_df_transformed_filename = 'step2output'
-    transform_step = PythonScriptStep(
+    train_test_step = PythonScriptStep(
         name="Create a train/test split",
         source_directory=".",
         script_name="./scripts/pipeline/train_test_split.py",
@@ -170,8 +170,8 @@ def main():
     # Setup experiment and trigger run
     experiment = Experiment(ws, name='baseline_scenario')
     pipeline = Pipeline(ws, [
-        train_test_step, 
         transform_step, 
+        train_test_step, 
         train_step, 
         register_model_step
         ])

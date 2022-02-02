@@ -11,12 +11,17 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(mess
 def getArgs(argv=None):
     parser = argparse.ArgumentParser(description="filepaths")
     parser.add_argument("--input_file_path", help='Input file path')
+    parser.add_argument("--input_filename", help='Input filename')
     parser.add_argument("--output_file_path", help='Output file path')
     parser.add_argument("--output_filename", help='Output filename')
     return parser.parse_args(argv)
 
 
 def register_train_test_split(source=None):
+
+    # Define blob store
+    def_blob_store = ws.get_default_datastore()
+
     # Create dataframe out of intermediate dataset
     df = pd.read_csv(source)
 
@@ -53,10 +58,11 @@ def register_train_test_split(source=None):
 def main():
     """Main operational flow"""
     args = getArgs()
-    logging.info(f'Input args: {args.input_file_path}')
+    logging.info(f'Input file path: {args.input_file_path}')
+    logging.info(f'Input filename: {args.input_filename}')
     logging.info(f'Output args: {args.output_file_path}')
     logging.info(f'Filename: {args.output_filename}')
-    train_df = register_train_test_split(source=args.input_file_path)
+    train_df = register_train_test_split(source=args.input_file_path + '/' + args.input_filename)
     train_df.to_csv(args.output_file_path + '/' + args.output_filename, index=False)
 
 

@@ -8,11 +8,6 @@ setup_run:
 	python ./scripts/setup/clusters.py
 	python ./scripts/setup/upload_baseline_data.py
 
-create_datasets:
-	python ./modeling/retrain/create_retrain_dataset.py
-	python ./modeling/conceptdrift/create_concept_dataset.py
-	python ./modeling/datadrift/create_datadrift_dataset.py
-
 create_pipeline:
 	python ./scripts/pipeline/ml_pipeline.py
 
@@ -37,4 +32,9 @@ lint:
 
 print_log:
 	grep -r "print" --include=*.py
+
+create_datasets:
+	python ./modeling/retrain/create_retrain_dataset.py
+	python ./modeling/conceptdrift/create_concept_dataset.py
+	python ./modeling/datadrift/create_datadrift_dataset.py
 
