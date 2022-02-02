@@ -107,6 +107,7 @@ celerybeat.pid
 # Environments
 sub.env
 variables.env
+baseline_endpoint.env
 .venv
 env/
 venv/
