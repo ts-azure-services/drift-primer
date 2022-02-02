@@ -25,6 +25,10 @@ trigger_cdrift:
 trigger_ddrift:
 	python ./scripts/ddrift/ddrift.py
 
+endpoint_details:
+	./scripts/setup/endpoint-details.sh
+
+
 ### Development section
 lint:
 	pylint --disable=R,C,W1203,W0702,E0110,W0703 ./modeling/retrain/create_retrain_dataset.py

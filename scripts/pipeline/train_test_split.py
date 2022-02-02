@@ -17,12 +17,8 @@ def getArgs(argv=None):
 
 
 def register_train_test_split(source=None):
-    # Create dataframe out of registered dataset
-    #df = pd.read_csv(source, engine='python')
-    def_blob_store = ws.get_default_datastore()
-    ds = Dataset.get_by_id(ws, id=source)
-    df = ds.to_pandas_dataframe()
-    df = df.reset_index(drop=True)
+    # Create dataframe out of intermediate dataset
+    df = pd.read_csv(source)
 
     # Create train, test splits
     train = df.sample(frac=0.9, random_state=200)
@@ -50,8 +46,7 @@ def register_train_test_split(source=None):
             )
 
     # Reset index
-    train = train.reset_index()
-
+    train = train.reset_index(drop=True)
     return train
 
 

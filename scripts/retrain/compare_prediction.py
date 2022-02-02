@@ -10,15 +10,17 @@ from dotenv import load_dotenv
 
 def load_env_variables():
     """Load env variables"""
-    env_var = load_dotenv('./baseline_endpoint.env')
-    auth_dict = {"url": os.environ['URL'],"api_key": os.environ['API_KEY']}
+    env_var = load_dotenv('./../../endpoint_details.env')
+    auth_dict = {
+            "url": os.environ['BASELINE_URI'],
+            "api_key": os.environ['BASELINE_APIKEY']}
     ws = Workspace.from_config()
     return ws, auth_dict
 
 def request_records(ws=None):
     """Create request records"""
     # Pull in the test dataset
-    ds = Dataset.get_by_name(workspace=ws, name='Test Baseline Dataset')
+    ds = Dataset.get_by_name(workspace=ws, name='Retrain Dataset')
     ds = ds.to_pandas_dataframe()
     ds['TotalCharges'] = ds['TotalCharges'].fillna(0)
     #print(ds.info())

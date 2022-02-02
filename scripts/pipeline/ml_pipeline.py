@@ -65,18 +65,16 @@ def main():
     # Setup environment
     run_config, compute_target = setup_environment()
 
-    # Pipeline step 1: Create a train/test split
-    #def_blob_store = ws.get_default_datastore()
+    # Pipeline step 1: Transform the raw data
     ds = Dataset.get_by_name(workspace=ws, name='Baseline Dataset')
     train_df_source = OutputFileDatasetConfig(destination=(def_blob_store,'/prep1/')).as_mount()
     train_df_filename = 'step1output'
-    train_test_step = PythonScriptStep(
-        name="Create a train/test split",
+    transform_step = PythonScriptStep(
+        name="Transform Data",
         source_directory=".",
-        script_name="./scripts/pipeline/train_test_split.py",
+        script_name="./scripts/pipeline/transform.py",
         compute_target=compute_target,
         arguments=[
-            #"--input_file_path", ds.as_named_input('starting_input').as_mount(), #file
             "--input_file_path", ds.as_named_input('baseline_raw_input'), #tabular, will pass the Tabular ID
             "--output_file_path", train_df_source,
             "--output_filename", train_df_filename
@@ -85,14 +83,13 @@ def main():
         allow_reuse=False
         )
 
-
-    # Pipeline step 2: Transform and register dataset
+    # Pipeline step 2: Create the train/test split
     train_df_transformed_source = OutputFileDatasetConfig(destination=(def_blob_store,'/prep2/')).as_mount()
     train_df_transformed_filename = 'step2output'
     transform_step = PythonScriptStep(
-        name="Transform Data",
+        name="Create a train/test split",
         source_directory=".",
-        script_name="./scripts/pipeline/transform.py",
+        script_name="./scripts/pipeline/train_test_split.py",
         compute_target=compute_target,
         arguments=[
             "--input_file_path", train_df_source.as_input(),
