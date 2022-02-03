@@ -46,6 +46,8 @@ selection of an accurate model. A few that generate automatically from the syste
 ### Lift Curve
 ![lift_curve](./imgs/lift_curve.jpg)
 
+### Cumulative Gains Curve
+![cumulative_gains](./imgs/cumulative_gains.jpg)
 
 
 #### Pending

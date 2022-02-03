@@ -9,7 +9,7 @@ set -e
 SECONDS=0
 printf "${grn}STARTING RETRIEVAL OF ENDPOINT DETAILS...${end}\n"
 
-# Source subscription ID, and prep config file
+# Source subscription ID, resource group and workspace name
 source sub.env
 sub_id=$SUB_ID
 
@@ -17,8 +17,9 @@ sub_id=$SUB_ID
 az account set -s $sub_id
 
 # Resource and workspace details
-resourcegroup='mlops_primer1781'
-workspacename='mlops_primer1781workspace'
+source variables.env
+resourcegroup=$RESOURCE_GROUP
+workspacename=$WORKSPACE_NAME
 
 # Get baseline endpoint details
 printf "${grn}GET BASELINE ENDPOINT URI...${end}\n"

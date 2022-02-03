@@ -47,7 +47,7 @@ def register_train_test_split(source=None):
             dataframe=test,
             target=def_blob_store,
             name='Test Baseline Dataset',
-            description='90% of baseline dataset reserved for testing'
+            description='10% of baseline dataset reserved for testing'
             )
 
     # Reset index
