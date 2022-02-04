@@ -25,6 +25,14 @@ def register_train_test_split(source=None):
     # Create dataframe out of intermediate dataset
     df = pd.read_csv(source)
 
+    # Register the full dataset
+    _ = Dataset.Tabular.register_pandas_dataframe(
+            dataframe=df,
+            target=def_blob_store,
+            name='Transformed Training Baseline Dataset',
+            description='100% of baseline dataset with some transformed features'
+            )
+
     # Create train, test splits
     train = df.sample(frac=0.9, random_state=200)
     test = df.drop(train.index)

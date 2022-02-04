@@ -35,13 +35,14 @@ def transform(source=None):
     df['monthly_charges_bins'] = pd.cut(x = df['MonthlyCharges'],bins=10,include_lowest=True)
     df = df.drop(['TotalCharges', 'MonthlyCharges', 'tenure'], axis=1)
 
-    # Register the training dataset
-    _ = Dataset.Tabular.register_pandas_dataframe(
-            dataframe=df,
-            target=def_blob_store,
-            name='Transformed Training Baseline Dataset',
-            description='100% of baseline dataset with some transformed features'
-            )
+    # Not registering the dataset since categorical columns from bins results in ERRORS
+    ## Register the training dataset
+    #_ = Dataset.Tabular.register_pandas_dataframe(
+    #        dataframe=df,
+    #        target=def_blob_store,
+    #        name='Transformed Training Baseline Dataset',
+    #        description='100% of baseline dataset with some transformed features'
+    #        )
 
     return df
 

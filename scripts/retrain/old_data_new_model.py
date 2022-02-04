@@ -18,7 +18,7 @@ def main():
     auth_dict = load_env_variables(url='RETRAIN_URI', api_key='RETRAIN_APIKEY')
     
     # Create request list
-    list_of_records, churn_df = request_records(ws=ws, dataset_name='Transformed Training Baseline Dataset')
+    list_of_records, churn_df = request_records(ws=ws, dataset_name='Training Baseline Dataset')
 
     # Create predictions from real-time endpoint
     prediction_list = create_predictions(auth_dict=auth_dict, list_of_records=list_of_records)
