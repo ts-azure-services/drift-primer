@@ -21,7 +21,9 @@ Based on the above, they can take a call on whether to keep the existing model i
 model into production. In most scenarios, re-using the original pipeline would be the best practice since that
 would keep consistent the data transformations and the reproducibility of the process. For expediency, we have
 pre-created the datasets, and the models that are trained on them. Hence, the new model (`retrain-endpoint`) has been trained on
-the new dataset (`Retrain Dataset`). 
+the new dataset (`Retrain Dataset`). Note that by pursuing this approach, the `Run Types` in Azure Machine
+Learning are different; the former is a `Pipeline` run, while the current method is an `Automated ML` run.
+![run_types](./imgs/run_types.jpg)
 
 
 

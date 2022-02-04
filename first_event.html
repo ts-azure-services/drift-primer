@@ -345,7 +345,9 @@ model.</p>
 model into production. In most scenarios, re-using the original pipeline would be the best practice since that
 would keep consistent the data transformations and the reproducibility of the process. For expediency, we have
 pre-created the datasets, and the models that are trained on them. Hence, the new model (<code class="docutils literal notranslate"><span class="pre">retrain-endpoint</span></code>) has been trained on
-the new dataset (<code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>).</p>
+the new dataset (<code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>). Note that by pursuing this approach, the <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">Types</span></code> in Azure Machine
+Learning are different; the former is a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> run, while the current method is an <code class="docutils literal notranslate"><span class="pre">Automated</span> <span class="pre">ML</span></code> run.
+<img alt="run_types" src="_images/run_types.jpg" /></p>
 <div class="section" id="considerations">
 <h2>Considerations<a class="headerlink" href="#considerations" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
