@@ -9,9 +9,11 @@ The MLOps team is encouraged by the progress. But now that three months have pas
 ensuring the model continues to be retrained on more recent data. As a policy, and in agreement with the
 business, an early goal had been not to let data grow stale beyond a few months.
 
+
 As part of the ongoing monitoring, there has been no significant degradation in the model performance. Still,
 they would like to retrain on a fresh batch of data and see if the new model is any different to the old
 model.
+![dataset](./imgs/retrain_dataset.png)
 
 To do this, the MLOps team would like to:
 1. Score the new data (`Retrain Dataset`) on the old model endpoint (`baseline-model-endpoint`).
@@ -25,6 +27,10 @@ the new dataset (`Retrain Dataset`). Note that by pursuing this approach, the `R
 Learning are different; the former is a `Pipeline` run, while the current method is an `Automated ML` run.
 ![run_types](./imgs/run_types.jpg)
 
+Another difference in the pipeline approach is that while we explicitly had a step to break out the train and
+test split, this can also be configured in the AutoML configuration as well. As a part of the training run,
+there will also be a test run immediately run, taking the best model.
+![retrain_test_data](./imgs/retrain_test_data.jpg)
 
 
 ## Considerations

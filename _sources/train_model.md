@@ -27,7 +27,7 @@ and models in the system. Keeping this consistent between training runs is criti
 
 Registration of artifacts through the training process is also a best practice to ensure lineage of data, and reproducability of the
 workflow.
-![registered_datasets](./imgs/registered_datasets.jpg)
+![registered_datasets](./imgs/registered_datasets.png)
 
 ## Model Selection
 With AutoML, a range of different feature engineering and algorithms are considered and ranked based upon the

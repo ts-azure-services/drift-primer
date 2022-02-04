@@ -335,7 +335,8 @@ ensuring the model continues to be retrained on more recent data. As a policy, a
 business, an early goal had been not to let data grow stale beyond a few months.</p>
 <p>As part of the ongoing monitoring, there has been no significant degradation in the model performance. Still,
 they would like to retrain on a fresh batch of data and see if the new model is any different to the old
-model.</p>
+model.
+<img alt="dataset" src="_images/retrain_dataset.png" /></p>
 <p>To do this, the MLOps team would like to:</p>
 <ol class="simple">
 <li><p>Score the new data (<code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>) on the old model endpoint (<code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>).</p></li>
@@ -348,6 +349,10 @@ pre-created the datasets, and the models that are trained on them. Hence, the ne
 the new dataset (<code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>). Note that by pursuing this approach, the <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">Types</span></code> in Azure Machine
 Learning are different; the former is a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> run, while the current method is an <code class="docutils literal notranslate"><span class="pre">Automated</span> <span class="pre">ML</span></code> run.
 <img alt="run_types" src="_images/run_types.jpg" /></p>
+<p>Another difference in the pipeline approach is that while we explicitly had a step to break out the train and
+test split, this can also be configured in the AutoML configuration as well. As a part of the training run,
+there will also be a test run immediately run, taking the best model.
+<img alt="retrain_test_data" src="_images/retrain_test_data.jpg" /></p>
 <div class="section" id="considerations">
 <h2>Considerations<a class="headerlink" href="#considerations" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
