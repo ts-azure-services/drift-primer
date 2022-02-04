@@ -14,8 +14,8 @@ they would like to retrain on a fresh batch of data and see if the new model is 
 model.
 
 To do this, the MLOps team would like to:
-	- Score the new data (`Retrain Dataset`) on the old model endpoint (`baseline-model-endpoint`).
-	- Score the old data (`Transformed Training Baseline Dataset`) on the new model endpoint (`retrain-endpoint`).
+1. Score the new data (`Retrain Dataset`) on the old model endpoint (`baseline-model-endpoint`).
+2. Score the old data (`Transformed Training Baseline Dataset`) on the new model endpoint (`retrain-endpoint`).
 
 Based on the above, they can take a call on whether to keep the existing model in operation, or push a new
 model into production. In most scenarios, re-using the original pipeline would be the best practice since that
