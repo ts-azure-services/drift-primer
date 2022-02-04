@@ -62,6 +62,7 @@ def model_train(dataset=None, compute_target=None, experiment_name=None):
         "enable_voting_ensemble":True,
         "enable_early_stopping": False,
         "model_explainability":True,
+        "test_size":0.1,
         #"enable_dnn":True,
             }
     automl_config = AutoMLConfig(**automl_settings)

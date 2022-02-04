@@ -9,7 +9,7 @@ parts:
     - file: benefits_mlops
     - file: devops_vs_mlops
     - file: maturity_levels
-    - file: best_practices
+      #- file: best_practices
   - caption: Pre-Production
     chapters:
     - file: business_problem
