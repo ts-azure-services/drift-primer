@@ -15,25 +15,29 @@ Since this flows from the model being evaluated, the scoring script and the depe
 the model's outputs and will default as part of the endpoint deployment.
 ![model_artifacts](./imgs/model_artifacts.jpg)
 
-Once deployed, a live endpoint is available to receive data inputs and provide a prediction.
-<sample>
+Once deployed, a live endpoint (`baseline-model-endpoint`) is available to receive data inputs and provide a prediction. Note that with
+this endpoint, many options are configurable - in particular, auto-scaling to accomodate traffic bursts,
+either based upon a manual limit, or a set of metrics.
+![baseline_endpoint](./imgs/baseline_endpoint.jpg)
 
-
+Using this endpoint with an API key, a script can be easily run to provide predictions. Given the model was
+built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
+This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
+~84% accuracy on the training set. Note that the trained model preserves the logic for any data
+transformations as part of its processing so raw original inputs can be fed into the endpoint.
 
 ## Key Requirements to deploy a model
 - Online vs. Batch scoring. In this case, we would like a live endpoint as part of our application roll-out
   that can immediately classify the "potential for churn" among the customers signing up to the service.
 - Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
   (packaging as a Docker container, Flask app etc.)
-
+  
 ## Specify an inference configuration 
 ```python
 from azureml.core.model import InferenceConfig
 from azureml.core.environment import Environment, CondaDependencies
-
 env = Environment.from_pip_requirements(name="onnxruntime_env", file_path='./model_requirements.txt')
 env.register(workspace=ws)
-
 inference_config = InferenceConfig(environment=env, source_directory='./source_dir', entry_script='./score_real.py')
 ```
 

@@ -127,11 +127,6 @@
    Maturity Levels
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="best_practices.html">
-   Best Practices
-  </a>
- </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -363,8 +358,15 @@ deploy a real-time endpoint.
 <p>Since this flows from the model being evaluated, the scoring script and the dependencies are already part of
 the model’s outputs and will default as part of the endpoint deployment.
 <img alt="model_artifacts" src="_images/model_artifacts.jpg" /></p>
-<p>Once deployed, a live endpoint is available to receive data inputs and provide a prediction.
-<sample></p>
+<p>Once deployed, a live endpoint (<code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>) is available to receive data inputs and provide a prediction. Note that with
+this endpoint, many options are configurable - in particular, auto-scaling to accomodate traffic bursts,
+either based upon a manual limit, or a set of metrics.
+<img alt="baseline_endpoint" src="_images/baseline_endpoint.jpg" /></p>
+<p>Using this endpoint with an API key, a script can be easily run to provide predictions. Given the model was
+built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
+This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
+~84% accuracy on the training set. Note that the trained model preserves the logic for any data
+transformations as part of its processing so raw original inputs can be fed into the endpoint.</p>
 <div class="section" id="key-requirements-to-deploy-a-model">
 <h2>Key Requirements to deploy a model<a class="headerlink" href="#key-requirements-to-deploy-a-model" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -378,10 +380,8 @@ that can immediately classify the “potential for churn” among the customers 
 <h2>Specify an inference configuration<a class="headerlink" href="#specify-an-inference-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">azureml.core.model</span> <span class="kn">import</span> <span class="n">InferenceConfig</span>
 <span class="kn">from</span> <span class="nn">azureml.core.environment</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">CondaDependencies</span>
-
 <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_pip_requirements</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;onnxruntime_env&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./model_requirements.txt&#39;</span><span class="p">)</span>
 <span class="n">env</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">workspace</span><span class="o">=</span><span class="n">ws</span><span class="p">)</span>
-
 <span class="n">inference_config</span> <span class="o">=</span> <span class="n">InferenceConfig</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">source_directory</span><span class="o">=</span><span class="s1">&#39;./source_dir&#39;</span><span class="p">,</span> <span class="n">entry_script</span><span class="o">=</span><span class="s1">&#39;./score_real.py&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

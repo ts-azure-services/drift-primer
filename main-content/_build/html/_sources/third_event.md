@@ -17,3 +17,4 @@ it outperforms the existing model, it will be promoted as the new model to the p
 - How do we handle these situations?
 	- Establish a new pipeline, with data after xyz date and train a new model
 	- In practice, are the changes this dramatic?
+![dataset](./imgs/concept_dataset.png)

@@ -1,20 +1,30 @@
 # Welcome
+<span style="color:red">**Work in progress (preview)**</span>
 
 Welcome to the MLOps primer! 
 
-This is intended to be a complement to the <xx consumption motion>, and a miniature training guide to help
-CSAs and customers better understand the MLOps process, and capabilities leveraging Azure Machine Learning.
+This is a miniature training guide to better understand Machine Learning operations (or "MLOps") with a focus
+on concept and data drift, all within Azure Machine Learning.
 
-MLOps is often confused with just Devops and automation. This is a big part of it, but the added complication
-of managing a model's accuracy and understanding changes in data are areas that require additional thinking,
-management and practices. This is not easy and many customers struggle to ensure their ML initiatives become
-and stay production worthy.
+MLOps can often be relegated to just "automation" for machine learning. This is partly true, since DevOps
+practices and automation are foundational practices in MLOps workflows. But a critical part of keeping a model
+healthy or "in production" is focusing on practices around concept and data drift. 
 
-To help illustrate some of the challenges, we have taken an approach of <focusing more on the post deployment
-considerations that crop up, and specifically how AML offers capabilities to manage the whole lifecycle.> As
-the product changes, we will update sections for this, and do our best to keep this a living document.
+Essentially, how is the data changing that may deviate from the original assumptions that trained your model?
 
-Behind this notebook and content sits a full working deployment that can be accessed
-[here](https://github.com/ts-azure-services/mlops-primer/tree/main/scripts). The goal of this is to ensure individuals can follow along and reproduce the same results.
+In practice, there is no standard, deterministic workflows that govern this. However, being aware is half the
+battle. And this awareness can lead to processes and practices that allow models to continue to stay healthy
+and serve key business outcomes.
 
-Also mention that this pivots heavier towards concepts around drift.
+To illustrate these concepts, we have created a fictional narrative that looks at a telecommunication company
+that is looking to predict customer churn. We then try to simulate data changes from the original dataset to
+illustrate concepts around 'concept drift' and 'data drift'. Along the way, we highlight capabilities in Azure
+Machine Learning that aid discovery and resolution of the various decision points. As in real life, there is
+no one way to address changes in the underlying data. More often than not, this exposes the responsibliity of the MLOps team working in
+partnership with the business and their data scientists to keep models healthy and productive. 
+
+## Other Disclaimers
+- Behind this Jupyter notebook sits a working deployment that can be accessed
+  [here](https://github.com/ts-azure-services/mlops-primer). The goal is to ensure individuals can follow along and reproduce the same results.
+- Given the focus on Azure Machine Learning, as product capabilities change, we will look to update this to
+  reflect changes. This content is relevant as of Jan 2022.

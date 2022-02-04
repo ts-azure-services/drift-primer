@@ -127,11 +127,6 @@
    Maturity Levels
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="best_practices.html">
-   Best Practices
-  </a>
- </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -283,6 +278,13 @@
   <a class="reference internal nav-link" href="#creating-a-pipeline">
    Creating a pipeline
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-stages">
+     Model Stages
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-selection">
@@ -317,6 +319,11 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#lift-curve">
      Lift Curve
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cumulative-gains-curve">
+     Cumulative Gains Curve
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -352,6 +359,13 @@
   <a class="reference internal nav-link" href="#creating-a-pipeline">
    Creating a pipeline
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-stages">
+     Model Stages
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-selection">
@@ -387,6 +401,11 @@
     <a class="reference internal nav-link" href="#lift-curve">
      Lift Curve
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cumulative-gains-curve">
+     Cumulative Gains Curve
+    </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#pending">
@@ -420,11 +439,25 @@ classify churned customers, we will be leveraging a set of scripts and workflows
 scripts create a formal pipeline for this process. A pipeline is particularly helpful when one
 wants to standardize a repeatable process. Often, before training, one would need to marry multiple data inputs, do
 some amount of data cleaning and transformation and then have processes after training to register datasets
-and models in the system. Keeping this consistent between training runs is critical.
-<img alt="training_process" src="_images/training_process.jpg" /></p>
+and models in the system. Keeping this consistent between training runs is critical.</p>
+<div class="section" id="model-stages">
+<h3>Model Stages<a class="headerlink" href="#model-stages" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Baseline</span> <span class="pre">Dataset</span></code> - this is the raw dataset that is uploaded into the system.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Transform</span> <span class="pre">Data</span></code> - this is small python script to add bin functions for the <code class="docutils literal notranslate"><span class="pre">MonthlyCharges</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">Tenure</span></code> column.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">train/test</span> <span class="pre">split</span></code> - this step in the pipeline breaks out the transformed dataset into a
+train/test split of 0.9/0.1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Churn</span> <span class="pre">Classification</span></code> - this step is the most time-consuming step and takes the training data as input and
+automatically runs through both feature engineering and training. In the Studio experience, double-clicking
+on this step yields the models generated, and their respective details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Register</span> <span class="pre">the</span> <span class="pre">Best</span> <span class="pre">Model</span></code> - this final step registers the best model in the <code class="docutils literal notranslate"><span class="pre">Models</span></code> section.
+<img alt="training_process" src="_images/training_process.jpg" /></p></li>
+</ol>
 <p>Registration of artifacts through the training process is also a best practice to ensure lineage of data, and reproducability of the
 workflow.
-<img alt="registered_datasets" src="_images/registered_datasets.jpg" /></p>
+<img alt="registered_datasets" src="_images/registered_datasets.png" /></p>
+</div>
 </div>
 <div class="section" id="model-selection">
 <h2>Model Selection<a class="headerlink" href="#model-selection" title="Permalink to this headline">¶</a></h2>
@@ -459,6 +492,10 @@ selection of an accurate model. A few that generate automatically from the syste
 <div class="section" id="lift-curve">
 <h3>Lift Curve<a class="headerlink" href="#lift-curve" title="Permalink to this headline">¶</a></h3>
 <p><img alt="lift_curve" src="_images/lift_curve.jpg" /></p>
+</div>
+<div class="section" id="cumulative-gains-curve">
+<h3>Cumulative Gains Curve<a class="headerlink" href="#cumulative-gains-curve" title="Permalink to this headline">¶</a></h3>
+<p><img alt="cumulative_gains" src="_images/cumulative_gains.jpg" /></p>
 <div class="section" id="pending">
 <h4>Pending<a class="headerlink" href="#pending" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">

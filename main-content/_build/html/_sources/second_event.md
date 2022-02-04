@@ -6,6 +6,7 @@ A couple of things to note:
   major changes in the distributions, or the categories of the data feeding the model.
 - There are 2 new attributes that the business onboarded.
 - They anticipate little to no changes to the algorithm being used.
+![dataset](./imgs/data_drift_dataset.png)
 
 https://github.com/ts-azure-services/aml-datadrift
 

@@ -1,4 +1,4 @@
-"""Retrain script that includes
+"""Data drift script that includes
 uploading the dataset, registering it as a tabular dataset,
 training it with AutoML, and registering the model
 """
