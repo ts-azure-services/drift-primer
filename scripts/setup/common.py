@@ -94,7 +94,7 @@ def register_best_model(
     logging.info(f"Registered {model_name}, with {description}")
     return model
 
-def load_env_variables():
+def load_env_variables(url=None, api_key=None):
     """Load env variables"""
     env_var = load_dotenv('./endpoint_details.env')
     auth_dict = {
@@ -184,9 +184,15 @@ def get_accuracy(prediction_list=None, churn_df=None):
     # Compare model accuracy against test dataset prediction
     churn_df = churn_df.merge(new_df, how='inner', left_index=True, right_index=True)
     churn_df.columns = ['Actual_Churn', 'Predicted_Churn']
+
+    # In cases where Actual_Churn is 1 or 0, convert to T/F
+    # Predicted_Churn always returns T/F
+    if 1 or 0 in list(churn_df['Actual_Churn'].unique()):
+        churn_df['Actual_Churn'].replace({0:False, 1:True}, inplace=True)
+
     churn_df['Actual_Churn'] = churn_df['Actual_Churn'].astype(str)
     churn_df['Predicted_Churn'] = churn_df['Predicted_Churn'].astype(str)
-    #churn_df.to_csv('churn_df.csv', index=False, encoding='utf-8')
+    churn_df.to_csv('churn_df.csv', index=False, encoding='utf-8')
     error_count = len(churn_df.loc[(churn_df['Actual_Churn'] != churn_df['Predicted_Churn'])])
     error_rate = error_count / len(churn_df) * 100
     print(f'Error count is: {error_count}')

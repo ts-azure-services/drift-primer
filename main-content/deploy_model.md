@@ -15,7 +15,7 @@ Since this flows from the model being evaluated, the scoring script and the depe
 the model's outputs and will default as part of the endpoint deployment.
 ![model_artifacts](./imgs/model_artifacts.jpg)
 
-Once deployed, a live endpoint is available to receive data inputs and provide a prediction. Note that with
+Once deployed, a live endpoint (`baseline-model-endpoint`) is available to receive data inputs and provide a prediction. Note that with
 this endpoint, many options are configurable - in particular, auto-scaling to accomodate traffic bursts,
 either based upon a manual limit, or a set of metrics.
 ![baseline_endpoint](./imgs/baseline_endpoint.jpg)
