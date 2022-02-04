@@ -20,3 +20,4 @@
 	- `pip install azureml-dataset-runtime` (particularly needed before running the upload of datasets)
 	- `pip install pandas` (needed before creating the simulated datasets)
 	- `pip install azureml.pipeline` (needed before triggering the `ml_pipeline.py` script)
+	- `pip install azureml.datadrift` (before triggering the data drift monitor)

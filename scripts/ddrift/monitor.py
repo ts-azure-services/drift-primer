@@ -7,6 +7,7 @@ from scripts.authentication.service_principal import ws
 from scripts.setup.common import upload_and_register, model_train, register_best_model
 from azureml.core import Dataset#, ScriptRunConfig, Environment
 from azureml.core.compute import ComputeTarget
+from azureml.datadrift import DataDriftDetector, AlertConfiguration
 import pandas as pd
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
@@ -59,54 +60,73 @@ def create_monitor_datasets(
             create_new_version=True, 
             description='Data Drift Monitor Target Dataset'
             )
+    return bd_tabular, td_tabular
 
 
+# Select features
+def select_features(tabular_dataset=None):
+    columns  = list(tabular_dataset.take(1).to_pandas_dataframe())
+    exclude  = ['__index_level_0__']
+    features = [col for col in columns if col not in exclude]
+    return features
 
-## Select features
-#def select_features(tabular_dataset=None):
-#    columns  = list(tabular_dataset.take(1).to_pandas_dataframe())
-#    exclude  = ['year', 'day', 'version', '__index_level_0__', 'usaf', 'wban']
-#    features = [col for col in columns if col not in exclude]
-#    return features
-#
-## Get dataset monitor
-#def get_dataset_monitor(ws=None, name=None, baseline=None, target=None, compute_target=None, features=None):
-#    dataset_monitor_name = name
-#    try:
-#        monitor = DataDriftDetector.get_by_name(ws, dataset_monitor_name)
-#        print(f'Found the dataset monitor called: {dataset_monitor_name}')
-#    except:
-#        alert_config = AlertConfiguration(['joeyemail@gmail.com']) # replace with your email to recieve alerts from the scheduled pipeline after enabling
-#        monitor = DataDriftDetector.create_from_datasets(
-#            ws, dataset_monitor_name, baseline, target,
-#            compute_target=compute_target, 
-#          frequency='Week',# how often to analyze target data
-#          feature_list=features,                
-#          drift_threshold=None,# threshold from 0 to 1 for email alerting
-#          latency=0,# SLA in hours for target data to arrive in the dataset
-#          alert_config=alert_config)
-#        print(f'Created the dataset monitor called {dataset_monitor_name}')
-#   return monitor 
-#
-## Trigger run
-#def trigger_run(monitor=None):
-#    ## update the feature list
-#    #monitor  = monitor.update(feature_list=features)
-#
-#    # Trigger run for backfill for one month
-#    start_date = datetime(2020, 1, 1)
-#    end_date = datetime(2020, 3, 31)
-#    backfill = monitor.backfill(start_date, end_date)
-#
-#    # make sure the backfill has completed
-#    backfill.wait_for_completion(wait_post_processing=True)
+# Get dataset monitor
+def get_dataset_monitor(
+        ws=None, 
+        dset_monitor_name=None, 
+        baseline=None, 
+        target=None, 
+        compute_target=None, 
+        features=None
+        ):
+    try:
+        monitor = DataDriftDetector.get_by_name(ws, dset_monitor_name)
+        print(f'Found the dataset monitor called: {dset_monitor_name}')
+    except:
+        # replace with your email to recieve alerts from the scheduled pipeline after enabling
+        alert_config = AlertConfiguration(['thomassantosh@gmail.com']) 
+        monitor = DataDriftDetector.create_from_datasets(
+            ws, dset_monitor_name, baseline, target,
+            compute_target=compute_target, 
+          frequency='Week',# how often to analyze target data
+          feature_list=features,                
+          drift_threshold=None,# threshold from 0 to 1 for email alerting
+          latency=0,# SLA in hours for target data to arrive in the dataset
+          alert_config=alert_config)
+        print(f'Created the dataset monitor called {dset_monitor_name}')
+    return monitor 
+
+# Trigger run
+def trigger_run(monitor=None):
+    ## update the feature list
+    #monitor  = monitor.update(feature_list=features)
+
+    # Trigger run for backfill for one month
+    start_date = datetime(2020, 1, 1)
+    end_date = datetime(2020, 3, 31)
+    backfill = monitor.backfill(start_date, end_date)
+
+    # make sure the backfill has completed
+    backfill.wait_for_completion(wait_post_processing=True)
 
 
 
 
 def main():
-    create_monitor_datasets(ws=ws, base_dataset='Transformed Training Baseline Dataset',
+    bd_tabular, td_tabular = create_monitor_datasets(
+            ws=ws, base_dataset='Transformed Training Baseline Dataset',
             target_dataset='Data Drift Dataset')
+
+    features = select_features(td_tabular)
+
+    monitor = get_dataset_monitor(
+            ws=ws,
+            dset_monitor_name='churn-data-drift',
+            baseline=bd_tabular,
+            target=td_tabular,
+            compute_target = ComputeTarget(workspace=ws, name='cpu-cluster'),
+            features=features
+            )
     ## Declare key objects
     #name = 'Data Drift Dataset'
     #experiment_name = 'ddrift_experiment'
