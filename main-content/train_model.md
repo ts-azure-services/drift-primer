@@ -11,7 +11,18 @@ classify churned customers, we will be leveraging a set of scripts and workflows
 scripts create a formal pipeline for this process. A pipeline is particularly helpful when one
 wants to standardize a repeatable process. Often, before training, one would need to marry multiple data inputs, do
 some amount of data cleaning and transformation and then have processes after training to register datasets
-and models in the system. Keeping this consistent between training runs is critical. 
+and models in the system. Keeping this consistent between training runs is critical.
+
+### Model Stages
+1. `Baseline Dataset` - this is the raw dataset that is uploaded into the system.
+2. `Transform Data` - this is small python script to add bin functions for the `MonthlyCharges` and the
+   `Tenure` column.
+3. `Create a train/test split` - this step in the pipeline breaks out the transformed dataset into a
+   train/test split of 0.9/0.1.
+4. `Churn Classification` - this step is the most time-consuming step and takes the training data as input and
+   automatically runs through both feature engineering and training. In the Studio experience, double-clicking
+   on this step yields the models generated, and their respective details.
+5. `Register the Best Model` - this final step registers the best model in the `Models` section.
 ![training_process](./imgs/training_process.jpg)
 
 Registration of artifacts through the training process is also a best practice to ensure lineage of data, and reproducability of the
