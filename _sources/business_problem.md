@@ -1,5 +1,5 @@
 # The Business Scenario
-"XYZ Corporation" is a telecommunications provider that provides cellular and internet services for US
+PFS Corporation is a telecommunications provider that provides cellular and internet services for US
 consumers. Being in a tough, competitive market, they are interested in learning how to improve customer
 satisfaction and improve retention. 
 
