@@ -18,10 +18,10 @@ parts:
     - file: deploy_model
   - caption: Post-Production
     chapters:
-    - file: first_event
-    - file: second_event
-    - file: third_event
-    - file: fourth_event
+    - file: retrain_narrative
+    - file: ddrift_narrative
+    - file: cdrift_narrative 
+    - file: black_swan
   - caption: Other
     chapters:
     - file: year_in_review
