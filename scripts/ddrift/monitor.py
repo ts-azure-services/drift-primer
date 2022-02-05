@@ -2,6 +2,7 @@
 import sys
 import time
 import os.path
+from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
 from scripts.setup.common import upload_and_register, model_train, register_best_model
@@ -96,20 +97,17 @@ def get_dataset_monitor(
         print(f'Created the dataset monitor called {dset_monitor_name}')
     return monitor 
 
-# Trigger run
+
 def trigger_run(monitor=None):
+    """Trigger the data drift run"""
     ## update the feature list
     #monitor  = monitor.update(feature_list=features)
 
     # Trigger run for backfill for one month
-    start_date = datetime(2020, 1, 1)
-    end_date = datetime(2020, 3, 31)
+    start_date = datetime(2021, 1, 1)
+    end_date = datetime(2021, 3, 31)
     backfill = monitor.backfill(start_date, end_date)
-
-    # make sure the backfill has completed
     backfill.wait_for_completion(wait_post_processing=True)
-
-
 
 
 def main():
@@ -127,36 +125,8 @@ def main():
             compute_target = ComputeTarget(workspace=ws, name='cpu-cluster'),
             features=features
             )
-    ## Declare key objects
-    #name = 'Data Drift Dataset'
-    #experiment_name = 'ddrift_experiment'
-    #compute_target = ComputeTarget(workspace=ws, name='cpu-cluster')
-    #local_data_folder = './datasets/ddrift_data/'
-    #target_def_blob_store_path = '/blob-ddrift-dataset/'
 
-    ## Upload the dataset, and register as a tabular dataset
-    #upload_and_register(
-    #        name=name,
-    #        local_data_folder=local_data_folder,
-    #        target_def_blob_store_path=target_def_blob_store_path
-    #        )
-
-    ## Train the model
-    #ds = Dataset.get_by_name(workspace=ws, name=name)
-    #remote_run = model_train(
-    #        dataset=ds, 
-    #        compute_target= compute_target, 
-    #        experiment_name=experiment_name
-    #        )
-
-    ## Register the best model
-    #register_best_model(
-    #        remote_run = remote_run, 
-    #        model_name='DataDrift_Model',
-    #        model_path='outputs/model.pkl',
-    #        description='AutoML Data Drift Model'
-    #        )
-
+    trigger_run(monitor=monitor)
 
 if __name__ == "__main__":
     main()

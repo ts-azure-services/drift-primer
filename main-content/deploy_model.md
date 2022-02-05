@@ -1,5 +1,5 @@
 # Model Deployment
-XYZ Corporation requires a real-time endpoint to profile new customers as they come in. This provides the
+PFS Corporation requires a real-time endpoint to profile new customers as they come in. This provides the
 marketing/GTM team an opportunity to assess if there are ways to ensure these customers are more successful,
 and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML
 clusters, with Azure Kubernetes Service (AKS), managed endpoints and ACI. All require a model, an environment
