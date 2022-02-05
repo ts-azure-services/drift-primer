@@ -10,6 +10,6 @@ A couple of things to note:
 
 https://github.com/ts-azure-services/aml-datadrift
 
-
-## Data Drift Monitor
-<pic of the datasets created, with blur effects>
+## Requirements
+- Show how the re-training works with snapshots.
+- Show how the re-deployment works, including the lineage aspects.

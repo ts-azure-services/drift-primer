@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Drift &#8212; MLOPs Primer</title>
+    <title>Concept Drift &#8212; MLOPs Primer</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Concept Drift" href="third_event.html" />
-    <link rel="prev" title="Three Months Later…" href="first_event.html" />
+    <link rel="next" title="Black Swan" href="black_swan.html" />
+    <link rel="prev" title="Data Drift" href="ddrift_narrative.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -167,22 +167,22 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="first_event.html">
+  <a class="reference internal" href="retrain_narrative.html">
    Three Months Later…
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ddrift_narrative.html">
+   Data Drift
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Data Drift
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="third_event.html">
    Concept Drift
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="fourth_event.html">
+  <a class="reference internal" href="black_swan.html">
    Black Swan
   </a>
  </li>
@@ -244,7 +244,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/second_event.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/cdrift_narrative.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -269,19 +269,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -289,49 +276,39 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Data Drift</h1>
+                <h1>Concept Drift</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="data-drift">
-<h1>Data Drift<a class="headerlink" href="#data-drift" title="Permalink to this headline">¶</a></h1>
-<p>A couple of things to note:</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="concept-drift">
+<h1>Concept Drift<a class="headerlink" href="#concept-drift" title="Permalink to this headline">¶</a></h1>
+<p>Six months after the initial deployment of the model, there are early signs that the model is starting to
+degrade. On the bright side, this seems to be largely because the churn rate is starting to decline in
+response to some of the initiatives taken by the marketing and customer success teams. Given the MLOps team is
+being held to a +80% accuracy on the churn prediction metric, an early alert has shown continual decline in
+the model’s ability to predict accurately.</p>
+<p>In response, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of data. It
+it outperforms the existing model, it will be promoted as the new model to the production system.</p>
 <ul class="simple">
-<li><p>Show how data was collected at the endpoint.</p></li>
-<li><p>The data drift monitor has been operational every day since it started, and highlighted that there are no
-major changes in the distributions, or the categories of the data feeding the model.</p></li>
-<li><p>There are 2 new attributes that the business onboarded.</p></li>
-<li><p>They anticipate little to no changes to the algorithm being used.
-<img alt="dataset" src="_images/data_drift_dataset.png" /></p></li>
+<li><p>This is where alerting can be showcased through App Insights, and Power BI.</p></li>
+<li><p>Change the underlying assumptions on the model side.</p></li>
+<li><p>In our case, this is likely going to be changes on the ‘data drift’. ” To detect data drift, we can trigger
+data factory pipelines weekly that analyze the dataset profiles, with data validation tests.”</p></li>
+<li><p>How do we handle these situations?</p>
+<ul>
+<li><p>Establish a new pipeline, with data after xyz date and train a new model</p></li>
+<li><p>In practice, are the changes this dramatic?
+<img alt="dataset" src="_images/concept_dataset.png" /></p></li>
 </ul>
-<p><a class="reference external" href="https://github.com/ts-azure-services/aml-datadrift">https://github.com/ts-azure-services/aml-datadrift</a></p>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Show how the re-training works with snapshots.</p></li>
-<li><p>Show how the re-deployment works, including the lineage aspects.</p></li>
+</li>
 </ul>
-</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -359,17 +336,17 @@ major changes in the distributions, or the categories of the data feeding the mo
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="first_event.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="ddrift_narrative.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Three Months Later…</p>
+            <p class="prev-next-title">Data Drift</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="third_event.html" title="next page">
+    <a class='right-next' id="next-link" href="black_swan.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Concept Drift</p>
+        <p class="prev-next-title">Black Swan</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

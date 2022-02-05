@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Drift &#8212; MLOPs Primer</title>
+    <title>Three Months Later… &#8212; MLOPs Primer</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Concept Drift" href="third_event.html" />
-    <link rel="prev" title="Three Months Later…" href="first_event.html" />
+    <link rel="next" title="Data Drift" href="ddrift_narrative.html" />
+    <link rel="prev" title="Model Deployment" href="deploy_model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -166,23 +166,23 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="first_event.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Three Months Later…
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ddrift_narrative.html">
    Data Drift
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="third_event.html">
+  <a class="reference internal" href="cdrift_narrative.html">
    Concept Drift
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="fourth_event.html">
+  <a class="reference internal" href="black_swan.html">
    Black Swan
   </a>
  </li>
@@ -244,7 +244,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/second_event.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/retrain_narrative.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -275,8 +275,13 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
+  <a class="reference internal nav-link" href="#validating-training">
+   Validating Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
   </a>
  </li>
 </ul>
@@ -289,7 +294,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Data Drift</h1>
+                <h1>Three Months Later…</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -300,8 +305,13 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
+  <a class="reference internal nav-link" href="#validating-training">
+   Validating Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
   </a>
  </li>
 </ul>
@@ -313,24 +323,57 @@
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="data-drift">
-<h1>Data Drift<a class="headerlink" href="#data-drift" title="Permalink to this headline">¶</a></h1>
-<p>A couple of things to note:</p>
-<ul class="simple">
-<li><p>Show how data was collected at the endpoint.</p></li>
-<li><p>The data drift monitor has been operational every day since it started, and highlighted that there are no
-major changes in the distributions, or the categories of the data feeding the model.</p></li>
-<li><p>There are 2 new attributes that the business onboarded.</p></li>
-<li><p>They anticipate little to no changes to the algorithm being used.
-<img alt="dataset" src="_images/data_drift_dataset.png" /></p></li>
-</ul>
-<p><a class="reference external" href="https://github.com/ts-azure-services/aml-datadrift">https://github.com/ts-azure-services/aml-datadrift</a></p>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Show how the re-training works with snapshots.</p></li>
-<li><p>Show how the re-deployment works, including the lineage aspects.</p></li>
-</ul>
+  <div class="tex2jax_ignore mathjax_ignore section" id="three-months-later">
+<h1>Three Months Later…<a class="headerlink" href="#three-months-later" title="Permalink to this headline">¶</a></h1>
+<p>A few months into the use of the churn model, the business is pleased at some of the early outcomes. Though
+the churn rate has not dramatically improved, this was expected in the short-term. On the positive side, the
+marketing team is aggressively using the model to prioritize outreach and learn customer pain points that
+may lead to churn. This is exactly the short-term cultural push the business is looking to make, as they
+modernize other processes and systems to enhance the customer experience.</p>
+<p>The MLOps team is encouraged by this progress. However, three months have passed since the initial model was
+put in operation. No significant degradation has been noticed in model performance. However, by design, the
+MLOps team would like to ensure the model in operation is not based on data that is older by three months. As
+before, this requires taking the most recent snapshot of customer activity and labeling the ‘ground truth’ for
+which customers have churned (at that point in time, as per the established definition).</p>
+<p>To this end, the <code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code> is the new dataset which contains the same attributes and a classifiction
+for which customers have churned.
+<img alt="dataset" src="_images/retrain_dataset.png" /></p>
+<p>In most scenarios, re-using the original pipeline would be the best practice for training a new model. This
+would preserve the data transformations and the reproducibility of the process. However, one can also train
+with consistent use of scripts without a pipeline, but preserving data lineage, tracking, and experiment
+recreation. To show this flexibility, the new model is triggered through scripts that call the AutoML
+configuration to derive the best model. The best model can then be provisioned through a real-time endpoint
+(<code class="docutils literal notranslate"><span class="pre">retrain-endpoint</span></code>).
+<img alt="retrain_endpoint" src="_images/retrain_endpoint.png" /></p>
+<p>An additional difference in the pipeline approach is that while we explicitly had a step to break out the train and
+test split, in this process we specified the 10% of data preserved for a testing run as part of the
+configuration. Once the training is done, an automatic testing run is triggered using the best model. Results
+are shown below.
+<img alt="retrain_test_data" src="_images/retrain_test_data.jpg" /></p>
+<div class="section" id="validating-training">
+<h2>Validating Training<a class="headerlink" href="#validating-training" title="Permalink to this headline">¶</a></h2>
+<p>Given that model performance has not degraded significantly, this means that the overall relationship between
+customer churn and the underlying attributes has stayed in tact, along with the data distribution being
+largely preserved. Moreover, given AutoML’s features, they feel the algorithm used will be mostly consistent.
+One way to test this would be to:</p>
+<ol class="simple">
+<li><p>Score the new data (<code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>) on the old model endpoint (<code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>). This should
+be close in accuracy.</p></li>
+<li><p>Score the old data (<code class="docutils literal notranslate"><span class="pre">Transformed</span> <span class="pre">Training</span> <span class="pre">Baseline</span> <span class="pre">Dataset</span></code>) on the new model endpoint (<code class="docutils literal notranslate"><span class="pre">retrain-endpoint</span></code>).</p></li>
+</ol>
+<p>Based on the above, they can take a call on whether to keep the existing model in operation, or push a new
+model into production.</p>
+</div>
+<div class="section" id="background-context">
+<h2>Background Context<a class="headerlink" href="#background-context" title="Permalink to this headline">¶</a></h2>
+<p>To simulate this scenario, a simulated dataset has been created which mimics similar distributions and
+input/output relationships from the original dataset. The retraining process should yield a model that is
+fairly close in accuracy to the original model. As mentioned in the ‘The Business Scenario’, establishing
+ground truth for a customer that has actually churned is not always straightforward. One can be deterministic
+in this approach (for example, saying a customer has churned if they have not used the service for greater
+than 30 days), but in some cases, you may know a customer has churned sooner (support calls, bad customer
+experience), or in some cases, a customer may return to the service despite having been classified earlier as
+churned.</p>
 </div>
 </div>
 
@@ -359,17 +402,17 @@ major changes in the distributions, or the categories of the data feeding the mo
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="first_event.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="deploy_model.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Three Months Later…</p>
+            <p class="prev-next-title">Model Deployment</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="third_event.html" title="next page">
+    <a class='right-next' id="next-link" href="ddrift_narrative.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Concept Drift</p>
+        <p class="prev-next-title">Data Drift</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

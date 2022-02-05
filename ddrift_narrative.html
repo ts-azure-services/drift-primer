@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Concept Drift" href="third_event.html" />
-    <link rel="prev" title="Three Months Later…" href="first_event.html" />
+    <link rel="next" title="Concept Drift" href="cdrift_narrative.html" />
+    <link rel="prev" title="Three Months Later…" href="retrain_narrative.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -167,7 +167,7 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="first_event.html">
+  <a class="reference internal" href="retrain_narrative.html">
    Three Months Later…
   </a>
  </li>
@@ -177,12 +177,12 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="third_event.html">
+  <a class="reference internal" href="cdrift_narrative.html">
    Concept Drift
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="fourth_event.html">
+  <a class="reference internal" href="black_swan.html">
    Black Swan
   </a>
  </li>
@@ -244,7 +244,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/second_event.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/ddrift_narrative.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -275,8 +275,23 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
+  <a class="reference internal nav-link" href="#training-results">
+   Training Results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-drift-monitor">
+   Data Drift Monitor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validating-training">
+   Validating Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
   </a>
  </li>
 </ul>
@@ -300,8 +315,23 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#requirements">
-   Requirements
+  <a class="reference internal nav-link" href="#training-results">
+   Training Results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-drift-monitor">
+   Data Drift Monitor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validating-training">
+   Validating Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
   </a>
  </li>
 </ul>
@@ -315,22 +345,56 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="data-drift">
 <h1>Data Drift<a class="headerlink" href="#data-drift" title="Permalink to this headline">¶</a></h1>
-<p>A couple of things to note:</p>
-<ul class="simple">
-<li><p>Show how data was collected at the endpoint.</p></li>
-<li><p>The data drift monitor has been operational every day since it started, and highlighted that there are no
-major changes in the distributions, or the categories of the data feeding the model.</p></li>
-<li><p>There are 2 new attributes that the business onboarded.</p></li>
-<li><p>They anticipate little to no changes to the algorithm being used.
-<img alt="dataset" src="_images/data_drift_dataset.png" /></p></li>
-</ul>
-<p><a class="reference external" href="https://github.com/ts-azure-services/aml-datadrift">https://github.com/ts-azure-services/aml-datadrift</a></p>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Show how the re-training works with snapshots.</p></li>
-<li><p>Show how the re-deployment works, including the lineage aspects.</p></li>
-</ul>
+<p>As a few more months pass, the MLOps team starts to see the retrained model’s accuracy regress. On further
+inspection, they notice that one of the key attributes (<code class="docutils literal notranslate"><span class="pre">Contract</span></code>) is starting to change in its distribution.</p>
+<p>Though ‘Month-to-Month’ contracts were almost ~55% of the customer preferences, this is becoming more even
+across one year and two year contracts as well. The business speculates that given more people are working
+from home during the pandemic, the normal hesitation to commit to longer-term plans is cooling off somewhat.
+As the business learns more, the MLOps recognizes that this distribution may have a potentially negative
+impact on the efficacy of the model to predict churn customers accurately. Of note, <code class="docutils literal notranslate"><span class="pre">Contract</span></code> was one of the
+primary features in the baseline/retrained model. Hence, sharper deviations on this attribute likely may cause
+changes in the current model’s assumptions. This is an example of <strong>data drift</strong>: a circumstance when the
+original distributions of the underlying attributes start to shift from the original distributions that
+trained the base model.</p>
+<p>The remedy is to retrain for the new dataset (if that is the new reality moving forward). At a baseline level, an
+organization could take this philosophy further by automating any model performance loss to initiate a retrain
+of the entire model. This new model could then be elevated to be the new baseline in production. When other
+variables are reasonably consistent (e.g. same algorithm, same objective and use case), this is a reasonable,
+and a recommended course of action, i.e. enforce higher levels of automation. In other cases, there may be a
+need to have more manual intervention, and take a judgement call before pushing a new model to production.</p>
+<div class="section" id="training-results">
+<h2>Training Results<a class="headerlink" href="#training-results" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>The new dataset is the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code>.</p></li>
+<li><p>A single script triggers an AutoML training off this dataset, with similar configuration as the retraining
+exercise a few months before.</p></li>
+<li><p>After re-training, a number of other features now out-rank <code class="docutils literal notranslate"><span class="pre">Contract</span></code>.
+<img alt="ddrift_exp_features" src="_images/ddrift_exp_features.jpg" /></p></li>
+<li><p>Retraining produces models … with accuracy.</p></li>
+<li><p>The test accuracy is …</p></li>
+</ol>
+</div>
+<div class="section" id="data-drift-monitor">
+<h2>Data Drift Monitor<a class="headerlink" href="#data-drift-monitor" title="Permalink to this headline">¶</a></h2>
+<p>One of the ways to keep track of some of these shifts is to periodically run a <strong>dataset monitor</strong> which
+specifically compares datasets between different time periods. It then reports back on where differences
+between distributions are crossing an all-up threshold which can trigger email alerts and notifications like
+below:
+<img alt="data_drift_alert" src="_images/data_drift_alert.jpg" /></p>
+<p>A few examples of some of the available views include:
+<pic1>
+<pic2></p>
+</div>
+<div class="section" id="validating-training">
+<h2>Validating Training<a class="headerlink" href="#validating-training" title="Permalink to this headline">¶</a></h2>
+<p>To see how much the new dataset has degraded on the baseline model, we can compare the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> on
+the older <code class="docutils literal notranslate"><span class="pre">retrain-endpoint</span></code>. This yields a prediction accuracy of xx, compared to the ‘ground truth’.</p>
+</div>
+<div class="section" id="background-context">
+<h2>Background Context<a class="headerlink" href="#background-context" title="Permalink to this headline">¶</a></h2>
+<p>To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the
+<code class="docutils literal notranslate"><span class="pre">Contract</span></code> attribute in the baseline dataset. All else was maintained in terms of attribute distributions and
+overall churn rate with the baseline dataset.</p>
 </div>
 </div>
 
@@ -359,14 +423,14 @@ major changes in the distributions, or the categories of the data feeding the mo
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="first_event.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="retrain_narrative.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
             <p class="prev-next-title">Three Months Later…</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="third_event.html" title="next page">
+    <a class='right-next' id="next-link" href="cdrift_narrative.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Concept Drift</p>
