@@ -22,6 +22,3 @@
 	- `pip install azureml.pipeline` (needed before triggering the `ml_pipeline.py` script)
 	- `pip install azureml.datadrift` (before triggering the data drift monitor)
 
-## Test section
-![support](./support.gif)
-
