@@ -7,6 +7,7 @@ recent pandemic with more people working from home, the business speculates that
 commit to a longer-term plan to lock in more predictable rates. Telecomm providers are also focusing more
 efforts on expanding services through internet services, and are making available better deals on longer-term
 contracts, with fewer switching incentives.
+
 As the business continues to learn more, the MLOps team has a more immediate concern. The existing model needs
 to reflect this new reality and be retrained on the new batch of data. The `Contract` attribute was also one
 of the primary features in the baseline/retrained model hence sharper deviations on this attribute may likely
@@ -35,15 +36,13 @@ take a judgement call before pushing a new model to production.
 	- After re-training, a number of other features now out-rank `Contract`. ![ddrift_exp_features](./imgs/ddrift_exp_features.jpg)
 	- Test accuracy is validated with ...
 3. **Data Drift Monitor.** One of the ways to keep track of some of these shifts is to periodically run a
-   **dataset monitor** which specifically compares datasets between different time periods. It then reports
+   **dataset monitor** which specifically cmpares datasets between different time periods. It then reports
    back on where differences between distributions are crossing an all-up threshold which can trigger email
    alerts and notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
-
 	- A few examples of some of the available views include: <pic1>
 4. **Model inaccuracy.** To see how much the new dataset has degraded on the baseline model, we can compare
    the `Data Drift Dataset` on the older `retrain-endpoint`. This yields a prediction accuracy of xx, compared
    to the 'ground truth'.
-
 
 ## Background Context
 To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the

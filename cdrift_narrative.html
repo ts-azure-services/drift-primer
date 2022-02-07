@@ -269,6 +269,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#necessary-steps">
+   Necessary Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -281,6 +299,24 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#necessary-steps">
+   Necessary Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#background-context">
+   Background Context
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -289,26 +325,52 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="concept-drift">
 <h1>Concept Drift<a class="headerlink" href="#concept-drift" title="Permalink to this headline">¶</a></h1>
-<p>Six months after the initial deployment of the model, there are early signs that the model is starting to
-degrade. On the bright side, this seems to be largely because the churn rate is starting to decline in
-response to some of the initiatives taken by the marketing and customer success teams. Given the MLOps team is
-being held to a +80% accuracy on the churn prediction metric, an early alert has shown continual decline in
-the model’s ability to predict accurately.</p>
-<p>In response, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of data. It
-it outperforms the existing model, it will be promoted as the new model to the production system.</p>
+<p>Six months after the initial deployment of the model, there are signs that the model is degrading in
+performance (again). On the bright side, this seems to be largely because the churn rate is starting to decline in
+response to some of the marketing initiatives. Given the MLOps team is being held to a +80% accuracy on the
+churn prediction metric, an early alert has shown continual decline in the model’s ability to predict
+accurately. As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of
+data. If it outperforms the existing model, it will be promoted as the new model to the production system.</p>
 <ul class="simple">
 <li><p>This is where alerting can be showcased through App Insights, and Power BI.</p></li>
-<li><p>Change the underlying assumptions on the model side.</p></li>
 <li><p>In our case, this is likely going to be changes on the ‘data drift’. ” To detect data drift, we can trigger
 data factory pipelines weekly that analyze the dataset profiles, with data validation tests.”</p></li>
-<li><p>How do we handle these situations?</p>
-<ul>
-<li><p>Establish a new pipeline, with data after xyz date and train a new model</p></li>
-<li><p>In practice, are the changes this dramatic?
-<img alt="dataset" src="_images/concept_dataset.png" /></p></li>
+<li><p>explain concept drift</p></li>
+</ul>
+<p><img alt="dataset" src="_images/concept_dataset.png" /></p>
+<div class="section" id="necessary-steps">
+<h2>Necessary Steps<a class="headerlink" href="#necessary-steps" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>The new batch of data (the <code class="docutils literal notranslate"><span class="pre">Concept</span> <span class="pre">Dataset</span></code>) needs to be registered in the workspace. This dataset
+contains the same attributes though the relationship between the input(s) and the target variable has
+changed. (For example, in the original dataset, the churn was ~26% of the entire population while in the
+new batch of data, it is ~x%.)</p></li>
+<li><p>Off the <code class="docutils literal notranslate"><span class="pre">Concept</span> <span class="pre">Dataset</span></code>, a new training run with AutoML can be triggered to find the best model. The
+AutoML configuration is similar to the retraining step the few months before.</p>
+<ul class="simple">
+<li><p>Post-training, the feature attribution is shown below:  <img alt="ddrift_exp_features" src="_images/ddrift_exp_features.jpg" /></p></li>
+<li><p>Test accuracy is validated with …</p></li>
 </ul>
 </li>
+<li><p><strong>Data Drift Monitor.</strong> One of the ways to keep track of some of these shifts is to periodically run a
+<strong>dataset monitor</strong> which specifically compares datasets between different time periods. It then reports
+back on where differences between distributions are crossing an all-up threshold which can trigger email
+alerts and notifications like below: <img alt="data_drift_alert" src="_images/data_drift_alert.jpg" /></p>
+<ul class="simple">
+<li><p>A few examples of some of the available views include: <pic1></p></li>
 </ul>
+</li>
+<li><p><strong>Model inaccuracy.</strong> To see how much the new dataset has degraded on the baseline model, we can compare
+the <code class="docutils literal notranslate"><span class="pre">Concept</span> <span class="pre">Dataset</span></code> on the older <code class="docutils literal notranslate"><span class="pre">retrain-endpoint</span></code>. This yields a prediction accuracy of xx, compared
+to the ‘ground truth’.</p></li>
+</ol>
+</div>
+<div class="section" id="background-context">
+<h2>Background Context<a class="headerlink" href="#background-context" title="Permalink to this headline">¶</a></h2>
+<p>To illustrate this scenario, a simulated dataset was created adjusting a factor on the churn allocation across
+the customer base. Attribute distributions were kept consistent, while the overall volume of customers stayed
+in a similar range as before.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
