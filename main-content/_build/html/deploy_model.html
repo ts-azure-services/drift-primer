@@ -279,21 +279,6 @@
    Key Requirements to deploy a model
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specify-an-inference-configuration">
-   Specify an inference configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specify-a-deployment-configuration">
-   Specify a deployment configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deploy-the-service-and-retrieve-the-rest-endpoint">
-   Deploy the service and retrieve the REST endpoint
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -317,21 +302,6 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#key-requirements-to-deploy-a-model">
    Key Requirements to deploy a model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specify-an-inference-configuration">
-   Specify an inference configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specify-a-deployment-configuration">
-   Specify a deployment configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deploy-the-service-and-retrieve-the-rest-endpoint">
-   Deploy the service and retrieve the REST endpoint
   </a>
  </li>
 </ul>
@@ -375,39 +345,6 @@ that can immediately classify the “potential for churn” among the customers 
 <li><p>Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
 (packaging as a Docker container, Flask app etc.)</p></li>
 </ul>
-</div>
-<div class="section" id="specify-an-inference-configuration">
-<h2>Specify an inference configuration<a class="headerlink" href="#specify-an-inference-configuration" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">azureml.core.model</span> <span class="kn">import</span> <span class="n">InferenceConfig</span>
-<span class="kn">from</span> <span class="nn">azureml.core.environment</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">CondaDependencies</span>
-<span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_pip_requirements</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;onnxruntime_env&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./model_requirements.txt&#39;</span><span class="p">)</span>
-<span class="n">env</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">workspace</span><span class="o">=</span><span class="n">ws</span><span class="p">)</span>
-<span class="n">inference_config</span> <span class="o">=</span> <span class="n">InferenceConfig</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">source_directory</span><span class="o">=</span><span class="s1">&#39;./source_dir&#39;</span><span class="p">,</span> <span class="n">entry_script</span><span class="o">=</span><span class="s1">&#39;./score_real.py&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="specify-a-deployment-configuration">
-<h2>Specify a deployment configuration<a class="headerlink" href="#specify-a-deployment-configuration" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">azureml.core.webservice</span> <span class="kn">import</span> <span class="n">AciWebservice</span>
-<span class="n">deployment_config</span> <span class="o">=</span> <span class="n">AciWebservice</span><span class="o">.</span><span class="n">deploy_configuration</span><span class="p">(</span>
-    <span class="n">cpu_cores</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">memory_gb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">auth_enabled</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="deploy-the-service-and-retrieve-the-rest-endpoint">
-<h2>Deploy the service and retrieve the REST endpoint<a class="headerlink" href="#deploy-the-service-and-retrieve-the-rest-endpoint" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="o">=</span> <span class="n">Model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span>
-    <span class="n">ws</span><span class="p">,</span>
-    <span class="s2">&quot;myservice&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="n">model</span><span class="p">],</span>
-    <span class="n">inference_config</span><span class="p">,</span>
-    <span class="n">deployment_config</span><span class="p">,</span>
-    <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">service</span><span class="o">.</span><span class="n">wait_for_deployment</span><span class="p">(</span><span class="n">show_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 </div>
 

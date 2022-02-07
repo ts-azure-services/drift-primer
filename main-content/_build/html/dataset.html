@@ -284,11 +284,6 @@
    Attribute Definitions
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#registering-the-dataset">
-   Registering the Dataset
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -317,11 +312,6 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#attribute-definitions">
    Attribute Definitions
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#registering-the-dataset">
-   Registering the Dataset
   </a>
  </li>
 </ul>
@@ -402,63 +392,6 @@ above.</p></li>
 <li><p><strong>Churn</strong>: Yes = the customer left the company this quarter. No = the customer remained with the company.
 Directly related to Churn Value.</p></li>
 </ul>
-</div>
-<div class="section" id="registering-the-dataset">
-<h2>Registering the Dataset<a class="headerlink" href="#registering-the-dataset" title="Permalink to this headline">¶</a></h2>
-<p>Note that as part of data lineage, it is a good practice to register a dataset as part of the initial training
-process. Datasets can be sourced from Azure Storage blobs, ADLS, and a variety of operational datastores (SQL
-DB, PostgreSQL and MySQL). For the purposes of this case study, the original dataset will be uploaded from our
-local drive as part of the initial workspace, and infrastructure creation process.</p>
-<p>Code snippets of that process include:</p>
-<p>Finding the filepaths in the local folder</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_filepaths</span><span class="p">(</span><span class="n">data_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get full paths to discrete data files&quot;&quot;&quot;</span>
-    <span class="n">full_filepaths</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">absolute_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
-    <span class="n">data_files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
-        <span class="n">file_with_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">absolute_path</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">full_filepaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_with_path</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">full_filepaths</span>
-</pre></div>
-</div>
-<p>Registering the dataset</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">register_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">workspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Register datasets&quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">workspace</span><span class="o">=</span><span class="n">workspace</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span><span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span><span class="n">create_new_version</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Dataset registration successful for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Exception in registering dataset. Error is </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Retrieving the default datastore, and uploading the files</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Main operational flow&quot;&quot;&quot;</span>
-    <span class="c1"># Set target locations and specific filename</span>
-    <span class="n">local_data_folder</span> <span class="o">=</span> <span class="s1">&#39;./../input-data&#39;</span>
-    <span class="n">target_def_blob_store_path</span> <span class="o">=</span> <span class="s1">&#39;/blob-input-data/&#39;</span>
-    <span class="n">input_filename</span> <span class="o">=</span> <span class="s1">&#39;HPI_master.csv&#39;</span>
-
-    <span class="c1"># Get input data files from local</span>
-    <span class="n">data_file_paths</span> <span class="o">=</span> <span class="n">data_filepaths</span><span class="p">(</span><span class="n">data_folder</span> <span class="o">=</span> <span class="n">local_data_folder</span><span class="p">)</span>
-
-    <span class="c1"># Get the default blob store</span>
-    <span class="n">def_blob_store</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">get_default_datastore</span><span class="p">()</span>
-
-    <span class="c1"># Upload files to blob store</span>
-    <span class="n">def_blob_store</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span>
-            <span class="n">files</span><span class="o">=</span><span class="n">data_file_paths</span><span class="p">,</span> 
-            <span class="n">target_path</span><span class="o">=</span><span class="n">target_def_blob_store_path</span><span class="p">,</span>
-            <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-    
-    <span class="c1"># Create File Dataset</span>
-    <span class="n">datastore_paths</span> <span class="o">=</span> <span class="p">[(</span><span class="n">def_blob_store</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_def_blob_store_path</span> <span class="o">+</span> <span class="n">input_filename</span><span class="p">))]</span>
-    <span class="n">fd</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">from_files</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">datastore_paths</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 </div>
 
