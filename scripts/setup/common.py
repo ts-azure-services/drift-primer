@@ -193,7 +193,7 @@ def get_accuracy(prediction_list=None, churn_df=None):
 
     churn_df['Actual_Churn'] = churn_df['Actual_Churn'].astype(str)
     churn_df['Predicted_Churn'] = churn_df['Predicted_Churn'].astype(str)
-    churn_df.to_csv('churn_df.csv', index=False, encoding='utf-8')
+    #churn_df.to_csv('churn_df.csv', index=False, encoding='utf-8')
     error_count = len(churn_df.loc[(churn_df['Actual_Churn'] != churn_df['Predicted_Churn'])])
     error_rate = error_count / len(churn_df) * 100
     print(f'Error count is: {error_count}')
