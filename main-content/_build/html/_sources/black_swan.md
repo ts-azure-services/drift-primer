@@ -1,4 +1,5 @@
 # Black Swan
+<span style="color:red">**work in progress**</span>
 - Potentially, complete rebaselining
 - Deliberately degrade the model's accuracy over time. Why? Shift in attributes, and predictions.
 - Introduce data drift, and concept drift as concepts.
