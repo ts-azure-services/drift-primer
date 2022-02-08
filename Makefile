@@ -26,7 +26,7 @@ endpoint_details:
 test_base_accuracy:
 	./scripts/pipeline/test_data_accuracy.py
 
-### Development section
+### Dev section
 lint:
 	pylint --disable=R,C,W1203,W0702,E0110,W0703 ./modeling/retrain/create_retrain_dataset.py
 	pylint --disable=R,C,W1203,W0702,E0110,W0703 ./modeling/conceptdrift/create_concept_dataset.py

@@ -3,8 +3,7 @@
 	- Use notebook templates that define common functionality e.g. database connection template, fetching
 	  data, etc.
 	- Proper documentation.
-2. **Version Control System.**
-	- Version control system for code, data, environments and artifacts.
+2. **Version Control System.** Version control system for code, data, environments and artifacts.
 3. **Performance.** Leverage distributed computing and containerization tools, e.g. Docker, Kubernetes.
 4. **Automation.**
 	- Build workflows, CI/CD pipelines.
