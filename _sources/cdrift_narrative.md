@@ -27,7 +27,6 @@ data. If it outperforms the existing model, it will be promoted as the new model
    the `Concept Dataset` on the older `retrain-endpoint`. This yields a prediction accuracy of xx, compared
    to the 'ground truth'.
 
-
 ## Background Context
 To illustrate this scenario, a simulated dataset was created adjusting a factor on the churn allocation across
 the customer base. Attribute distributions were kept consistent, while the overall volume of customers stayed
