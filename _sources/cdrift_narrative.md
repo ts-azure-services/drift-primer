@@ -2,14 +2,12 @@
 Six months after the initial deployment of the model, there are signs that the model is degrading in
 performance (again). On the bright side, this seems to be largely because the churn rate is starting to decline in
 response to some of the marketing initiatives. Given the MLOps team is being held to a +80% accuracy on the
-churn prediction metric, an early alert has shown continual decline in the model's ability to predict
+churn prediction metric, an early alert (enabled through App Insights) has shown continual decline in the model's ability to predict
 accurately. This is an example of **concept drift** - where the fundamental relationship between the input(s),
 or the attributes and the predicted target variable (i.e. churn) is undergoing change.
 
 As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of
 data. If it outperforms the existing model, it will be promoted as the new model to the production system.
-
-- This is where alerting can be showcased through App Insights, and Power BI.
 
 ## Necessary Steps
 1. The new batch of data (the `Concept Dataset`) needs to be registered in the workspace. This dataset
