@@ -13,7 +13,7 @@ wants to standardize a repeatable process. Often, before training, one would nee
 some amount of data cleaning and transformation and then have processes after training to register datasets
 and models in the system. Keeping this consistent between training runs is critical.
 
-### Model Stages
+## Training Stages
 1. `Baseline Dataset` - this is the raw dataset that is uploaded into the system.
 2. `Transform Data` - this is small python script to add bin functions for the `MonthlyCharges` and the
    `Tenure` column.
@@ -29,33 +29,34 @@ Registration of artifacts through the training process is also a best practice t
 workflow.
 ![registered_datasets](./imgs/registered_datasets.png)
 
-## Model Results & Selection
+## Training Results
+### Models Trained and Results
 With AutoML, a range of different feature engineering and algorithms are considered and ranked based upon the
 performance metric selected. A final "VotingEnsemble" model will then run to combine the benefits of multiple
 models. This will typically ensure the highest accuracy as shown below.
 ![model_selection](./imgs/model_selection.jpg)
 
-## Top Features 
+### Top Features 
 As a part of AutoML's process, the final "VotingEnsemble" model will also produce an "explanations" run to
 highlight a number of aspects, including which features were most predictive of the target variable, i.e.
 Churn. The results are shown below.
 ![top_features](./imgs/top_features.jpg)
 
-## Key Metrics
+### Key Metrics
 With any child run and model produced, a host of charts and metrics are produced which enable evaluation and
 selection of an accurate model. A few that generate automatically from the system are shown below:
 
-### Precision Recall 
+#### Precision Recall 
 ![precision_recall](./imgs/precision_recall.jpg)
 
-### ROC curve
+#### ROC curve
 ![roc_curve](./imgs/ROC.jpg)
 
-### Calibration Curve
+#### Calibration Curve
 ![calibration_curve](./imgs/calibration_curve.jpg)
 
-### Lift Curve
+#### Lift Curve
 ![lift_curve](./imgs/lift_curve.jpg)
 
-### Cumulative Gains Curve
+#### Cumulative Gains Curve
 ![cumulative_gains](./imgs/cumulative_gains.jpg)
