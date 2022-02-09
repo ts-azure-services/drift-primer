@@ -1,19 +1,15 @@
-"""Score data snapshots against baseline endpoint"""
-import urllib.request
-import json
-import time
+"""Score retrain, concept and drift data snapshots against baseline endpoint """
 import os
-import ssl
 import sys
 import os.path
 import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
-from scripts.authentication.service_principal import ws
-from scripts.setup.common import load_env_variables, score_request
+#from scripts.authentication.service_principal import ws
+from scripts.setup.common import load_env_variables#, score_request
 from scripts.setup.common import create_predictions, get_accuracy
 
 
-def request_records(ws=None, source=None):
+def request_records(source=None):
     """Create request records"""
 
     # Pull in the CSV directly
@@ -53,7 +49,7 @@ def compare_reporting(series_df=None, df_len=None):
         print(f"'COMPARE_ERROR' is: {y1}")
         print(f"Error rate: { 100 * y1 / df_len}")
     else:
-        print(f"'All match. No errors.")
+        print("'All match. No errors.")
 
 
 def main():
@@ -64,7 +60,6 @@ def main():
     
     # Create request list
     list_of_records, churn_df = request_records(
-            ws=ws,
             #source='./datasets/cdrift_data/concept_dataset.csv'
             #source='./datasets/ddrift_data/datadrift_dataset.csv'
             #source='./datasets/retrain_data/retrain_dataset.csv'
