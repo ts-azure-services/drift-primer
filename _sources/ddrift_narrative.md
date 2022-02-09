@@ -36,7 +36,7 @@ take a judgement call before pushing a new model to production.
 	- After re-training, a number of other features now out-rank `Contract`. ![ddrift_exp_features](./imgs/ddrift_exp_features.jpg)
 	- Test accuracy is validated with ...
 3. **Data Drift Monitor.** One of the ways to keep track of some of these shifts is to periodically run a
-   **dataset monitor** which specifically cmpares datasets between different time periods. It then reports
+   **dataset monitor** which specifically cmpares datasets over time and between different time periods. It then reports
    back on where differences between distributions are crossing an all-up threshold which can trigger email
    alerts and notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
 	- A few examples of some of the available views include: <pic1>
@@ -47,4 +47,4 @@ take a judgement call before pushing a new model to production.
 ## Background Context
 To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the
 `Contract` attribute in the baseline dataset. All else was maintained in terms of attribute distributions and
-overall churn rate with the baseline dataset. 
+overall churn rate compared to the baseline dataset. 

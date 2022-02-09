@@ -19,8 +19,10 @@ this endpoint, many options are configurable - in particular, auto-scaling to ac
 either based upon a manual limit, or a set of metrics.
 ![baseline_endpoint](./imgs/baseline_endpoint.jpg)
 
+## Predicting using the test data
 Authenticating through this endpoint, a script can be easily run to provide predictions. Given the model was
 built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
 This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
 ~84% accuracy on the training set. Note that the trained model preserves the logic for any data
 transformations as part of its processing so raw original inputs can be fed into the endpoint.
+<GIF view>

@@ -269,6 +269,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predicting-using-the-test-data">
+   Predicting using the test data
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -281,6 +294,19 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predicting-using-the-test-data">
+   Predicting using the test data
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -305,11 +331,15 @@ the model’s outputs and will default as part of the endpoint deployment. More 
 this endpoint, many options are configurable - in particular, auto-scaling to accomodate traffic bursts,
 either based upon a manual limit, or a set of metrics.
 <img alt="baseline_endpoint" src="_images/baseline_endpoint.jpg" /></p>
+<div class="section" id="predicting-using-the-test-data">
+<h2>Predicting using the test data<a class="headerlink" href="#predicting-using-the-test-data" title="Permalink to this headline">¶</a></h2>
 <p>Authenticating through this endpoint, a script can be easily run to provide predictions. Given the model was
 built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
 This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
 ~84% accuracy on the training set. Note that the trained model preserves the logic for any data
-transformations as part of its processing so raw original inputs can be fed into the endpoint.</p>
+transformations as part of its processing so raw original inputs can be fed into the endpoint.
+<GIF view></p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
