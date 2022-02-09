@@ -15,7 +15,7 @@ def main():
     "Main operational workflow"
 
     # Load relevant authentication
-    auth_dict = load_env_variables(url='RETRAIN_URI', api_key='RETRAIN_APIKEY')
+    auth_dict = load_env_variables(url='BASELINE_URI', api_key='BASELINE_APIKEY')
     
     # Create request list
     list_of_records, churn_df = request_records(ws=ws, dataset_name='Concept Dataset')

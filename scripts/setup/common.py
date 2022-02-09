@@ -198,4 +198,5 @@ def get_accuracy(prediction_list=None, churn_df=None):
     error_rate = error_count / len(churn_df) * 100
     print(f'Error count is: {error_count}')
     print(f'Error rate is: {error_rate}')
+    return churn_df
 
