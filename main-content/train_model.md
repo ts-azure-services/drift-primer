@@ -29,7 +29,7 @@ Registration of artifacts through the training process is also a best practice t
 workflow.
 ![registered_datasets](./imgs/registered_datasets.png)
 
-## Model Selection
+## Model Results & Selection
 With AutoML, a range of different feature engineering and algorithms are considered and ranked based upon the
 performance metric selected. A final "VotingEnsemble" model will then run to combine the benefits of multiple
 models. This will typically ensure the highest accuracy as shown below.
