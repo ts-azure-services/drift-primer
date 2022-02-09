@@ -1,5 +1,4 @@
 # The Dataset
-
 This dataset captures customer and feature attributes around use of telecom solution, which was sourced from
 this [Kaggle
 repo](https://www.kaggle.com/blastchar/telco-customer-churn?select=WA_Fn-UseC_-Telco-Customer-Churn.csv). This
@@ -20,7 +19,6 @@ study, we assume that predicting churn is a needed step in the process to evalua
 where underlying problems may exist, including those that have short-term as well as longer term resolutions.
 
 ## Dataset Profile
-
 It is helpful to take advantage of the 'dataset profile' feature available for any dataset uploaded. This is a
 feature that can run off the compute instance or cluster to generate a profile of the dataset. This will
 identify the datatype, if there are any missing counts, and if a numeric field, a range of values around

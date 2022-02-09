@@ -59,7 +59,3 @@ selection of an accurate model. A few that generate automatically from the syste
 
 ### Cumulative Gains Curve
 ![cumulative_gains](./imgs/cumulative_gains.jpg)
-
-
-#### Pending
-- Another way to trigger a model can be using Functions.

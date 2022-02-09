@@ -11,6 +11,9 @@ setup_run:
 create_pipeline:
 	python ./scripts/pipeline/ml_pipeline.py
 
+test_base_accuracy:
+	./scripts/pipeline/test_data_accuracy.py
+
 trigger_retrain:
 	python ./scripts/retrain/retrain.py
 
@@ -23,8 +26,6 @@ trigger_ddrift:
 endpoint_details:
 	./scripts/setup/endpoint-details.sh
 
-test_base_accuracy:
-	./scripts/pipeline/test_data_accuracy.py
 
 ### Dev section
 lint:

@@ -16,7 +16,7 @@ changes is half the battle. And this iterative learning approach can lead to pro
 sustain ML models in production and continue to serve key business outcomes.
 
 ## The Structure
-To illustrate these concepts, we have spun a fictional narrative that looks at a telecommunication company
+To illustrate these concepts, we have spun a fictional narrative taking a telecommunication company
 (PFS Corporation) looking to predict customer churn. We then try to simulate different batches of data from
 the original dataset to illustrate concepts around **concept drift** and **data drift**. Along the way, we
 highlight capabilities in Azure Machine Learning that support these ideas and practices. As in real life,
