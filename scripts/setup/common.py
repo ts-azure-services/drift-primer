@@ -143,7 +143,7 @@ def score_request(
     try:
         response = urllib.request.urlopen(req)
         result = response.read().decode("utf8", "ignore")
-        print(result)
+        #print(result)
     except urllib.error.HTTPError as error:
         print("The request failed with status code: " + str(error.code))
         print(error.info())
@@ -169,7 +169,7 @@ def create_predictions(
         if results != 'No result':
             results = json.loads(results)
             result_list.append(results['Results'])
-            print(f'length of result list: {len(result_list)}')
+            print(f'Length of result list: {len(result_list)}')
     return result_list
 
 def get_accuracy(prediction_list=None, churn_df=None):

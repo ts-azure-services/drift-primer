@@ -50,9 +50,6 @@ def main(base_source=None, compare_source=None):
 
 if __name__ == "__main__":
     base_source = './../../datasets/baseline_revised.csv'
-    #compare_source = './../../datasets/retrain_data/retrain_dataset.csv'
-    compare_source = './../../datasets/ddrift_data/datadrift_dataset.csv'
-    main(
-            base_source=base_source,
-            compare_source=compare_source
-            )
+    compare_source = './../../datasets/retrain_data/retrain_dataset.csv'
+    #compare_source = './../../datasets/ddrift_data/datadrift_dataset.csv'
+    main(base_source=base_source,compare_source=compare_source)

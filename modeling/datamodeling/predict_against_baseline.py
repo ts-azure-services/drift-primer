@@ -30,7 +30,7 @@ def compare_cols(y1,y2):
     else:
         return "COMPARE_ERROR"
 
-def tf_reporting(col_name=None, series_df=None):
+def tf_reporting(col_name=None, series_df=None, df_len=None):
     y1 = series_df.get(key='False')
     if y1 is not None:
         print(f"'FALSE' for {col_name} is: {y1}")
@@ -40,6 +40,8 @@ def tf_reporting(col_name=None, series_df=None):
     y2 = series_df.get(key='True')
     if y2 is not None:
         print(f"'TRUE' for {col_name} is: {y2}")
+        churn_rate = 100 * y2 / df_len
+        print(f"Churn Rate for {col_name}: {churn_rate}")
     else:
         print(f"'TRUE' for {col_name} is: 0")
 
@@ -59,12 +61,7 @@ def main():
     auth_dict = load_env_variables(url='BASELINE_URI', api_key='BASELINE_APIKEY')
     
     # Create request list
-    list_of_records, churn_df = request_records(
-            #source='./datasets/cdrift_data/concept_dataset.csv'
-            #source='./datasets/ddrift_data/datadrift_dataset.csv'
-            #source='./datasets/retrain_data/retrain_dataset.csv'
-            source='./datasets/baseline_revised.csv'
-            )
+    list_of_records, churn_df = request_records(source=sys.argv[1])#'./datasets/baseline_revised.csv'
 
     # Create predictions from real-time endpoint
     prediction_list = create_predictions(auth_dict=auth_dict, list_of_records=list_of_records)
@@ -82,8 +79,8 @@ def main():
     pc_series = cdf['Predicted_Churn'].value_counts()
     diff_series = cdf['Compare'].value_counts()
 
-    tf_reporting(col_name='Actual Churn', series_df=ac_series)
-    tf_reporting(col_name='Predicted Churn', series_df=pc_series)
+    tf_reporting(col_name='Actual Churn', series_df=ac_series, df_len=cdf_len)
+    tf_reporting(col_name='Predicted Churn', series_df=pc_series, df_len= cdf_len)
     compare_reporting(series_df=diff_series,df_len=cdf_len)
 
 
