@@ -1,12 +1,20 @@
 """Script to generate records as per baseline distributions"""
 import math
-import uuid
+#import uuid
 import time
 import random
+import string
 import pandas as pd
 import numpy as np
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
+
+def customer_id_generator():
+    """Generate customer id based upon same structure as baseline data"""
+    numeric_piece = "".join(random.choice(string.digits) for i in range(4))
+    string_piece = "".join(random.choice(string.ascii_uppercase) for i in range(5))
+    customer_id = numeric_piece + '-' + string_piece
+    return customer_id
 
 
 def bin_column(df=None, new_col_name=None, base_col=None, number_bins=None):
@@ -79,6 +87,10 @@ def transform_original_dataset():
     col_list = list(df.columns)
     non_attribute_cols = ['customerID', 'MonthlyCharges', 'Churn']
     attribute_cols = list( set(col_list) - set(non_attribute_cols) )
+
+    # Shuffle dataframe results
+    df = df.sample(frac=1)
+
     return df, attribute_cols
 
 def create_lookup(
@@ -147,7 +159,8 @@ def create_lookup(
         # Iterate through each bluelogging.info to produce rows
         for i in range(dictionary['new_customer_optimized']):
             temp_dict = dictionary.copy()
-            temp_dict.update({'customerID': str(uuid.uuid1())})
+            #temp_dict.update({'customerID': str(uuid.uuid1())})
+            temp_dict.update({'customerID': str(customer_id_generator())})
             temp_customer_list.append(temp_dict)
 
         temp_df = temp_df.append(temp_customer_list)

@@ -17,8 +17,8 @@ def main():
     df.to_csv('./datasets/baseline_revised.csv', encoding='utf-8', index=False)
 
     # Use original dataset to create a bluelogging.info for simulating data
-    min_vol = 7043#6900
-    max_vol = 7043#7200
+    min_vol = 6900#7043#6900
+    max_vol = 7200#7043#7200
     churn_factor = None
     create_lookup(
             df = df,
