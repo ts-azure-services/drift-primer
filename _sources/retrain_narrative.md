@@ -45,6 +45,10 @@ Based on the above, both models are close in predictive accuracy largely because
 fundamentally *similar data*. With this, the new retrained model can be promoted to be the production model
 using by the marketing team.
 
+Note that as part of the use of the baseline endpoint that you push the data in the right order, not just have
+the right columns in the representation.
+![endpoint_format](./imgs/endpoint_format.jpg)
+
 ## Background Context
 - To simulate this scenario, the `Retrain Dataset` was a simulated version of the original data. A script
   (<name of script>) was run to maintain the overall churn relationship and the data distributions inherent in
