@@ -19,7 +19,7 @@ def main():
     # Use original dataset to create a bluelogging.info for simulating data
     min_vol = 6900
     max_vol = 7200
-    churn_factor = 0.5
+    churn_factor = 0.1
     create_lookup(
             df = df,
             attribute_cols= attribute_cols,

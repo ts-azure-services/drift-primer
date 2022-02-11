@@ -115,6 +115,31 @@ def request_records(ws=None, dataset_name=None):
     ds = ds.drop('Churn', axis=1)
     assert list(ds.index) == list(churn_df.index)
 
+    # Ensure right number of columns, and order for consuming API
+    assert len(ds.columns) == 19
+
+    ds = ds.reindex(columns=[
+        "customerID",
+        "gender",
+        "SeniorCitizen",
+        "Partner",
+        "Dependents",
+        "PhoneService",
+        "MultipleLines",
+        "InternetService",
+        "OnlineSecurity",
+        "OnlineBackup",
+        "DeviceProtection",
+        "TechSupport",
+        "StreamingTV",
+        "StreamingMovies",
+        "Contract",
+        "PaperlessBilling",
+        "PaymentMethod",
+        "tenure_bins",
+        "monthly_charges_bins"
+        ])
+
     list_of_records = ds.to_dict('records')
     return list_of_records, churn_df
 

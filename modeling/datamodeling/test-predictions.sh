@@ -14,18 +14,18 @@ sleep 2
 python $endpoint_script $baseline_dataset
 
 # THEN, ITERATE THROUGH COMBINATIONS OF DATASETS, AND ACCURACY MEASURES
-names=("RETRAIN" "DATA-DRIFT" "CONCEPT-DRIFT")
-#names=("CONCEPT-DRIFT")
+#names=("RETRAIN" "DATA-DRIFT" "CONCEPT-DRIFT")
+names=("CONCEPT-DRIFT")
 
 creation_script=(
-	"./modeling/retrain/create_retrain_dataset.py"
-	"./modeling/datadrift/create_datadrift_dataset.py"
+	#"./modeling/retrain/create_retrain_dataset.py"
+	#"./modeling/datadrift/create_datadrift_dataset.py"
 	"./modeling/conceptdrift/create_concept_dataset.py"
 	)
 
 data_snapshot=(
-	"./datasets/retrain_data/retrain_dataset.csv"
-	"./datasets/ddrift_data/datadrift_dataset.csv"
+	#"./datasets/retrain_data/retrain_dataset.csv"
+	#"./datasets/ddrift_data/datadrift_dataset.csv"
 	"./datasets/cdrift_data/concept_dataset.csv"
 	)
 

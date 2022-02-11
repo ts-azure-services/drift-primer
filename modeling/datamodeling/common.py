@@ -201,12 +201,22 @@ def get_ratios(df = None, column_name=None):
     df['new_allocation'] = customer_count * df['new_percent']
     df['new_allocation'] = round(df['new_allocation']).astype(int)
 
+    assert df['percent'].sum() == 1
+    assert df['new_percent'].sum() == 1
+
     # Ensure it adds up to the total customer count
     new_customer_totals = df['new_allocation'].tolist()
     while sum(new_customer_totals) != customer_count:
-        last_value = new_customer_totals[-1:][0]
-        last_value = last_value - 1
-        new_customer_totals[-1:] = [last_value]
+        # When new_customer_totals is lower
+        if sum(new_customer_totals) < customer_count:
+            last_value = new_customer_totals[-1:][0]
+            last_value = last_value + 1
+            new_customer_totals[-1:] = [last_value]
+        else:
+        # When new_customer_totals is overprovisioned
+            last_value = new_customer_totals[-1:][0]
+            last_value = last_value - 1
+            new_customer_totals[-1:] = [last_value]
 
     # Apply back the total to the list
     df['new_allocation'] = new_customer_totals
