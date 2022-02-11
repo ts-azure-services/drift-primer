@@ -16,6 +16,7 @@ python $endpoint_script $baseline_dataset
 # THEN, ITERATE THROUGH COMBINATIONS OF DATASETS, AND ACCURACY MEASURES
 #names=("RETRAIN" "DATA-DRIFT" "CONCEPT-DRIFT")
 names=("CONCEPT-DRIFT")
+#names=("RETRAIN")
 
 creation_script=(
 	#"./modeling/retrain/create_retrain_dataset.py"

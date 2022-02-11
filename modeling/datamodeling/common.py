@@ -189,6 +189,21 @@ def create_lookup(
         ], axis=1)
     final_df.to_csv('./datasets/' + str(dataset_name) + '.csv', encoding='utf-8', index=False)
 
+
+def percent_to_one(sample_list=None):
+    """Ensure percent columns tally to 1"""
+    i = 0
+    ag = 1
+    limit = len(sample_list) - 1
+    while i < limit:
+        ag = ag - sample_list[i]
+        i += 1
+    # Assign new value to last value
+    sample_list[-1:] = [ag]
+    return sample_list
+
+
+
 def get_ratios(df = None, column_name=None):
     """Get ratios for specified column from original dataset"""
     # Ensure that the sum of the values is the customer count
@@ -200,6 +215,15 @@ def get_ratios(df = None, column_name=None):
     df['new_percent'] = 1/len(df)
     df['new_allocation'] = customer_count * df['new_percent']
     df['new_allocation'] = round(df['new_allocation']).astype(int)
+
+    # Check if 'percent' and 'new_percent' column equals 1
+    if df['percent'].sum() != 1:
+        returned_list = percent_to_one(sample_list=df['percent'].tolist())
+        df['percent'] = returned_list
+
+    if df['new_percent'].sum() != 1:
+        returned_list = percent_to_one(sample_list=df['new_percent'].tolist())
+        df['new_percent'] = returned_list
 
     assert df['percent'].sum() == 1
     assert df['new_percent'].sum() == 1
@@ -271,7 +295,7 @@ def create_adjusted_list(
                 replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
                 temp_column_df.loc[t_slice.index, column_name] = replacement_list
 
-            elif result < 0:
+            elif result < 0: # LHS negative fully absorbs RHS
                 rem_key = {n_key:n_val for n_key, n_val in sortdict.items() if n_val != lhs}
                 rem_key = {n_key:n_val for n_key, n_val in rem_key.items() if n_val != rhs}
                 temp_dict = rem_key
@@ -280,6 +304,23 @@ def create_adjusted_list(
                 # Augment the dataframe for the LHS, for the exact number on RHS
                 t_slice = temp_column_df[ temp_column_df[column_name] == keys[0] ]
                 t_slice = t_slice.sample(n=abs(rhs))
+                replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
+                temp_column_df.loc[t_slice.index, column_name] = replacement_list
+
+            elif result > 0: # RHS positive not fully absorbed by LHS negative
+                print('sabotage')
+                # Take out the LHS, RHS values
+                # Store this, and then create a key-value pair for the difference
+                rem_key = {n_key:n_val for n_key, n_val in sortdict.items() if n_val != lhs}
+                rem_key = {n_key:n_val for n_key, n_val in rem_key.items() if n_val != rhs}
+                temp_dict = rem_key
+                temp_dict[keys[-1]] = result
+
+                # Select the temporary dataframe for the attribute value to substitute 
+                t_slice = temp_column_df[ temp_column_df[column_name] == keys[0] ]
+                t_slice = t_slice.sample(n=abs(lhs)) # note diff to 'rhs', since you want the lower value
+
+                # Replace with the right values
                 replacement_list = [ [ keys[len(keys)-1] ] * len(t_slice.index)][0]
                 temp_column_df.loc[t_slice.index, column_name] = replacement_list
 

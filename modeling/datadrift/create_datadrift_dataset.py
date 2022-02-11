@@ -31,11 +31,12 @@ def main():
     df = pd.read_csv('./datasets/retrain_data/retrain_dataset.csv')
 
     # Columns to make an even mix
-    df = column_change(df=df, column_name='Contract')
-    df = column_change(df=df, column_name='PaymentMethod')
-    df = column_change(df=df, column_name='Dependents')
-    df = column_change(df=df, column_name='OnlineSecurity')
-    df = column_change(df=df, column_name='TechSupport')
+    #df = column_change(df=df, column_name='Contract')
+    #df = column_change(df=df, column_name='PaymentMethod')
+    #df = column_change(df=df, column_name='Dependents')
+    #df = column_change(df=df, column_name='OnlineSecurity')
+    #df = column_change(df=df, column_name='TechSupport')
+    df = column_change(df=df, column_name='tenure_bins')
 
     df.to_csv('./datasets/ddrift_data/datadrift_dataset.csv', encoding='utf-8', index=False)
 
