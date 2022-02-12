@@ -25,20 +25,27 @@ location='westus'
 
 # Create a resource group
 printf "${grn}STARTING CREATION OF RESOURCE GROUP...${end}\n"
-rg_create=$(az group create --name $resourcegroup --location $location)
-printf "Result of resource group create:\n $rg_create \n"
+rg_create=$(az group create \
+	--name $resourcegroup \
+	--location $location \
+--only-show-errors)
+#printf "Result of resource group create:\n $rg_create \n"
 
 # Create workspace through CLI
 printf "${grn}STARTING CREATION OF AML WORKSPACE...${end}\n"
-ws_result=$(az ml workspace create -n $workspacename -g $resourcegroup)
-printf "Result of workspace create:\n $ws_result \n"
+ws_result=$(az ml workspace create \
+	-n $workspacename \
+	-g $resourcegroup \
+--only-show-errors)
+#printf "Result of workspace create:\n $ws_result \n"
 
 # Generate service principal credentials
 printf "${grn}GENERATE SERVICE PRINCIPAL CREDENTIALS...${end}\n"
 credentials=$(az ad sp create-for-rbac --name "sp$resourcegroup" \
 	--scopes /subscriptions/$sub_id/resourcegroups/$resourcegroup \
 	--role Contributor \
-	--sdk-auth)
+	--sdk-auth \
+--only-show-errors)
 
 ## Create config_file in specific format
 #printf "${grn}WRITING OUT CONFIG_FILE VARIABLES...${end}\n"

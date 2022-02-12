@@ -26,3 +26,4 @@ parts:
     chapters:
     - file: economics
     - file: year_in_review
+    - file: install
