@@ -9,5 +9,3 @@
 | **Continuous Deployment**  | CD comprises of deploying a service                    | CD comprises of deploying multiple pipelines                                    |
 | **Monitoring**             | Monitor throughput, latency, CPU utilizations, etc.    | Monitor model accuracy, data drift, features along with the basic health checks |
 | **Definitions**            | DevOps = Continous integration + Continuous Deployment | MLOps = DevOps + Model training + Model monitoring                              |
-
-![devops_vs_mlops](./imgs/mlops_vs_devops.png)

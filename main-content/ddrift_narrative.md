@@ -26,22 +26,25 @@ reasonable and recommended approach. In other cases, there may be a need to have
 take a judgement call before pushing a new model to production.
 
 ## Necessary Steps
-1. The new batch of data (the `Data Drift Dataset`) needs to be registered in the workspace. This helps with
-   data lineage and reproducability of results. This dataset contains the same attributes, and relative
-   relationship of churn as the `Transformed Training Baseline Dataset`. However, as noted above, `Contract`
-   is becoming more evenly spread, vs. skewed towards month-to-month contracts. More context on how this was
-   created is in the *Background Context* section below.
-2. Off the `Data Drift Dataset`, a new training run with AutoML can be triggered to find the best model. The
-   AutoML configuration is similar to the retraining step the few months before.
-	- After re-training, a number of other features now out-rank `Contract`. ![ddrift_exp_features](./imgs/ddrift_exp_features.jpg)
+1. **Artifact the new batch of data.** The new batch of data (the `Data Drift Dataset`) needs to be registered
+   in the workspace. This helps with data lineage and reproducability of results. This dataset contains the
+   same attributes, and relative relationship of churn as the `Transformed Training Baseline Dataset`.
+   However, as noted above, `Contract` is becoming more evenly spread, vs. skewed towards month-to-month
+   contracts. More context on how this was created is in the *Background Context* section below.
+2. **Train the model.** Off the `Data Drift Dataset`, a new training run with AutoML can be triggered to find
+   the best model. The AutoML configuration is similar to the retraining step the few months before.
+	- Results of the training process yield the following results:
+	  ![datadrift_models](./imgs/ddrift_models.jpg)
+	- After re-training, a number of other features now out-rank `Contract`.
+	  ![ddrift_exp_features](./imgs/ddrift_exp_features.jpg)
 	- Test accuracy is validated with ...
 3. **Data Drift Monitor.** One of the ways to keep track of some of these shifts is to periodically run a
-   **dataset monitor** which specifically cmpares datasets over time and between different time periods. It then reports
-   back on where differences between distributions are crossing an all-up threshold which can trigger email
-   alerts and notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
+   **dataset monitor** which specifically cmpares datasets over time and between different time periods. It
+   then reports back on where differences between distributions are crossing an all-up threshold which can
+   trigger email alerts and notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
 	- A few examples of some of the available views include: <pic1>
 4. **Model inaccuracy.** To see how much the new dataset has degraded on the baseline model, we can compare
-   the `Data Drift Dataset` on the older `retrain-endpoint`. This yields a prediction accuracy of xx, compared
+   the `Data Drift Dataset` on the older `baseline-model-endpoint`. This yields a prediction accuracy of xx, compared
    to the 'ground truth'.
 
 ## Background Context

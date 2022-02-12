@@ -217,15 +217,15 @@ def get_ratios(df = None, column_name=None):
     df['new_allocation'] = round(df['new_allocation']).astype(int)
 
     # Check if 'percent' and 'new_percent' column equals 1
-    if df['percent'].sum() != 1:
-        returned_list = percent_to_one(sample_list=df['percent'].tolist())
-        df['percent'] = returned_list
+    #if df['percent'].sum() != 1:
+    #    returned_list = percent_to_one(sample_list=df['percent'].tolist())
+    #    df['percent'] = returned_list
 
     if df['new_percent'].sum() != 1:
         returned_list = percent_to_one(sample_list=df['new_percent'].tolist())
         df['new_percent'] = returned_list
 
-    assert df['percent'].sum() == 1
+    #assert df['percent'].sum() == 1
     assert df['new_percent'].sum() == 1
 
     # Ensure it adds up to the total customer count

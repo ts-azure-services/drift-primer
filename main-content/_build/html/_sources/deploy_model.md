@@ -4,8 +4,10 @@ marketing/GTM team an opportunity to assess if there are ways to ensure these cu
 and retain better. They are aware of multiple methods to deploy a model (a local deployment, through Azure ML
 clusters, with Azure Kubernetes Service (AKS), managed endpoints and ACI. All require a **model**, an
 **environment** with the relevant dependencies, a **scoring script** (to run the model and infer a prediction)
-and a **deployment configuration**. Given the need to move fast and manage as minimal infrastucture as
-possible, they are interested in leveraging the managed online endpoint.
+and a **deployment configuration**. 
+
+Given the need to move fast and manage as minimal infrastucture as possible, they are interested in leveraging
+the managed online endpoint.
 
 The easiest approach once a model has been selected is to walk through the wizard option in the studio to
 deploy a real-time endpoint. Since this flows from the model being evaluated, the scoring script and the dependencies are already part of
@@ -17,14 +19,10 @@ this endpoint, many options are configurable - in particular, auto-scaling to ac
 either based upon a manual limit, or a set of metrics.
 ![baseline_endpoint](./imgs/baseline_endpoint.jpg)
 
+## Predicting using the test data
 Authenticating through this endpoint, a script can be easily run to provide predictions. Given the model was
 built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
 This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
 ~84% accuracy on the training set. Note that the trained model preserves the logic for any data
 transformations as part of its processing so raw original inputs can be fed into the endpoint.
-
-## Key Requirements to deploy a model
-- Online vs. Batch scoring. In this case, we would like a live endpoint as part of our application roll-out
-  that can immediately classify the "potential for churn" among the customers signing up to the service.
-- Briefly evaluate if you need to deploy through the inferencing in AML, and what other options exist
-  (packaging as a Docker container, Flask app etc.)
+<GIF view>
