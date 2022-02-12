@@ -12,9 +12,9 @@ Learning, do follow the installation steps below, and learn more at the <repo>.
    the virtualized environment, you can run `make install`.
 ![make_install](./imgs/install_gifs/make_install.gif)
 
-**Note:** While you can install the python dependencies as per the `requirements.txt file`, a more
-step-by-step approach is to install progressively as the scripts are run. Generally, that workflow is shown
-below:
+- **Note:** While you can install the python dependencies as per the `requirements.txt file`, a more
+  step-by-step approach is to install progressively as the scripts are run. Generally, that workflow is shown
+  below:
 	- `pip install python-dotenv` (for environment variables)
 	- `pip install azureml-core` (for installing the base SDK of Azure ML)
 	- `pip install azureml-dataset-runtime` (particularly needed before running the upload of datasets)
