@@ -52,10 +52,6 @@ Based on the above, both models are close in predictive accuracy largely because
 fundamentally *similar data*. With this, the new re-trained model can be promoted to be the production model
 using by the marketing team. 
 
-**Note:** when using any endpoint, ensure you provide not only the right data into the request, but the *right
-order* of the request. Once an endpoint is live, you can see the *Consume* section to visually see the format.
-An example below: ![endpoint_format](./imgs/endpoint_format.jpg)
-
 ## Background Context
 - To simulate this scenario, the `Retrain Dataset` was a simulated version of the original data. A script
   (<name of script>) was run to maintain the overall churn relationship and the data distributions inherent in

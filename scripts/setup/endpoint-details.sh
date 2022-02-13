@@ -62,46 +62,46 @@ printf "Result of retrain api key:\n $retrain_apikey \n"
 sleep 2
 
 
-# Get concept drift endpoint
-printf "${grn}GET CONCEPT ENDPOINT URI...${end}\n"
-concept_endpoint_name='cdrift-endpoint'
-concept_uri=$(az ml online-endpoint show\
-	--name $concept_endpoint_name \
-	-g $resourcegroup \
-	--workspace-name $workspacename \
-	--query "scoring_uri")
-printf "Result of concept URI:\n $concept_uri \n"
-sleep 2
-
-printf "${grn}GET CONCEPT ENDPOINT API KEY...${end}\n"
-concept_apikey=$(az ml online-endpoint get-credentials\
-	--name $concept_endpoint_name \
-	-g $resourcegroup \
-	--workspace-name $workspacename \
-	--query "primaryKey")
-printf "Result of concept api key:\n $concept_apikey \n"
-sleep 2
-
-
-# Get data drift endpoint
-printf "${grn}GET DDRIFT ENDPOINT URI...${end}\n"
-ddrift_endpoint_name='ddrift-endpoint'
-ddrift_uri=$(az ml online-endpoint show\
-	--name $ddrift_endpoint_name \
-	-g $resourcegroup \
-	--workspace-name $workspacename \
-	--query "scoring_uri")
-printf "Result of ddrift URI:\n $ddrift_uri \n"
-sleep 2
-
-printf "${grn}GET DDRIFT ENDPOINT API KEY...${end}\n"
-ddrift_apikey=$(az ml online-endpoint get-credentials\
-	--name $ddrift_endpoint_name \
-	-g $resourcegroup \
-	--workspace-name $workspacename \
-	--query "primaryKey")
-printf "Result of ddrift api key:\n $ddrift_apikey \n"
-sleep 2
+## Get concept drift endpoint
+#printf "${grn}GET CONCEPT ENDPOINT URI...${end}\n"
+#concept_endpoint_name='cdrift-endpoint'
+#concept_uri=$(az ml online-endpoint show\
+#	--name $concept_endpoint_name \
+#	-g $resourcegroup \
+#	--workspace-name $workspacename \
+#	--query "scoring_uri")
+#printf "Result of concept URI:\n $concept_uri \n"
+#sleep 2
+#
+#printf "${grn}GET CONCEPT ENDPOINT API KEY...${end}\n"
+#concept_apikey=$(az ml online-endpoint get-credentials\
+#	--name $concept_endpoint_name \
+#	-g $resourcegroup \
+#	--workspace-name $workspacename \
+#	--query "primaryKey")
+#printf "Result of concept api key:\n $concept_apikey \n"
+#sleep 2
+#
+#
+## Get data drift endpoint
+#printf "${grn}GET DDRIFT ENDPOINT URI...${end}\n"
+#ddrift_endpoint_name='ddrift-endpoint'
+#ddrift_uri=$(az ml online-endpoint show\
+#	--name $ddrift_endpoint_name \
+#	-g $resourcegroup \
+#	--workspace-name $workspacename \
+#	--query "scoring_uri")
+#printf "Result of ddrift URI:\n $ddrift_uri \n"
+#sleep 2
+#
+#printf "${grn}GET DDRIFT ENDPOINT API KEY...${end}\n"
+#ddrift_apikey=$(az ml online-endpoint get-credentials\
+#	--name $ddrift_endpoint_name \
+#	-g $resourcegroup \
+#	--workspace-name $workspacename \
+#	--query "primaryKey")
+#printf "Result of ddrift api key:\n $ddrift_apikey \n"
+#sleep 2
 
 
 # Create endpoint file
@@ -111,7 +111,7 @@ printf "BASELINE_URI=$baseline_uri \n" > $env_variable_file
 printf "BASELINE_APIKEY=$baseline_apikey \n" >> $env_variable_file
 printf "RETRAIN_URI=$retrain_uri \n" >> $env_variable_file
 printf "RETRAIN_APIKEY=$retrain_apikey \n" >> $env_variable_file
-printf "CDRIFT_URI=$concept_uri \n" >> $env_variable_file
-printf "CDRIFT_APIKEY=$concept_apikey \n" >> $env_variable_file
-printf "DDRIFT_URI=$ddrift_uri \n" >> $env_variable_file
-printf "DDRIFT_APIKEY=$ddrift_apikey \n" >> $env_variable_file
+#printf "CDRIFT_URI=$concept_uri \n" >> $env_variable_file
+#printf "CDRIFT_APIKEY=$concept_apikey \n" >> $env_variable_file
+#printf "DDRIFT_URI=$ddrift_uri \n" >> $env_variable_file
+#printf "DDRIFT_APIKEY=$ddrift_apikey \n" >> $env_variable_file

@@ -323,12 +323,28 @@
 Learning, do follow the installation steps below, and learn more at the <repo>.</p>
 <div class="section" id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this headline">¶</a></h2>
+<p><strong>Pre-requisites: You need to have the Azure CLI installed, with the <code class="docutils literal notranslate"><span class="pre">ml</span></code> extension installed.</strong></p>
 <ol class="simple">
 <li><p>Create a virtualized environment and activate it.
 <img alt="create_virtual_env" src="_images/create_virtual_env.gif" /></p></li>
 <li><p>Install the required python dependencies into this environment. With the included Makefile, once you are in
 the virtualized environment, you can run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>.
-<img alt="make_install" src="_images/make_install.gif" /></p></li>
+<img alt="make_install" src="_images/make_install.gif" /></p>
+<ul class="simple">
+<li><p><strong>Note:</strong> While you can install the python dependencies as per the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span> <span class="pre">file</span></code>, a more
+step-by-step approach is to install progressively as the scripts are run. Generally, that workflow is shown
+below:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">python-dotenv</span></code> (for environment variables)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azureml-core</span></code> (for installing the base SDK of Azure ML)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azureml-dataset-runtime</span></code> (particularly needed before running the upload of datasets)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code> (needed before creating the simulated datasets)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azureml.pipeline</span></code> (needed before triggering the <code class="docutils literal notranslate"><span class="pre">ml_pipeline.py</span></code> script)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azureml.datadrift</span></code> (before triggering the data drift monitor)</p></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p>Ensure you have an environment variable file called <code class="docutils literal notranslate"><span class="pre">sub.env</span></code> in your root, with the Azure subscription you
 are using listed in the file as <code class="docutils literal notranslate"><span class="pre">SUB_ID=&lt;your</span> <span class="pre">subscription&gt;</span></code>.
 <img alt="sub_env" src="_images/sub_env_file.png" /></p></li>

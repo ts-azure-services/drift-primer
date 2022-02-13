@@ -22,7 +22,16 @@ either based upon a manual limit, or a set of metrics.
 ## Predicting using the test data
 Authenticating through this endpoint, a script can be easily run to provide predictions. Given the model was
 built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
-This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
-~84% accuracy on the training set. Note that the trained model preserves the logic for any data
-transformations as part of its processing so raw original inputs can be fed into the endpoint.
-<GIF view>
+
+**Note:** when using any endpoint, ensure you provide not only the right data into the request, but the *right
+order* of the request. Once an endpoint is live, you can view the *Consume* section to visually see the order. An example below: 
+
+![baseline_endpoint_order](./imgs/baseline_endpoint_order.jpg)
+
+### Results
+Comparing the 'ground truth' with the predictions, we see an error rate of ~20%, hence an ~80% accuracy by the
+chosen performance metric. This is not as accurate as the results off the training data (~85%), but is
+reasonably aligned. Note that the trained model preserves the logic for any data transformations as part of
+its processing so raw original inputs can be fed into the endpoint.
+![test_baseline_accuracy](./gifs/test_baseline_accuracy.gif)
+

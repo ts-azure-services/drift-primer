@@ -283,6 +283,13 @@
   <a class="reference internal nav-link" href="#predicting-using-the-test-data">
    Predicting using the test data
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#results">
+     Results
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -308,6 +315,13 @@
   <a class="reference internal nav-link" href="#predicting-using-the-test-data">
    Predicting using the test data
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#results">
+     Results
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -339,11 +353,18 @@ either based upon a manual limit, or a set of metrics.
 <div class="section" id="predicting-using-the-test-data">
 <h2>Predicting using the test data<a class="headerlink" href="#predicting-using-the-test-data" title="Permalink to this headline">¶</a></h2>
 <p>Authenticating through this endpoint, a script can be easily run to provide predictions. Given the model was
-built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.
-This yields a ~80% accuracy by the chosen performance metric. This is reasonably good, compared to the
-~84% accuracy on the training set. Note that the trained model preserves the logic for any data
-transformations as part of its processing so raw original inputs can be fed into the endpoint.
-<GIF view></p>
+built off an 90/10 split of train/test data, we can push the test data through the API to yield predictions.</p>
+<p><strong>Note:</strong> when using any endpoint, ensure you provide not only the right data into the request, but the <em>right
+order</em> of the request. Once an endpoint is live, you can view the <em>Consume</em> section to visually see the order. An example below:</p>
+<p><img alt="baseline_endpoint_order" src="_images/baseline_endpoint_order.jpg" /></p>
+<div class="section" id="results">
+<h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
+<p>Comparing the ‘ground truth’ with the predictions, we see an error rate of ~20%, hence an ~80% accuracy by the
+chosen performance metric. This is not as accurate as the results off the training data (~85%), but is
+reasonably aligned. Note that the trained model preserves the logic for any data transformations as part of
+its processing so raw original inputs can be fed into the endpoint.
+<img alt="test_baseline_accuracy" src="_images/test_baseline_accuracy.gif" /></p>
+</div>
 </div>
 </div>
 

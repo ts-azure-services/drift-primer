@@ -11,23 +11,25 @@ setup_run:
 create_pipeline:
 	python ./scripts/pipeline/ml_pipeline.py
 
-test_base_accuracy:
-	./scripts/pipeline/test_data_accuracy.py
-
 trigger_retrain:
 	python ./scripts/retrain/retrain.py
-
-trigger_cdrift:
-	python ./scripts/cdrift/cdrift.py
-
-trigger_ddrift:
-	python ./scripts/ddrift/ddrift.py
 
 endpoint_details:
 	./scripts/setup/endpoint-details.sh
 
+test_baseline_accuracy:
+	python ./scripts/pipeline/test_data_accuracy.py
 
-### Dev section
+trigger_ddrift:
+	python ./scripts/ddrift/ddrift.py
+
+trigger_cdrift:
+	python ./scripts/cdrift/cdrift.py
+
+
+
+
+############## DEV SECTION #####################
 lint:
 	pylint --disable=R,C,W1203,W0702,E0110,W0703 ./modeling/retrain/create_retrain_dataset.py
 	pylint --disable=R,C,W1203,W0702,E0110,W0703 ./modeling/conceptdrift/create_concept_dataset.py
