@@ -4,7 +4,7 @@ performance (again). On the bright side, this seems to be largely because the ch
 decline in response to some of the marketing initiatives. Given the MLOps team is looking to maintain an
 accurate model, an early alert (enabled through App Insights) has shown continual decline in the model's
 ability to predict accurately. This is an example of **concept drift** - where the fundamental relationship
-between the input(s), or the attributes and the predicted target variable (i.e. churn) is undergoing change.
+between the input(s), or the attributes and the predicted target variable (i.e. churn) is undergoing shifts.
 
 As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of
 data. If it outperforms the existing model, it will be promoted as the new model to the production system.
@@ -18,16 +18,19 @@ data. If it outperforms the existing model, it will be promoted as the new model
    AutoML configuration is similar to the retraining step a few months before.
    	- Results of the training process yield the following results: ![concept_models](./imgs/concept_models.jpg)
 	- Post-training, the feature attribution is shown below:  ![cdrift_features](./imgs/cdrift_features.jpg)
-	- Test accuracy is validated with ...
-4. **Model inaccuracy.** To see how much the new dataset has degraded on the baseline model, we can compare
-   the `Concept Dataset` on the first `baseline-model-endpoint`. This yields a prediction accuracy of +24%, compared
-   to the 'ground truth'. <show image> 
-	- **Note:** A key aspect to note is that given the dramatic change in churn rate, the accuracy for the
-	  new model is approximately 99%. This is because now only 25 customers churned in this new dataset!
-	  So the likelihood of predicting a `False` value is extremely high. At this point, it may make sense to not
-	  continue this as a use case given the dramatically reduced need. 
+	- Test accuracy is consistent with the trained model, as seen:  ![concept_test_accuracy](./imgs/concept_test_accuracy.jpg)
+
+## Comparing the baseline model
+To see how much the new dataset has degraded on the baseline model, we can compare the `Concept Dataset` on
+the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline test
+accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+is a little *too good*. This is because now only 25 customers churned in this new batch! So the likelihood of
+predicting a `False` value is extremely high. At this point, it may make sense to not continue this as a use
+case given the dramatically reduced need for prediction.
+
+![compare_concept_drift](./gifs/compare_concept_drift.gif)
 
 ## Background Context
 To illustrate this scenario, a simulated dataset was created adjusting a factor on the churn allocation across
 the customer base. Attribute distributions were kept consistent, while the overall volume of customers stayed
-in a similar range as before. 
+in a similar range as before. More details are in the `modeling` folder of the repo. 

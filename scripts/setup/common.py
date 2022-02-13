@@ -194,7 +194,7 @@ def create_predictions(
         if results != 'No result':
             results = json.loads(results)
             result_list.append(results['Results'])
-            print(f'Length of result list: {len(result_list)}')
+            print(f'Batch count sent to prediction API: {len(result_list)}')
     return result_list
 
 def get_accuracy(prediction_list=None, churn_df=None):
