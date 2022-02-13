@@ -20,7 +20,7 @@ data. If it outperforms the existing model, it will be promoted as the new model
 	- Post-training, the feature attribution is shown below:  ![cdrift_features](./imgs/cdrift_features.jpg)
 	- Test accuracy is consistent with the trained model, as seen:  ![concept_test_accuracy](./imgs/concept_test_accuracy.jpg)
 
-## Comparing the baseline model
+## Comparing the Baseline Model
 To see how much the new dataset has degraded on the baseline model, we can compare the `Concept Dataset` on
 the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline test
 accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model

@@ -288,6 +288,16 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-drift-monitor">
+   Data Drift Monitor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-the-baseline-model">
+   Comparing the Baseline Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#background-context">
    Background Context
   </a>
@@ -315,6 +325,16 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#necessary-steps">
    Necessary Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-drift-monitor">
+   Data Drift Monitor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-the-baseline-model">
+   Comparing the Baseline Model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -374,18 +394,25 @@ the best model. The AutoML configuration is similar to the retraining step the f
 <li><p>Test accuracy is validated with …</p></li>
 </ul>
 </li>
-<li><p><strong>Data Drift Monitor.</strong> One of the ways to keep track of some of these shifts is to periodically run a
-<strong>dataset monitor</strong> which specifically cmpares datasets over time and between different time periods. It
-then reports back on where differences between distributions are crossing an all-up threshold which can
-trigger email alerts and notifications like below: <img alt="data_drift_alert" src="_images/data_drift_alert.jpg" /></p>
-<ul class="simple">
-<li><p>A few examples of some of the available views include: <pic1></p></li>
-</ul>
-</li>
-<li><p><strong>Model inaccuracy.</strong> To see how much the new dataset has degraded on the baseline model, we can compare
-the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> on the older <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields a prediction accuracy of xx, compared
-to the ‘ground truth’.</p></li>
 </ol>
+</div>
+<div class="section" id="data-drift-monitor">
+<h2>Data Drift Monitor<a class="headerlink" href="#data-drift-monitor" title="Permalink to this headline">¶</a></h2>
+<p>One of the ways to keep track of some of these shifts is to periodically run a <strong>dataset monitor</strong> which
+specifically cmpares datasets over time and between different time periods. It then reports back on where
+differences between distributions are crossing an all-up threshold which can trigger email alerts and
+notifications like below: <img alt="data_drift_alert" src="_images/data_drift_alert.jpg" />
+- A few examples of some of the available views include: <pic1></p>
+</div>
+<div class="section" id="comparing-the-baseline-model">
+<h2>Comparing the Baseline Model<a class="headerlink" href="#comparing-the-baseline-model" title="Permalink to this headline">¶</a></h2>
+<p>To see how much the new dataset has degraded on the baseline model, we can compare the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> on
+the original <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields an error rate of +23%, compared to the baseline test
+accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+is a little <em>too good</em>. This is because now only 25 customers churned in this new batch! So the likelihood of
+predicting a <code class="docutils literal notranslate"><span class="pre">False</span></code> value is extremely high. At this point, it may make sense to not continue this as a use
+case given the dramatically reduced need for prediction.</p>
+<p><img alt="data_drift_comparison" src="_images/compare_data_drift.gif" /></p>
 </div>
 <div class="section" id="background-context">
 <h2>Background Context<a class="headerlink" href="#background-context" title="Permalink to this headline">¶</a></h2>

@@ -287,11 +287,6 @@
    Key Observations
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#final-thoughts">
-   Final Thoughts
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -317,11 +312,6 @@
    Key Observations
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#final-thoughts">
-   Final Thoughts
-  </a>
- </li>
 </ul>
 
                         </nav>
@@ -340,7 +330,10 @@ you can see the projected costs based on the actual resources deployed and used 
 <h2>Key Observations<a class="headerlink" href="#key-observations" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>The estimated cost for an end-to-end solution from training to real-time inferencing is approximately $500
-per month.</p></li>
+per month. Rationalizing this cost involves comparing it against the impact of the customer efforts to minimize churn and
+improve retention. If the cost of acquiring a net new customer is presumably in hundreds of thousands as per
+the initial estimate in the beginning, the cost of maintaining this solution will likely provide an <strong>ROI of
++10x</strong>.</p></li>
 <li><p>The bulk of the cost is in keeping live VMs operational to serve the real-time endpoints. The cost of
 training and storage of datasets is trivial by comparison. However, note that this estimate assumes
 <strong>keeping all endpoints live</strong> for the duration of the entire month. In practice, as one model gets
@@ -349,13 +342,6 @@ be live to compare back and forth between them to understand prediction accuracy
 <li><p>The compute cluster profile (as of the time of this example) is shown below:
 <img alt="resource-profile" src="_images/resource-profile.jpg" /></p></li>
 </ol>
-</div>
-<div class="section" id="final-thoughts">
-<h2>Final Thoughts<a class="headerlink" href="#final-thoughts" title="Permalink to this headline">¶</a></h2>
-<p>Rationalizing this cost involves comparing it against the impact of the customer efforts to minimize churn and
-improve retention. If the cost of acquiring a net new customer is presumably in hundreds of thousands as per
-the initial estimate in the beginning, the cost of maintaining this solution will likely provide an ROI of
-+10x.</p>
 </div>
 </div>
 

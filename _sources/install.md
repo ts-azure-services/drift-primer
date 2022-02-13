@@ -3,6 +3,7 @@ If you'd like to get started with reproducing some of these insights where getti
 Learning, do follow the installation steps below, and learn more at the <repo>.
 
 ## Installation Steps
+### Setup the Environment
 **Pre-requisites: You need to have the Azure CLI installed, with the `ml` extension installed.**
 
 1. Create a virtualized environment and activate it.
@@ -29,9 +30,11 @@ Learning, do follow the installation steps below, and learn more at the <repo>.
    creation of the cluster, and uploading of the original raw dataset.
 ![make_setup_run](./imgs/install_gifs/make_setup_run.gif)
 
-5. Create the initial training pipeline run with `make create_pipeline`.
 
-6. To train any of the retrain, data drift or concept drift scenarios, use the following commands:
+### Key Workflows
+1. Create the initial training pipeline run with `make create_pipeline`.
+
+2. To train any of the retrain, data drift or concept drift scenarios, use the following commands:
 	- For re-training, `make trigger_retrain`.
 	- For data drift, `make trigger_ddrift`.
 	- For concept drift, `make trigger_cdrift`.
