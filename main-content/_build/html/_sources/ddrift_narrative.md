@@ -38,14 +38,23 @@ take a judgement call before pushing a new model to production.
 	- After re-training, a number of other features now out-rank `Contract`.
 	  ![ddrift_exp_features](./imgs/ddrift_exp_features.jpg)
 	- Test accuracy is validated with ...
-3. **Data Drift Monitor.** One of the ways to keep track of some of these shifts is to periodically run a
-   **dataset monitor** which specifically cmpares datasets over time and between different time periods. It
-   then reports back on where differences between distributions are crossing an all-up threshold which can
-   trigger email alerts and notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
+
+## Data Drift Monitor
+One of the ways to keep track of some of these shifts is to periodically run a **dataset monitor** which
+specifically cmpares datasets over time and between different time periods. It then reports back on where
+differences between distributions are crossing an all-up threshold which can trigger email alerts and
+notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
 	- A few examples of some of the available views include: <pic1>
-4. **Model inaccuracy.** To see how much the new dataset has degraded on the baseline model, we can compare
-   the `Data Drift Dataset` on the older `baseline-model-endpoint`. This yields a prediction accuracy of xx, compared
-   to the 'ground truth'.
+
+## Comparing the Baseline Model
+To see how much the new dataset has degraded on the baseline model, we can compare the `Data Drift Dataset` on
+the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline test
+accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+is a little *too good*. This is because now only 25 customers churned in this new batch! So the likelihood of
+predicting a `False` value is extremely high. At this point, it may make sense to not continue this as a use
+case given the dramatically reduced need for prediction.
+
+![data_drift_comparison](./gifs/compare_data_drift.gif)
 
 ## Background Context
 To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the

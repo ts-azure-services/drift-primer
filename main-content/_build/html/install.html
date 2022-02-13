@@ -282,6 +282,18 @@
   <a class="reference internal nav-link" href="#installation-steps">
    Installation Steps
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup-the-environment">
+     Setup the Environment
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#key-workflows">
+     Key Workflows
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -307,6 +319,18 @@
   <a class="reference internal nav-link" href="#installation-steps">
    Installation Steps
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup-the-environment">
+     Setup the Environment
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#key-workflows">
+     Key Workflows
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -323,6 +347,8 @@
 Learning, do follow the installation steps below, and learn more at the <repo>.</p>
 <div class="section" id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="setup-the-environment">
+<h3>Setup the Environment<a class="headerlink" href="#setup-the-environment" title="Permalink to this headline">¶</a></h3>
 <p><strong>Pre-requisites: You need to have the Azure CLI installed, with the <code class="docutils literal notranslate"><span class="pre">ml</span></code> extension installed.</strong></p>
 <ol class="simple">
 <li><p>Create a virtualized environment and activate it.
@@ -351,6 +377,11 @@ are using listed in the file as <code class="docutils literal notranslate"><span
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">setup_run</span></code>. This will trigger the creation of the basic Azure Machine Learning setup, followed by
 creation of the cluster, and uploading of the original raw dataset.
 <img alt="make_setup_run" src="_images/make_setup_run.gif" /></p></li>
+</ol>
+</div>
+<div class="section" id="key-workflows">
+<h3>Key Workflows<a class="headerlink" href="#key-workflows" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
 <li><p>Create the initial training pipeline run with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">create_pipeline</span></code>.</p></li>
 <li><p>To train any of the retrain, data drift or concept drift scenarios, use the following commands:</p>
 <ul class="simple">
@@ -360,6 +391,7 @@ creation of the cluster, and uploading of the original raw dataset.
 </ul>
 </li>
 </ol>
+</div>
 </div>
 </div>
 
