@@ -1,13 +1,9 @@
-import urllib.request
-import json
-import time
 import os
-import ssl
 import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
-from scripts.setup.common import load_env_variables, request_records, score_request
+from scripts.setup.common import load_env_variables, request_records#, score_request
 from scripts.setup.common import create_predictions, get_accuracy
 
 

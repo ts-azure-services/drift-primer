@@ -3,8 +3,8 @@ import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws
-from azureml.core.model import Model, Dataset
-from azureml.core.run import Run, _OfflineRun
+from azureml.core.model import Model#, Dataset
+#from azureml.core.run import Run#, _OfflineRun
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
@@ -20,7 +20,7 @@ def main():
     logging.info(f'Model name is: {args.model_name}')
     logging.info(f'Model path is: {args.model_path}')
 
-    run = Run.get_context()
+    #run = Run.get_context()
 
     # Get best model
     model = Model.register(workspace=ws, model_path=args.model_path, model_name=args.model_name)

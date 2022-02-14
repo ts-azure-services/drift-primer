@@ -11,12 +11,12 @@ from scripts.authentication.service_principal import ws
 from scripts.setup.upload_baseline_data import upload_files_from_local, register_dataset
 from azureml.core import Dataset#, ScriptRunConfig, Environment
 from azureml.core.experiment import Experiment
-from azureml.core.compute import ComputeTarget
-from azureml.core.runconfig import RunConfiguration
+#from azureml.core.compute import ComputeTarget
+#from azureml.core.runconfig import RunConfiguration
 from azureml.train.automl import AutoMLConfig
 from azureml.train.automl.run import AutoMLRun
-from azureml.core.run import Run, _OfflineRun
-from azureml.core.model import Model
+#from azureml.core.run import Run, _OfflineRun
+#from azureml.core.model import Model
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
@@ -26,8 +26,8 @@ def upload_and_register(
         target_def_blob_store_path=None
         ):
     """Upload and register the specified dataset"""
-    local_data_folder = local_data_folder 
-    target_def_blob_store_path = target_def_blob_store_path
+    #local_data_folder = local_data_folder 
+    #target_def_blob_store_path = target_def_blob_store_path
     def_blob_store = ws.get_default_datastore()
     datastore_paths = [(def_blob_store, str(target_def_blob_store_path))]
 
@@ -84,9 +84,9 @@ def register_best_model(
         ):
     """Register the best model from the AutoML Run"""
     best_child = remote_run.get_best_child()
-    model_name = model_name
-    model_path = model_path
-    description = description
+    #model_name = model_name
+    #model_path = model_path
+    #description = description
     model = best_child.register_model(
             model_name = model_name,
             model_path = model_path,

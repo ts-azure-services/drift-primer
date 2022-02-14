@@ -3,7 +3,6 @@ uploading the dataset, registering it as a tabular dataset,
 training it with AutoML, and registering the model
 """
 import sys
-import time
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..')))
 from scripts.authentication.service_principal import ws

@@ -1,7 +1,6 @@
 # Script to run a few data filtering and transformation operations
-import os, datetime, random, argparse
-import pandas as pd
-import datetime as dt
+import os, argparse
+#import datetime as dt
 import sys
 import os.path
 import pandas as pd
@@ -21,7 +20,8 @@ def getArgs(argv=None):
 
 def transform(source=None):
     """Load original data"""
-    def_blob_store = ws.get_default_datastore()
+    #def_blob_store = ws.get_default_datastore()
+    _ = ws.get_default_datastore()
     ds = Dataset.get_by_id(ws, id=source)
     df = ds.to_pandas_dataframe()
     #df = pd.read_csv(source)
