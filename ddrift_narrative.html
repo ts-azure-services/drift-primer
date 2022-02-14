@@ -291,6 +291,18 @@
   <a class="reference internal nav-link" href="#data-drift-monitor">
    Data Drift Monitor
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#viewing-data-drift-results">
+     Viewing Data Drift Results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alerting">
+     Alerting
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#comparing-the-baseline-model">
@@ -331,6 +343,18 @@
   <a class="reference internal nav-link" href="#data-drift-monitor">
    Data Drift Monitor
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#viewing-data-drift-results">
+     Viewing Data Drift Results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alerting">
+     Alerting
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#comparing-the-baseline-model">
@@ -402,10 +426,31 @@ original baseline positions. <img alt="ddrift_exp_features" src="_images/ddrift_
 <div class="section" id="data-drift-monitor">
 <h2>Data Drift Monitor<a class="headerlink" href="#data-drift-monitor" title="Permalink to this headline">¶</a></h2>
 <p>One of the ways to keep track of some of these shifts is to periodically run a <strong>dataset monitor</strong> which
-specifically cmpares datasets over time and between different time periods. It then reports back on where
-differences between distributions are crossing an all-up threshold which can trigger email alerts and
-notifications like below: <img alt="data_drift_alert" src="_images/data_drift_alert.jpg" />
-- A few examples of some of the available views include: <pic1></p>
+specifically cmpares datasets over time and between different time periods. Setting this up requires some
+configuration on the datasets to compare. In this case, both the baseline and the new batch of the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> are discretely added for comparison, with appropriate timestamps. <img alt="data_drift_datasets" src="_images/data_drift_datasets.jpg" /></p>
+<div class="section" id="viewing-data-drift-results">
+<h3>Viewing Data Drift Results<a class="headerlink" href="#viewing-data-drift-results" title="Permalink to this headline">¶</a></h3>
+<p>The studio experience allows an overview of a composite metric for data drift, some level of exploration
+of which attributes are driving the data drift, and how they contribute. More customization is possible given
+the tight integration with App Insights and Azure Monitor to define reporting and thresholds at even granular
+levels.</p>
+<p>For a quick overview of the out-of-box view, see the video below:
+<img alt="data_drift_monitor" src="_images/data_drift_monitor.gif" /></p>
+</div>
+<div class="section" id="alerting">
+<h3>Alerting<a class="headerlink" href="#alerting" title="Permalink to this headline">¶</a></h3>
+<p>One of the benefits of setting up a data drift monitor is its tight integration with Azure Monitor, along with
+its alerting capabilities to identify when drift has exceeded a certain threshold.</p>
+<p>For example, this is the email notification one receives when a data drift alert is detected.
+<img alt="data_drift_alert" src="_images/data_drift_alert.jpg" /></p>
+<p>And this is the email notification which can help define the specific users/group to be part of to be notified
+when there is drift detected.
+<img alt="data_drift_action_group" src="_images/data_drift_action_group.jpg" /></p>
+<p>Such alerting mechanisms enable the MLOps team to be proactive with how their data is changing and respond
+accordingly. Note that not all data drifts are inherently data relationships changing. Often, there can be
+some quality gaps in the attributes coming through the system, and this can be a early signal to mitigate
+system issues.</p>
+</div>
 </div>
 <div class="section" id="comparing-the-baseline-model">
 <h2>Comparing the Baseline Model<a class="headerlink" href="#comparing-the-baseline-model" title="Permalink to this headline">¶</a></h2>
