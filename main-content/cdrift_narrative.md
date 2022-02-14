@@ -3,7 +3,9 @@ Six months after the initial deployment of the model, there are signs that the m
 performance (again). On the bright side, this seems to be largely because the churn rate is starting to
 decline in response to some of the marketing initiatives. Given the MLOps team is looking to maintain an
 accurate model, an early alert (enabled through App Insights) has shown continual decline in the model's
-ability to predict accurately. This is an example of **concept drift** - where the fundamental relationship
+ability to predict accurately. 
+
+This is an example of **concept drift** - where the fundamental relationship
 between the input(s), or the attributes and the predicted target variable (i.e. churn) is undergoing shifts.
 
 As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of

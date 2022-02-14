@@ -13,9 +13,10 @@ incentives.
 As the business continues to learn more, the MLOps team has a more immediate concern. The existing model needs
 to reflect this new reality and be retrained on the new batch of data. Attributes like the `Contract`
 attribute were also one of the primary features in the baseline/retrained model hence sharper deviations on
-this attribute may likely cause changes in the current model's assumptions. This is an example of **data
-drift** - when the original distributions of the attributes used to build the model start to change. In
-response, the model needs to change, and hence be retrained.
+this attribute may likely cause changes in the current model's assumptions. 
+
+This is an example of **data drift** - when the original distributions of the attributes used to build the
+model start to change. In response, the model needs to change, and hence be retrained.
 
 In reality, there are a whole host of approaches a business may take. There may be an acceptable level of
 degradation implicit in the model that the business is willing to assume before retraining. Establishing
