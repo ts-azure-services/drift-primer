@@ -20,7 +20,7 @@ goal is to improve retention. As a first step, they would like through this effo
 predictive factors of churn, and build up the marketing muscle and culture to respond, and as appropriate
 mitigate at a reasonable cost.
 
-## Key Goals of this exercise
+## Key Goals
 - Leverage the above narrative to work through successive stages of model evaluation and improvement.
 - Explore concepts around both **concept drift** and **data drift**.
 - Build an intuition for MLOps processes and considerations with the Azure Machine Learning platform.
