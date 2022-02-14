@@ -47,10 +47,34 @@ production.
 
 ## Data Drift Monitor
 One of the ways to keep track of some of these shifts is to periodically run a **dataset monitor** which
-specifically cmpares datasets over time and between different time periods. It then reports back on where
-differences between distributions are crossing an all-up threshold which can trigger email alerts and
-notifications like below: ![data_drift_alert](./imgs/data_drift_alert.jpg)
-	- A few examples of some of the available views include: <pic1>
+specifically cmpares datasets over time and between different time periods. Setting this up requires some
+configuration on the datasets to compare. In this case, both the baseline and the new batch of the `Data
+Drift Dataset` are discretely added for comparison, with appropriate timestamps. ![data_drift_datasets](./imgs/data_drift_datasets.jpg)
+
+### Viewing Data Drift Results
+The studio experience allows an overview of a composite metric for data drift, some level of exploration
+of which attributes are driving the data drift, and how they contribute. More customization is possible given
+the tight integration with App Insights and Azure Monitor to define reporting and thresholds at even granular
+levels. 
+
+For a quick overview of the out-of-box view, see the video below:
+![data_drift_monitor](./gifs/data_drift_monitor.gif)
+
+### Alerting
+One of the benefits of setting up a data drift monitor is its tight integration with Azure Monitor, along with
+its alerting capabilities to identify when drift has exceeded a certain threshold.
+
+For example, this is the email notification one receives when a data drift alert is detected.
+![data_drift_alert](./imgs/data_drift_alert.jpg)
+
+And this is the email notification which can help define the specific users/group to be part of to be notified
+when there is drift detected.
+![data_drift_action_group](./imgs/data_drift_action_group.jpg)
+
+Such alerting mechanisms enable the MLOps team to be proactive with how their data is changing and respond
+accordingly. Note that not all data drifts are inherently data relationships changing. Often, there can be
+some quality gaps in the attributes coming through the system, and this can be a early signal to mitigate
+system issues.
 
 ## Comparing the Baseline Model
 To see how much the new dataset has degraded on the baseline model, we can compare the `Data Drift Dataset` on
