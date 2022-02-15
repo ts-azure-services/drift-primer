@@ -78,8 +78,8 @@ system issues.
 
 ## Comparing the Baseline Model
 To see how much the new dataset has degraded on the baseline model, we can compare the `Data Drift Dataset` on
-the original `baseline-model-endpoint`. This yields an error rate of +23.6%, compared to the baseline test
-accuracy rate of ~19-20%. Hence, the inherent drift in the data distributions is leading to this increased
+the original `baseline-model-endpoint`. This yields an error rate of +23.6%, compared to the baseline error
+rate of ~19-20%. Hence, the inherent drift in the data distributions is leading to this increased
 inaccuracy for predictions.
 
 ![data_drift_comparison](./gifs/compare_data_drift.gif)
