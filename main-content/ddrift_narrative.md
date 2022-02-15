@@ -88,4 +88,4 @@ inaccuracy for predictions.
 To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the
 `Contract`, `PaymentMethod`, `Dependents`, `OnlineSecurity`, `TechSupport` and `tenure_bins` attribute in the
 baseline dataset. All else was maintained in terms of attribute distributions and overall churn rate compared
-to the baseline dataset.
+to the baseline dataset. More details are in the `modeling` folder of the repo. 
