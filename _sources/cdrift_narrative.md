@@ -24,8 +24,7 @@ data. If it outperforms the existing model, it will be promoted as the new model
 
 ## Comparing the Baseline Model
 To see how much the new dataset has degraded on the baseline model, we can compare the `Concept Dataset` on
-the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline test
-accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline error rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
 is a little *too good*. This is because now only 25 customers churned in this new batch! So the likelihood of
 predicting a `False` value is extremely high. At this point, it may make sense to not continue this as a use
 case given the dramatically reduced need for prediction.

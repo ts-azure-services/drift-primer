@@ -372,8 +372,7 @@ AutoML configuration is similar to the retraining step a few months before.</p>
 <div class="section" id="comparing-the-baseline-model">
 <h2>Comparing the Baseline Model<a class="headerlink" href="#comparing-the-baseline-model" title="Permalink to this headline">¶</a></h2>
 <p>To see how much the new dataset has degraded on the baseline model, we can compare the <code class="docutils literal notranslate"><span class="pre">Concept</span> <span class="pre">Dataset</span></code> on
-the original <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields an error rate of +23%, compared to the baseline test
-accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+the original <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields an error rate of +23%, compared to the baseline error rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
 is a little <em>too good</em>. This is because now only 25 customers churned in this new batch! So the likelihood of
 predicting a <code class="docutils literal notranslate"><span class="pre">False</span></code> value is extremely high. At this point, it may make sense to not continue this as a use
 case given the dramatically reduced need for prediction.</p>
