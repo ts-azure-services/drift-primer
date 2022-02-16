@@ -47,7 +47,7 @@ production.
 
 ## Data Drift Monitor
 One of the ways to keep track of some of these shifts is to periodically run a **dataset monitor** which
-specifically cmpares datasets over time and between different time periods. Setting this up requires some
+specifically compares datasets over time and between different time periods. Setting this up requires some
 configuration on the datasets to compare. In this case, both the baseline and the new batch of the `Data
 Drift Dataset` are discretely added for comparison, with appropriate timestamps. ![data_drift_datasets](./imgs/data_drift_datasets.jpg)
 
