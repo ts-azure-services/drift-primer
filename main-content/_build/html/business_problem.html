@@ -52,7 +52,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="The Dataset" href="dataset.html" />
-    <link rel="prev" title="Maturity Levels" href="maturity_levels.html" />
+    <link rel="prev" title="Welcome" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -93,38 +93,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    Welcome
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  MLOps
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="the_mlops_process.html">
-   The MLOps Process
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="standards_and_principles.html">
-   Standards and Principles
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="benefits_mlops.html">
-   Benefits
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="devops_vs_mlops.html">
-   Devops vs MLOps
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="maturity_levels.html">
-   Maturity Levels
   </a>
  </li>
 </ul>
@@ -359,20 +327,26 @@ mitigate at a reasonable cost.</p>
 <div class="section" id="key-assumptions">
 <h2>Key Assumptions<a class="headerlink" href="#key-assumptions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Technologies in use:</p>
-<ul>
-<li><p>For Machine Learning (training, deployment): Azure Machine Learning.</p></li>
-<li><p>For CI/CD, deployment of scripts: Github Actions.</p></li>
-</ul>
-</li>
-<li><p>Deployment: Managed real-time endpoints, through Azure Machine Learning.</p></li>
-<li><p>‘Churn’ can be a tricky target variable because it is at a point in time (for example, some customers
-identified as churned may come back), and it is a delayed classification exercise (establishing the ‘ground
-truth’ requires a certain period of evaluation to pass, or a definition to be in place, e.g. if the customer
-does not use the services for more than 30 days, they are churned). For the purpose of the ensuing examples,
-we will assume that churn is definitively defined, and marked on the datasets being used. In reality,
-establishing the ‘ground truth’ will come down to working with the business and taking a call on how best to
-define this.</p></li>
+<li><p><strong>Key Technologies Used.</strong> In these examples, Azure Machine Learning is the platform used to cycle through
+the MLOps process. We have not deployed any specific CI/CD methodologies, though this is highly recommended.
+For the inference endpoints, we have used managed real-time endpoints in Azure Machine Learning.</p></li>
+<li><p><strong>Establishing ground truth.</strong> For this business problem, establishing ground truth can be tricky due to
+two reasons: one, a delayed feedback loop (how soon you can establish whether a customer has churned or not)
+and two, customers marked as ‘Churned’ could come back to the service. In reality, the former is likely the
+more critical variable to account for. Certain heuristics like “a customer is churned if they have not used
+their account for 30 days” may be a helpful guide, but customers churn in shorter timeframes and sometimes,
+with better clues (e.g. support tickets, negative feedback reviews, etc.). For the ensuing
+examples, we abstract away these realities and assume that ground truth for the target variable is already
+established on the <code class="docutils literal notranslate"><span class="pre">Retrain</span> <span class="pre">Dataset</span></code>, the <code class="docutils literal notranslate"><span class="pre">Concept</span> <span class="pre">Dataset</span></code> and the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code>.</p></li>
+<li><p><strong>Survivorship Bias.</strong> One of the training attributes in the baseline dataset relates to how long the
+customer has been with the service. While this attribute has a decent variability among the customers in the
+source data, it is assumed that this is a fairly representative population of both churned and non-churned
+customers. If this were not true, or more specifically if it biased towards an active base of customers,
+this would not reflect a good population of churned customers and their characteristics. Figuring out what
+sample to include can be challenging. One approach would be to randomly pick all customers who signed up for
+the service in a specific period of time to get a random population of those who may stay or leave (churn).
+This needs to be applied with discretion, accounting for seasonal effects as well. For the purpose of this
+exercise, we assume the datasets are adequately screened for survivorship bias.</p></li>
 </ul>
 </div>
 </div>
@@ -402,11 +376,11 @@ define this.</p></li>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="maturity_levels.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Maturity Levels</p>
+            <p class="prev-next-title">Welcome</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="dataset.html" title="next page">

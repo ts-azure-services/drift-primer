@@ -5,8 +5,9 @@ decline in response to some of the marketing initiatives. Given the MLOps team i
 accurate model, an early alert (enabled through App Insights) has shown continual decline in the model's
 ability to predict accurately. 
 
-This is an example of **concept drift** - where the fundamental relationship
-between the input(s), or the attributes and the predicted target variable (i.e. churn) is undergoing shifts.
+This is an example of **concept drift** - where the fundamental relationship between the input(s), or the
+attributes and the predicted target variable (i.e. churn) is undergoing shifts. Similar to data drift, this
+can be detected through basic statistics comparing the new target distribution vs. the baseline distribution or through more sophisticated statistical tests, like the KS test.
 
 As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of
 data. If it outperforms the existing model, it will be promoted as the new model to the production system.
@@ -24,8 +25,7 @@ data. If it outperforms the existing model, it will be promoted as the new model
 
 ## Comparing the Baseline Model
 To see how much the new dataset has degraded on the baseline model, we can compare the `Concept Dataset` on
-the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline test
-accuracy rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
+the original `baseline-model-endpoint`. This yields an error rate of +23%, compared to the baseline error rate of ~19-20%. Given the dramatic change in churn rate (reduced by a tenth), the accuracy for the new model
 is a little *too good*. This is because now only 25 customers churned in this new batch! So the likelihood of
 predicting a `False` value is extremely high. At this point, it may make sense to not continue this as a use
 case given the dramatically reduced need for prediction.

@@ -98,38 +98,6 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  MLOps
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="the_mlops_process.html">
-   The MLOps Process
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="standards_and_principles.html">
-   Standards and Principles
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="benefits_mlops.html">
-   Benefits
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="devops_vs_mlops.html">
-   Devops vs MLOps
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="maturity_levels.html">
-   Maturity Levels
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
   Pre-Production
  </span>
 </p>
@@ -374,31 +342,53 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="data-drift">
 <h1>Data Drift<a class="headerlink" href="#data-drift" title="Permalink to this headline">¶</a></h1>
-<p>As a few more months pass, the MLOps team starts to notice the retrained model’s accuracy regress.</p>
+<p>As a few more months pass, the MLOps team start to notice the retrained model’s accuracy regress.</p>
 <p>On further inspection, they notice that some of the key attributes (including <code class="docutils literal notranslate"><span class="pre">Contract</span></code>, <code class="docutils literal notranslate"><span class="pre">tenure_bins</span></code>, etc.)
-are starting to have different distributions. For example, in the <code class="docutils literal notranslate"><span class="pre">Contract</span></code> attribute, ‘Month-to-Month’
+are starting to have different distributions. For example, in the <code class="docutils literal notranslate"><span class="pre">Contract</span></code> attribute, <em>Month-to-Month</em>
 contracts were almost ~55% of the customer contract preference. However, this is becoming more of an even
 spread across month-to-month, 1-year and 2-year contracts. Given the recent pandemic with more people working
 from home, the business speculates that more customers are willing to commit to a longer-term plan to lock in
-more predictable rates. Telecomm providers are also focusing more efforts on expanding services through
+more predictable rates. Telecom providers are also focusing more efforts on expanding services through
 internet services, and are making available better deals on longer-term contracts, with fewer switching
 incentives.</p>
 <p>As the business continues to learn more, the MLOps team has a more immediate concern. The existing model needs
-to reflect this new reality and be retrained on the new batch of data. Attributes like the <code class="docutils literal notranslate"><span class="pre">Contract</span></code>
-attribute were also one of the primary features in the baseline/retrained model hence sharper deviations on
-this attribute may likely cause changes in the current model’s assumptions.</p>
-<p>This is an example of <strong>data drift</strong> - when the original distributions of the attributes used to build the
-model start to change. In response, the model needs to change, and hence be retrained.</p>
-<p>In reality, there are a whole host of approaches a business may take. There may be an acceptable level of
-degradation implicit in the model that the business is willing to assume before retraining. Establishing
-degradation is also a factor of how soon the business can establish ‘ground truth’. In the prior section, we
-outlined that establishing churn can often be delayed target variable.</p>
-<p>From an MLOps perspective, the business may also require a more manual, human-judgement process to trigger the
-retrain, or the need for a new production model. In other cases, a retrain may automatically be automated if model
-performance falls below a certain threshold. When other variables are reasonably consistent (e.g. same
-algorithm, same objective/use case), this is a reasonable and recommended approach. In other cases, there may
-be a need to have more manual intervention, and take a judgement call before pushing a new model to
-production.</p>
+to reflect these new behaviorial shifts. Attributes like the <code class="docutils literal notranslate"><span class="pre">Contract</span></code> attribute were also one of the primary
+features in the baseline/retrained model hence sharper deviations on this attribute may cause changes
+in the current model’s assumptions.</p>
+<p>This is an example of <strong>data drift</strong> - when the original distributions of the attributes used to train the
+model start to shift.</p>
+<p>In practice, there are a number of methods to detect data drift on input features. As shown later, the Data
+Drift Monitor feature in Azure ML helps identify variances in statistics like mean, median, skewness,
+kurtosis, etc. in both baseline and target distributions. A more advanced approach may be to employ a
+two-sample test like the <em>Kolmogorov-Smirnov test (KS test)</em>. This can detect statistical significance
+between two distinct populations (in this case, the <code class="docutils literal notranslate"><span class="pre">Transformed</span> <span class="pre">Training</span> <span class="pre">Baseline</span> <span class="pre">Dataset</span></code> and the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code>). Other tests include the <em>Least-Squares Density Difference</em> or the <em>Maximum Mean Discrepancy</em>
+technique. None of the tests are without issues. For example, the KS Test can only be used for
+one-dimensional data, and so will be limited for highly dimensional data (i.e. most features). While expanding
+on the pros and cons of each approach is beyond the scope, do note that a combination of these methods as necessary
+for the business use case is recommended.</p>
+<p>To respond to data drifts, there are a number of approaches a business can take. Most cases require
+retraining. But there are interesting considerations posed on how much of the old and the new dataset to
+include. It could be the case that as time passes and the business responds to some of the factors that cause
+customers to churn, a newer dataset would reflect more of the current reality. In other words, the causes of
+churn today are different than they were before. In other cases, a larger dataset may be more advisable to
+account for new and recurring behaviors. To simplify the illustration, we will assume that the new batch
+offers the most current reality and will be the basis for a new model (i.e. no older data).</p>
+<p>Other considerations to note in responding to data drift include:</p>
+<ul class="simple">
+<li><p><strong>Model degradation.</strong> There may be an acceptable level of degradation implicit in the model that the
+business is willing to assume before retraining. In some industies, the tolerance for drift may be extremely
+low, particularly when a point of drift translates into catastrophic or serious consequences (e.g.
+mis-diagnosis of a terminal illness). As mentioned before, establishing degradation is also a factor of how
+soon the business can establish ground truth.</p></li>
+<li><p><strong>Automation vs. manual intervention.</strong> In general, automation should be strongly encouraged to reinforce
+DevOps practices as a foundation for MLOps. In MLOps, this can often take the example of automatically
+triggering a retrain when model performance drops below a certain threshold. With new data to account for,
+and other variables reasonably consistent (e.g. same algorithm, same objective/use case), this is a
+reasonable and recommended approach. In other cases, there may be a need to take more manual calls before
+pushing a new model to production. Retraining of a model may greatly simplify getting a new model to
+production, but if it is not properly understood why certain drifts occur, it is worth slowing the process
+down to better understand this.</p></li>
+</ul>
 <div class="section" id="necessary-steps">
 <h2>Necessary Steps<a class="headerlink" href="#necessary-steps" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
@@ -423,7 +413,7 @@ original baseline positions. <img alt="ddrift_exp_features" src="_images/ddrift_
 <div class="section" id="data-drift-monitor">
 <h2>Data Drift Monitor<a class="headerlink" href="#data-drift-monitor" title="Permalink to this headline">¶</a></h2>
 <p>One of the ways to keep track of some of these shifts is to periodically run a <strong>dataset monitor</strong> which
-specifically cmpares datasets over time and between different time periods. Setting this up requires some
+specifically compares datasets over time and between different time periods. Setting this up requires some
 configuration on the datasets to compare. In this case, both the baseline and the new batch of the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> are discretely added for comparison, with appropriate timestamps. <img alt="data_drift_datasets" src="_images/data_drift_datasets.jpg" /></p>
 <div class="section" id="viewing-data-drift-results">
 <h3>Viewing Data Drift Results<a class="headerlink" href="#viewing-data-drift-results" title="Permalink to this headline">¶</a></h3>
@@ -452,8 +442,8 @@ system issues.</p>
 <div class="section" id="comparing-the-baseline-model">
 <h2>Comparing the Baseline Model<a class="headerlink" href="#comparing-the-baseline-model" title="Permalink to this headline">¶</a></h2>
 <p>To see how much the new dataset has degraded on the baseline model, we can compare the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Drift</span> <span class="pre">Dataset</span></code> on
-the original <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields an error rate of +23.6%, compared to the baseline test
-accuracy rate of ~19-20%. Hence, the inherent drift in the data distributions is leading to this increased
+the original <code class="docutils literal notranslate"><span class="pre">baseline-model-endpoint</span></code>. This yields an error rate of +23.6%, compared to the baseline error
+rate of ~19-20%. Hence, the inherent drift in the data distributions is leading to this increased
 inaccuracy for predictions.</p>
 <p><img alt="data_drift_comparison" src="_images/compare_data_drift.gif" /></p>
 </div>
@@ -462,7 +452,7 @@ inaccuracy for predictions.</p>
 <p>To simulate this scenario, a simulated dataset was created adjusting for a more consistent spread across the
 <code class="docutils literal notranslate"><span class="pre">Contract</span></code>, <code class="docutils literal notranslate"><span class="pre">PaymentMethod</span></code>, <code class="docutils literal notranslate"><span class="pre">Dependents</span></code>, <code class="docutils literal notranslate"><span class="pre">OnlineSecurity</span></code>, <code class="docutils literal notranslate"><span class="pre">TechSupport</span></code> and <code class="docutils literal notranslate"><span class="pre">tenure_bins</span></code> attribute in the
 baseline dataset. All else was maintained in terms of attribute distributions and overall churn rate compared
-to the baseline dataset.</p>
+to the baseline dataset. More details are in the <code class="docutils literal notranslate"><span class="pre">modeling</span></code> folder of the repo.</p>
 </div>
 </div>
 

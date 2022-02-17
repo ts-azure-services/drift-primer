@@ -2,13 +2,13 @@
 format: jb-book
 root: intro
 parts:
-  - caption: MLOps
-    chapters:
-    - file: the_mlops_process
-    - file: standards_and_principles
-    - file: benefits_mlops
-    - file: devops_vs_mlops
-    - file: maturity_levels
+  #  - caption: MLOps
+  #    chapters:
+  #    - file: the_mlops_process
+  #    - file: standards_and_principles
+  #    - file: benefits_mlops
+  #    - file: devops_vs_mlops
+  #    - file: maturity_levels
   - caption: Pre-Production
     chapters:
     - file: business_problem
