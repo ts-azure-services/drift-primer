@@ -33,8 +33,18 @@ mitigate at a reasonable cost.
 - **Establishing ground truth.** In this scenario, establishing 'ground truth' can be tricky due to a delayed
   feedback loop (how soon you can establish whether a customer has churned or not) and two, customers marked
   as 'Churned' could come back to the service. In reality, the former is likely the more critical variable to
-  account for. Certain heuristics like "a customer is churned if they have not used their account
-  for 30 days" may be a helpful guide, but customers churn in shorter timeframes and sometimes, with more
-  established clues (e.g. support tickets, negative feedback reviews, etc.). For the ensuing examples, we
-  abstract away these realities and assume that 'ground truth' for the target variable is already established on the `Retrain Dataset`, the
-  `Concept Dataset` and the `Data Drift Dataset`.
+  account for. Certain heuristics like "a customer is churned if they have not used their account for 30 days"
+  may be a helpful guide, but customers churn in shorter timeframes and sometimes, with more established clues
+  (e.g. support tickets, negative feedback reviews, etc.). For the ensuing examples, we abstract away these
+  realities and assume that 'ground truth' for the target variable is already established on the `Retrain
+  Dataset`, the `Concept Dataset` and the `Data Drift Dataset`.
+- **Survivorship Bias.** One of the training attributes in the baseline dataset relates to how long the
+  customer has been with the service. While this attribute has a decent variability among the customers in the
+  dataset, it is assumed that this is a fairly representative population of both churned and non-churned
+  customers. If this were not true, or more specifically if it biased towards an active base of customers,
+  this would not reflect a good population of churned customers and their characteristics. In
+  reality, figuring out what sample to include can be challenging. One approach would be to randomly pick
+  all customers who signed up for the service in a specific period of time so as to get a random population of
+  those who may stay or leave (churn). This needs to be applied with discretion, accounting for seasonal
+  effects as well. For the purpose of this exercise, we assume the datasets are adequately screened for
+  survivorship bias.

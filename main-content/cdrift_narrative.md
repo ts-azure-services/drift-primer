@@ -5,8 +5,10 @@ decline in response to some of the marketing initiatives. Given the MLOps team i
 accurate model, an early alert (enabled through App Insights) has shown continual decline in the model's
 ability to predict accurately. 
 
-This is an example of **concept drift** - where the fundamental relationship
-between the input(s), or the attributes and the predicted target variable (i.e. churn) is undergoing shifts.
+This is an example of **concept drift** - where the fundamental relationship between the input(s), or the
+attributes and the predicted target variable (i.e. churn) is undergoing shifts. Similar to data drift, this
+can be detected through basic statistics comparing the new target distribution vs. the baseline target
+distribution or through more sophisticated statistical tests, like the KS test.
 
 As before, the MLOps team will retrain the model, and evaluate the new model on the fresh batch of
 data. If it outperforms the existing model, it will be promoted as the new model to the production system.
