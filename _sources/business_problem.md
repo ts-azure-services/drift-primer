@@ -27,14 +27,14 @@ mitigate at a reasonable cost.
 - Ensure success for future ML projects by investing in the right tools, processes and roles.
 
 ## Key Assumptions
-- Technologies in use:
-	- For Machine Learning (training, deployment): Azure Machine Learning.
-	- For CI/CD, deployment of scripts: Github Actions.
-- Deployment: Managed real-time endpoints, through Azure Machine Learning.
-- 'Churn' can be a tricky target variable because it is at a point in time (for example, some customers
-  identified as churned may come back), and it is a delayed classification exercise (establishing the 'ground
-  truth' requires a certain period of evaluation to pass, or a definition to be in place, e.g. if the customer
-  does not use the services for more than 30 days, they are churned). For the purpose of the ensuing examples,
-  we will assume that churn is definitively defined, and marked on the datasets being used. In reality,
-  establishing the 'ground truth' will come down to working with the business and taking a call on how best to
-  define this.
+- **Key Technologies Used.** In these examples, Azure Machine Learning is the platform used to cycle through
+  the MLOps process. We have not actively deployed any specific CI/CD methodologies. For the inference
+  endpoint, we have used managed real-time endpoints in Azure Machine Learning.
+- **Establishing ground truth.** In this scenario, establishing 'ground truth' can be tricky due to a delayed
+  feedback loop (how soon you can establish whether a customer has churned or not) and two, customers marked
+  as 'Churned' could come back to the service. In reality, the former is likely the more critical variable to
+  account for. Certain heuristics like "a customer is churned if they have not used their account
+  for 30 days" may be a helpful guide, but customers churn in shorter timeframes and sometimes, with more
+  established clues (e.g. support tickets, negative feedback reviews, etc.). For the ensuing examples, we
+  abstract away these realities and assume that 'ground truth' for the target variable is already established on the `Retrain Dataset`, the
+  `Concept Dataset` and the `Data Drift Dataset`.
